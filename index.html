@@ -521,7 +521,7 @@
       {
         id: 'hosomaki',
         title: { en: 'Hosomaki (6 pcs)', pl: 'Hosomaki (6 szt.)' },
-        img: `${PHOTOS_PATH}futomaki.jpg`,
+        img: `${PHOTOS_PATH}hosomaki.jpg`,
         desc: {
           en: 'Thin rolls with nori on the outside.',
           pl: 'Cienkie rolki z nori na zewnątrz.'
@@ -602,10 +602,23 @@
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
 
+      // Global click listener for "click outside to close"
+      document.addEventListener('click', (e) => {
+        if(isMenuExpanded) {
+            const panel = document.getElementById('menu-panel');
+            // If the click is NOT inside the panel, close it
+            if(panel && !panel.contains(e.target)) {
+                toggleMenu(false);
+            }
+        }
+      });
+
       // Initial state
       setMenuState(false);
 
       trigger.addEventListener('click', (e) => {
+        // Stop bubbling so the global listener doesn't immediately close it
+        e.stopPropagation(); 
         if(!isMenuExpanded) {
             toggleMenu(true);
         }
@@ -646,6 +659,7 @@
             trigger.style.opacity = '1';
             trigger.style.pointerEvents = 'auto';
             
+            // Hiding content immediately to avoid glitches during shrink
             content.style.opacity = '0';
             content.style.pointerEvents = 'none';
             content.style.transitionDelay = '0s';
