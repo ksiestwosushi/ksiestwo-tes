@@ -1,373 +1,483 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="uk" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sushi Vibe - Доставка Суші</title>
-    
-    <!-- Підключення Tailwind CSS через CDN -->
+    <title>Sushi Vibe - Сучасна Суші Сторінка</title>
+
+    <!-- Підключення Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Конфігурація кольорів та шрифтів -->
+
+    <!-- Налаштування кольору (Salmon) та шрифтів -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        salmon: '#fa8251', // Класичний лососевий колір
+                        salmon: '#ff7e63', // Акцентний колір
                         darkbg: '#121212',
-                        cardbg: '#1e1e1e'
+                        cardbg: '#1e1e1e',
+                        textgray: '#b0b0b0'
                     },
                     fontFamily: {
-                        sans: ['Montserrat', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif']
                     }
                 }
             }
         }
     </script>
 
-    <style>
-        /* Загальні стилі для рівного розміру зображень та закруглення */
-        .uniform-img {
-            width: 100%;
-            height: 240px; /* Фіксована висота для однакового розміру */
-            object-fit: cover;
-            border-radius: 1rem; /* Закруглені кути 1.5cm (1rem) */
-            transition: all 0.3s ease;
-        }
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
 
+    <!-- Стилі (CSS) -->
+    <style>
         body {
-            font-family: 'Montserrat', sans-serif;
             background-color: #121212;
             color: white;
-            padding-bottom: 80px; /* Відступ для фіксованої панелі кошика */
-        }
-
-        .product-card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            font-family: 'Inter', sans-serif;
         }
         
-        .product-card:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 30px -10px rgba(250, 130, 81, 0.3);
+        h1, h2, h3, .font-display {
+            font-family: 'Montserrat', sans-serif;
         }
 
-        /* Скроллбар для кошика */
-        .cart-scroll::-webkit-scrollbar {
-            width: 6px;
+        /* Анімація збільшення картки при наведенні */
+        .sushi-card {
+            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
         }
-        .cart-scroll::-webkit-scrollbar-track {
-            background: #1e1e1e;
+
+        .sushi-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 30px -10px rgba(255, 126, 99, 0.15);
+            z-index: 10;
         }
-        .cart-scroll::-webkit-scrollbar-thumb {
-            background: #333;
-            border-radius: 10px;
+
+        /* Скриваємо кнопку "Додати", якщо вона в кошику */
+        .add-btn {
+            transition: all 0.3s ease;
+        }
+        
+        .add-btn:disabled {
+            opacity: 0.5;
+            transform: none;
+        }
+
+        /* Стилі для модального вікна */
+        .modal-bg {
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(4px);
+        }
+        
+        /* Анімація з'явлення кошика знизу */
+        #cart-panel {
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transform: translateY(120%); /* Починаємо зніжено */
+        }
+
+        #cart-panel.active {
+            transform: translateY(0);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col">
+<body class="antialiased selection:bg-salmon selection:text-white">
 
     <!-- Шапка (Header) -->
-    <header class="fixed w-full top-0 z-50 bg-cardbg/95 backdrop-blur-md border-b border-gray-800 shadow-lg">
-        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+    <header class="fixed top-0 w-full z-50 bg-darkbg/90 backdrop-blur-md border-b border-gray-800">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <!-- Логотип -->
-            <div class="text-2xl font-bold tracking-tighter text-white flex items-center gap-1">
-                <span>SUSHI</span>
-                <span style="color: #fa8251;">VIBE</span>
-            </div>
+            <a href="#" class="text-2xl font-bold tracking-tighter text-white group">
+                Sushi <span class="text-salmon group-hover:underline decoration-wavy underline-offset-4">Vibe</span>
+            </a>
 
-            <!-- Корзина (Іконка) -->
-            <button onclick="scrollToCart()" class="relative p-2 hover:bg-gray-800 rounded-full transition-colors group">
+            <!-- Навігація (desktop) -->
+            <nav class="hidden md:flex gap-8 text-sm font-medium text-textgray">
+                <a href="#menu" class="hover:text-salmon transition-colors">Меню</a>
+                <a href="#about" class="hover:text-salmon transition-colors">Про нас</a>
+            </nav>
+
+            <!-- Кнопка кошика -->
+            <button onclick="toggleCart()" class="relative p-2 rounded-full hover:bg-gray-800 transition-colors group">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                 </svg>
-                <span id="cart-count" class="absolute -top-1 -right-1 bg-salmon text-xs font-bold px-1.5 py-0.5 rounded-full text-white shadow-sm">0</span>
+                <span id="cart-badge" class="absolute top-0 right-0 h-5 w-5 flex items-center justify-center rounded-full bg-salmon text-xs font-bold text-white opacity-0 transition-opacity duration-300">0</span>
             </button>
         </div>
     </header>
 
-    <!-- Основний контент -->
-    <main class="flex-grow pt-24 pb-32 container mx-auto px-4 max-w-7xl">
-        
-        <!-- Заголовок секції -->
-        <div class="text-center mb-16">
-            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Популярні Розділи</h2>
-            <p class="text-gray-400 max-w-2xl mx-auto text-lg">Обирайте найсмачніше. Усі фотографії реальні, а смак — справжній.</p>
-        </div>
+    <!-- Головний екран (Hero) -->
+    <section class="relative h-screen flex items-center justify-center overflow-hidden">
+        <!-- Фон з затемненням -->
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1579584425262-60ff50c3199e?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-darkbg via-darkbg/80 to-darkbg"></div>
 
-        <!-- Сітка товарів -->
-        <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div class="relative z-10 text-center px-4 max-w-4xl">
+            <span class="inline-block py-1 px-3 rounded-full bg-salmon/10 text-salmon text-xs font-bold uppercase tracking-widest mb-4 border border-salmon/20">Ресторан №1</span>
+            <h1 class="text-6xl md:text-8xl font-display font-bold mb-6 leading-tight">
+                Вкусніший <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-salmon to-orange-400">Емоційний</span> досвід
+            </h1>
+            <p class="text-textgray text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
+                Автентична японська кухня, створена з любов'ю до кожен шматочок суші та ролів.
+            </p>
+            <a href="#menu" class="inline-block px-8 py-4 bg-white text-darkbg font-bold rounded-full hover:bg-salmon hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-salmon/20">
+                Зробити замовлення
+            </a>
+        </div>
+    </section>
+
+    <!-- Меню (Popular Rolls) -->
+    <section id="menu" class="py-24 bg-darkbg relative">
+        <div class="container mx-auto px-6">
             
-            <!-- Картка 1: Темпура -->
-            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
-                <div class="flex-grow">
-                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-salmon uppercase bg-salmon/10 rounded-full w-fit mb-4 border border-salmon/20">Хіт Продажів</span>
-                    <img src="tempura.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=TEMPURA'" alt="Tempura" class="uniform-img mb-4">
-                    <h3 class="text-xl font-bold text-white mb-2">Темпура</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Крижані квети кальмара у паніруванні з пшеничним борошном та спеціальним соусом.</p>
-                </div>
-                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
-                    <div>
-                        <span class="text-salmon font-bold text-2xl">290 ₴</span>
-                        <p class="text-xs text-gray-500">за порцію</p>
-                    </div>
-                    <button onclick="addToCart('tempura', 290, 'Темпура')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
-                        ДОДАТИ
-                    </button>
-                </div>
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-display font-bold mb-4">Популярні Ролі</h2>
+                <div class="w-20 h-1 bg-salmon mx-auto rounded-full"></div>
             </div>
 
-            <!-- Картка 2: Нігірі -->
-            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
-                <div class="flex-grow">
-                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-orange-400 uppercase bg-orange-400/10 rounded-full w-fit mb-4 border border-orange-400/20">Японська Класика</span>
-                    <img src="nigiri1.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=NIGIRI'" alt="Nigiri" class="uniform-img mb-4">
-                    <h3 class="text-xl font-bold text-white mb-2">Нігірі (Лосось)</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Свіжі рибні шматки на липкій рису. Ідеальний баланс смаків.</p>
-                </div>
-                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
-                    <div>
-                        <span class="text-salmon font-bold text-2xl">180 ₴</span>
-                        <p class="text-xs text-gray-500">за 3-ри філе</p>
-                    </div>
-                    <button onclick="addToCart('nigiri', 180, 'Нігірі (Лосось)')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
-                        ДОДАТИ
-                    </button>
-                </div>
-            </div>
-
-            <!-- Картка 3: Сашімі -->
-            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
-                <div class="flex-grow">
-                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-teal-400 uppercase bg-teal-400/10 rounded-full w-fit mb-4 border border-teal-400/20">Лайфстайл</span>
-                    <img src="sashimi.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=SASHIMI'" alt="Sashimi" class="uniform-img mb-4">
-                    <h3 class="text-xl font-bold text-white mb-2">Сашімі</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Десерт із свіжого лосося та сливи. Вуайєрівське задоволення.</p>
-                </div>
-                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
-                    <div>
-                        <span class="text-salmon font-bold text-2xl">320 ₴</span>
-                        <p class="text-xs text-gray-500">за порцію</p>
-                    </div>
-                    <button onclick="addToCart('sashimi', 320, 'Сашімі Лосось') " class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
-                        ДОДАТИ
-                    </button>
-                </div>
-            </div>
-
-             <!-- Картка 4: Рамен -->
-             <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
-                <div class="flex-grow">
-                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-red-400 uppercase bg-red-400/10 rounded-full w-fit mb-4 border border-red-400/20">Гаряче</span>
-                    <img src="ramen-zupa.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=RAMEN'" alt="Ramen" class="uniform-img mb-4">
-                    <h3 class="text-xl font-bold text-white mb-2">Рамен (Зупа)</h3>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Ясний бульйон міцубіші, яйце "Амагакі", в'юнці тофу та зелень.</p>
-                </div>
-                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
-                    <div>
-                        <span class="text-salmon font-bold text-2xl">260 ₴</span>
-                        <p class="text-xs text-gray-500">за бачок</p>
-                    </div>
-                    <button onclick="addToCart('ramen', 260, 'Рамен Зупа')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
-                        ДОДАТИ
-                    </button>
-                </div>
-            </div>
-
-        </div>
-    </main>
-
-    <!-- Нижня панель (Footer + Cart) -->
-    <footer class="fixed w-full bottom-0 left-0 z-40 bg-cardbg border-t border-gray-800 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
-        <div class="container mx-auto px-4 py-3 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-4 max-h-[80vh] overflow-y-auto cart-scroll">
-            
-            <!-- Інформація та Кнопка оформлення -->
-            <div class="w-full lg:w-auto text-sm text-gray-400 flex lg:flex-col justify-between lg:justify-start items-center lg:items-start gap-2 bg-darkbg p-3 rounded-xl border border-gray-800">
-                <p id="cart-summary" class="font-medium">Ваш кошик порожній</p>
-                <div class="text-salmon font-bold text-lg flex items-center gap-1 cursor-pointer hover:underline" onclick="checkout()">
-                    <span id="total-price">0</span> ₴
-                    <button class="bg-salmon text-white text-xs px-3 py-1 rounded-lg ml-2 lg:ml-0 font-bold opacity-50 cursor-not-allowed hover:bg-gray-700 hover:text-gray-400" disabled onclick="checkout()">
-                        ОФОРМИТИ
-                    </button>
-                </div>
-            </div>
-
-            <!-- Кнопки очищення кошика -->
-            <div class="flex items-center gap-3 w-full lg:w-auto">
-                 <button onclick="clearCart()" class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-red-900 hover:text-red-200 transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                    </svg>
-                 </button>
+            <!-- Сітка товарів -->
+            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Картки будуть згенеровані через JS -->
             </div>
         </div>
+    </section>
 
-        <!-- Footer Icons Row (Separate section visually for the requested icons) -->
-        <div class="border-t border-gray-800 bg-darkbg py-3">
-             <div class="container mx-auto px-4 flex justify-center lg:justify-end gap-6 items-center">
-                 <p class="text-xs text-gray-500 uppercase tracking-widest mr-2 hidden lg:block">Контакти</p>
-                 
-                 <!-- Instagram Icon -->
-                 <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
-                    <!-- SVG для IG -->
-                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                        <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.468 2.39c.636-.247 1.363-.416 2.427-.465C8.901 1.947 9.256 1.934 11.685 1.933h.63zm4.784 2.549a1.423 1.423 0 10-2.424.871c.137.534-.156 1.207-.231 1.465a4.95 4.95 0 01-.321 1.276A5.687 5.687 0 0015 15c1.892 0 3.417-1.69 3.007-3.46a4.95 4.95 0 00-.321-1.276A1.423 1.423 0 0017.099 4.549zm-5.06 11.84a1.423 1.423 0 10-2.424-.87c.136.534-.156 1.206-.232 1.465a4.95 4.95 0 01-.321 1.276A5.686 5.686 0 0015 15c-1.892 0-3.417 1.69-3.007 3.46a4.95 4.95 0 00.321 1.276 1.423 1.423 0 002.497-1.206zM10.3 14c-1.18 0-2.16-.95-2.16-2.16s.95-2.16 2.16-2.16 2.16.95 2.16 2.16S11.48 14 10.3 14z" clip-rule="evenodd"/>
-                    </svg>
-                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Insta</span>
-                 </a>
+    <!-- Секція про нас (About) -->
+    <section id="about" class="py-24 bg-cardbg border-t border-gray-800">
+        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
+            <div class="w-full md:w-1/2">
+                <img src="https://images.unsplash.com/photo-1534349762213-e99d8e4a300c?q=80&w=2070&auto=format&fit=crop" 
+                     alt="Sushi Chef" 
+                     class="rounded-3xl shadow-2xl border-4 border-gray-800 rotate-2 hover:rotate-0 transition-transform duration-500">
+            </div>
+            <div class="w-full md:w-1/2">
+                <h3 class="text-salmon font-bold uppercase tracking-wider text-sm mb-2">Наша Філософія</h3>
+                <h2 class="text-4xl font-display font-bold mb-6">Якісні продукти.<br>Шкільні майстри.</h2>
+                <p class="text-textgray leading-relaxed mb-8">
+                    Ми не просто готуємо суші. Ми створюємо мистецтво їжі. Наші ролі варяться з використанням свіжайшої риби та рису японського виробництва. Кожен нарізаний шматочок — це демонстрація точності та естетичної гармонії.
+                </p>
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="flex items-center gap-4">
+                        <span class="text-salmon text-xl font-bold">24/7</span>
+                        <span class="text-textgray text-sm">Доставка</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-salmon text-xl font-bold">100%</span>
+                        <span class="text-textgray text-sm">Свіжість</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-                 <!-- Phone Icon -->
-                 <a href="tel:+380991234567" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
-                    <!-- SVG for Phone -->
-                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Tel</span>
-                 </a>
-
-                 <!-- Maps Icon -->
-                 <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
-                    <!-- SVG for Map location -->
-                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Maps</span>
-                 </a>
-
-             </div>
+    <!-- ПІДВАР (Footer) -->
+    <footer class="bg-black py-12 border-t border-gray-900">
+        <div class="container mx-auto px-6 text-center">
+            <a href="#" class="text-2xl font-display font-bold tracking-tighter text-white mb-4 block">
+                Sushi <span class="text-salmon">Vibe</span>
+            </a>
+            <p class="text-gray-600 text-sm">&copy; 2023 Sushi Vibe. Всі права захищено.</p>
         </div>
     </footer>
 
-    <!-- Модальне вікно (спливаюче) -->
-    <div id="modal-overlay" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4">
-        <div class="bg-cardbg border border-gray-700 rounded-2xl max-w-sm w-full shadow-2xl transform transition-all scale-95 opacity-0" id="modal-content">
-            <div class="p-6 text-center">
-                <h3 class="text-2xl font-bold text-white mb-2">Успішно додано!</h3>
-                <p class="text-gray-400">Ваш продукт "Ім'я продукту" додано до кошика.</p>
+    <!-- ШІРКОВНИЙ КОШИК (Cart Drawer) -->
+    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] transition-opacity duration-300 opacity-0 pointer-events-none"></div>
+
+    <!-- ПАНЕЛЬ КОШИКА -->
+    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-cardbg border-l border-gray-800 z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        
+        <!-- Виправлення кошика -->
+        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-cardbg z-10">
+            <h2 class="text-xl font-bold font-display text-white flex items-center gap-3">
+                <span class="w-2 h-8 bg-salmon rounded-full"></span>
+                Кошик
+            </h2>
+            <button onclick="toggleCart()" class="p-2 hover:bg-gray-800 rounded-full transition-colors text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <!-- Список товарів -->
+        <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <!-- Сюди JS додасть товари -->
+        </div>
+
+        <!-- Підсумки та кнопка оплати -->
+        <div class="p-6 border-t border-gray-800 bg-cardbg z-10">
+            <div class="flex justify-between items-center mb-4 text-lg font-bold">
+                <span class="text-white">Всього:</span>
+                <span id="cart-total" class="text-salmon">0 ₴</span>
             </div>
-            <button onclick="closeModal()" class="w-full bg-salmon hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-colors mt-2">Закрити</button>
+
+            <!-- Кнопка оформлення -->
+            <button onclick="checkout()" id="checkout-btn" 
+                    disabled 
+                    class="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg transform active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 group hover:brightness-110">
+                
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Оформити замовлення
+            </button>
+            
+            <p class="text-center text-gray-600 text-xs mt-3">
+                Замовлення підтверджуються миттєво
+            </p>
         </div>
     </div>
 
-    <!-- Логіка JavaScript -->
-    <script>
-        let cart = [];
-        const MAX_CARDS = 1; // Для демо показуємо тільки першу додану карту
-
-        function addToCart(name, price, itemTitle) {
-            cart.push({ name, price, title: itemTitle });
-            updateCartUI();
-            showModal(itemTitle);
+    <!-- МОДАЛЬНЕ ВІКНО ПОДЯКИ (Success Modal) -->
+    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
+        <div class="bg-cardbg p-8 rounded-2xl max-w-sm w-full border border-gray-800 shadow-2xl text-center transform scale-90 transition-transform duration-300" id="modal-content">
             
-            // Прокрутка до верху для візуальної реакції
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            <!-- Іконка галочки -->
+            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+            </div>
+            
+            <h3 class="text-2xl font-bold text-white mb-2">Успішно!</h3>
+            <p class="text-textgray mb-6">Ваше замовлення приймається. Наш кур'єр вже на дорозі.</p>
+            
+            <button onclick="closeSuccessModal()" class="px-8 py-3 bg-white text-darkbg font-bold rounded-full hover:bg-salmon hover:text-white transition-all">
+                Чудово
+            </button>
+        </div>
+    </div>
+
+    <!-- ЛОГІКА (JavaScript) -->
+    <script>
+        // --- 1. Дані про товари ---
+        const products = [
+            {
+                id: 1,
+                name: "Philadelphia",
+                description: "Классика жанру: лосось, сливовий соус, сир моцарела.",
+                price: 280,
+                image: "https://images.unsplash.com/photo-1579584425262-60ff50c3199e?q=80&w=400"
+            },
+            {
+                id: 2,
+                name: "California",
+                description: "Креветки, авокадо, рисові боби, майонез з крабом.",
+                price: 250,
+                image: "https://images.unsplash.com/photo-1563805047-661a48f8697b?q=80&w=400"
+            },
+            {
+                id: 3,
+                name: "Дракон",
+                description: "Ажурний рол з лососем та креветками, завернутий у огурець.",
+                price: 320,
+                image: "https://images.unsplash.com/photo-1617196034416-18e65c5a2e98?q=80&w=400"
+            }
+        ];
+
+        // Кошик (стан)
+        let cart = {}; 
+        let total = 0;
+
+        // --- 2. Ініціалізація сторінки ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu();
+            
+            // Скрол ефект для шапки
+            window.addEventListener('scroll', () => {
+                const header = document.querySelector('header');
+                if (window.scrollY > 50) {
+                    header.classList.add('bg-darkbg', 'shadow-lg');
+                    header.classList.remove('bg-transparent');
+                } else {
+                    header.classList.add('bg-transparent', 'shadow-none');
+                    header.classList.remove('bg-darkbg', 'shadow-lg');
+                }
+            });
+        });
+
+        // --- 3. Рендеринг меню (Вивід карток) ---
+        function renderMenu() {
+            const grid = document.getElementById('menu-grid');
+            
+            products.forEach(product => {
+                const card = document.createElement('div');
+                card.className = 'sushi-card bg-cardbg rounded-3xl p-6 border border-gray-800 overflow-hidden relative';
+                
+                card.innerHTML = `
+                    <div class="h-56 mb-6 relative overflow-hidden rounded-2xl group">
+                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <!-- Тег популярності -->
+                        <span class="absolute top-4 left-4 px-3 py-1 bg-salmon/20 backdrop-blur text-xs font-bold rounded-full border border-salmon/30">POPULAR</span>
+                    </div>
+                    
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-xl font-bold text-white group-hover:text-salmon transition-colors">${product.name}</h3>
+                        <span class="text-gray-400 font-mono">${product.price} ₴</span>
+                    </div>
+                    
+                    <p class="text-textgray text-sm mb-6 line-clamp-2">${product.description}</p>
+                    
+                    <button onclick="addToCart(${product.id})" 
+                            id="btn-${product.id}" 
+                            class="add-btn w-full py-3 bg-white/5 hover:bg-salmon hover:text-white text-white font-medium rounded-xl border border-transparent hover:border-salmon transition-all duration-300">
+                        Додати +
+                    </button>
+                `;
+                
+                grid.appendChild(card);
+            });
         }
 
-        function removeFromCart(index) {
-            cart.splice(index, 1);
+        // --- 4. Логіка кошика (Додавання/Видалення) ---
+        
+        function addToCart(id) {
+            const product = products.find(p => p.id === id);
+            
+            // Якщо товар вже є в кошику - збільшуємо кількість, інакше додаємо новий
+            if (cart[id]) {
+                cart[id].quantity++;
+            } else {
+                cart[id] = { ...product, quantity: 1 };
+            }
+            
             updateCartUI();
-            if (cart.length === 1) { // Якщо залишилась одна, не закривати модалку автоматично, але оновити список
-                // Тут немає спеціальної логіки змусу показувати кошик, якщо він порожній
+        }
+
+        function removeFromCart(id) {
+            // Якщо кількість менша за 1 - видаляємо продукт повністю
+            if (cart[id].quantity <= 1) {
+                delete cart[id];
+            } else {
+                cart[id].quantity--;
+            }
+            
+            updateCartUI();
+        }
+
+        // --- 5. Оновлення інтерфейсу кошика (Радіус) ---
+        function updateCartUI() {
+            const container = document.getElementById('cart-items-container');
+            const totalEl = document.getElementById('cart-total');
+            const badge = document.getElementById('cart-badge');
+            
+            // Очищення контейнера
+            container.innerHTML = '';
+
+            let activeProductsCount = 0; // Для перевірки, чи є щось в кошику
+            let currentTotal = 0;
+
+            if (Object.keys(cart).length === 0) {
+                totalEl.innerText = '0 ₴';
+                badge.classList.add('opacity-0');
+                document.getElementById('checkout-btn').disabled = true;
+                return;
+            }
+
+            // Перебираємо товари у кошику
+            for (const [id, item] of Object.entries(cart)) {
+                activeProductsCount++;
+                currentTotal += item.price * item.quantity;
+
+                const itemRow = document.createElement('div');
+                itemRow.className = 'flex items-center gap-4 bg-black/40 p-3 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors';
+                
+                // Картинка (менша)
+                itemRow.innerHTML = `
+                    <div class="relative w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
+                        <img src="${item.image}" class="w-full h-full object-cover" alt="">
+                    </div>
+                    
+                    <div class="flex-1 min-w-0">
+                        <h4 class="font-bold text-white truncate text-sm">${item.name}</h4>
+                        <span class="text-salmon font-mono text-xs">${currentTotal === 0 ? item.price : ' '} x ${item.quantity}</span>
+                    </div>
+
+                    <!-- Баланс кнопки видалення -->
+                    <button onclick="removeFromCart(${id})" class="p-2 hover:bg-red-500/10 hover:text-red-500 rounded-full transition-colors text-gray-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 9.586l4.293-4.293a1 1 0 111.414 1.414L11.414 11l4.293 4.293a1 1 0 01-1.414 1.414L10 12.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 11 4.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                `;
+                
+                container.appendChild(itemRow);
+            }
+
+            // Встановлення суми (якщо кошик порожній, показуємо 0)
+            if (activeProductsCount > 0) {
+                totalEl.innerText = currentTotal + ' ₴';
+                badge.classList.remove('opacity-0');
+                document.getElementById('checkout-btn').disabled = false;
+            } else {
+                totalEl.innerText = '0 ₴';
+                badge.classList.add('opacity-0');
+                document.getElementById('checkout-btn').disabled = true;
             }
         }
 
-        function clearCart() {
-            if(cart.length === 0) return;
-            if(confirm('Ви впевнені, що хочете очистити корзину?')) {
-                cart = [];
+        // --- 6. Відкриття/Закриття кошика ---
+        function toggleCart() {
+            const panel = document.getElementById('cart-panel');
+            const overlay = document.getElementById('cart-overlay');
+            
+            if (panel.classList.contains('-translate-x-full')) {
+                // Відкрити
+                panel.classList.remove('-translate-x-full');
+                panel.classList.add('active');
+                
+                // Додаємо таймер для завершення анімації фону, щоб user не клікав по закриттю під час вильоту
+                overlay.style.opacity = '1';
+                overlay.classList.remove('pointer-events-none');
+            } else {
+                // Закрити
+                panel.classList.add('-translate-x-full');
+                panel.classList.remove('active');
+                
+                setTimeout(() => {
+                    overlay.style.opacity = '0';
+                    overlay.classList.add('pointer-events-none');
+                }, 300);
+            }
+        }
+
+        // --- 7. Оформлення замовлення (Checkout) ---
+        function checkout() {
+            if (!document.getElementById('checkout-btn').disabled) {
+                // Відкриємо модалку з подякою
+                const modal = document.getElementById('success-modal');
+                const content = document.getElementById('modal-content');
+
+                modal.style.opacity = '1';
+                modal.classList.remove('pointer-events-none');
+                
+                // Небольша заставка для анімації
+                setTimeout(() => {
+                    content.classList.remove('scale-90');
+                    content.classList.add('scale-100');
+                }, 50);
+
+                // Очищення кошика після "замовлення"
+                cart = {};
                 updateCartUI();
             }
         }
 
-        function updateCartUI() {
-            const countEl = document.getElementById('cart-count');
-            const totalEl = document.getElementById('total-price');
-            const summaryEl = document.getElementById('cart-summary');
-            const btn = document.querySelector('.add-btn'); // Оновити кнопки (візуально)
-
-            const totalItems = cart.length;
-            const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
-
-            countEl.textContent = totalItems;
-            totalEl.textContent = totalPrice;
-
-            if (totalItems === 0) {
-                summaryEl.textContent = 'Ваш кошик порожній';
-                // Блокуємо кнопку оформлення (якщо вона має логіку, тут просто оновлюємо UI тексту)
-            } else {
-                // Якщо є товари, але ми обмежуємо кількість відображених до MAX_CARDS
-                const displayLimit = Math.min(totalItems, MAX_CARDS); 
-                
-                let cartListHTML = '';
-                for(let i=0; i < displayLimit; i++) {
-                    const item = cart[i];
-                    // Створюємо клас "flex flex-col text-left text-gray-300 mb-2" для кожної лінії в кошику
-                    cartListHTML += `
-                        <div class="flex justify-between items-center bg-darkbg border border-gray-800 p-2 rounded-lg mb-2 w-full">
-                            <div class="truncate">
-                                <span class="text-xs text-gray-500 block">${i + 1}</span>
-                                <span class="font-medium truncate max-w-[60%]">${item.title}</span>
-                            </div>
-                            <div class="flex items-center gap-2">
-                                <span class="text-salmon font-bold text-sm">${item.price} ₴</span>
-                                <button onclick="removeFromCart(${i})" class="text-gray-500 hover:text-red-500 transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                summaryEl.innerHTML = cartListHTML;
-            }
-
-            const btnElement = document.querySelector('button[onclick="checkout()"]');
-            if (btnElement) {
-                if (totalItems > 0) {
-                    // Уявний оновлення кнопки, щоб вона була активна (в реальному проекті тут більше логіки)
-                }
-            }
-        }
-
-        function checkout() {
-            if (cart.length === 0) {
-                alert('Кошик порожній!');
-                return;
-            }
-            
-            // Генеруємо просте повідомлення про замовлення
-            const message = `Дякуємо за замовлення, ${document.title}!\n\nМи замовили суші:\n${cart.map(i => `- ${i.title}: ${i.price} ₴`).join('\n')}\n\nЗагальна сума: ${cart.reduce((s, i) => s + i.price, 0)} ₴`;
-            alert(message);
-            
-            // Очистка кошика після замовлення
-            cart = [];
-            updateCartUI();
-        }
-
-        function closeModal() {
-            document.getElementById('modal-overlay').classList.add('hidden');
-            document.getElementById('modal-content').classList.remove('scale-95', 'opacity-0'); // CSS transition fix logic implicitly handled by re-render if needed, but simple hide for now
-        }
-
-        function showModal(itemName) {
-            const modal = document.getElementById('modal-overlay');
+        function closeSuccessModal() {
+            const modal = document.getElementById('success-modal');
             const content = document.getElementById('modal-content');
             
-            content.querySelector('p').textContent = `Ваш продукт "${itemName}" додано до кошика.`;
+            content.classList.remove('scale-100');
+            content.classList.add('scale-90');
             
-            modal.classList.remove('hidden');
-            // Force reflow for animation trigger if necessary
-            void content.offsetWidth; 
-            content.classList.remove('scale-95', 'opacity-0');
-            content.classList.add('scale-100', 'opacity-100');
+            setTimeout(() => {
+                modal.style.opacity = '0';
+                modal.classList.add('pointer-events-none');
+            }, 300);
         }
 
-        function scrollToCart() {
-            document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
-        }
     </script>
 </body>
 </html>
