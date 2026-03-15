@@ -1,201 +1,483 @@
 <!DOCTYPE html>
-<html lang="en" dir="rw">
+<html lang="pl">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Księstwo Sushi</title>
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Alpine.js -->
-  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <!-- Google Fonts for Serif -->
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap" rel="stylesheet">
-  <style>
-    /* Custom CSS for Luxury Style */
-    body {
-      background-color: #FFFFFF;
-      color: #333333;
-    }
-    .logo {
-      color: #D4AF37;
-    }
-    .hero {
-      background: linear-gradient(135deg, #F9F6F0 0%, #FFFFFF 100%);
-    }
-    .accent {
-      background-color: #D4AF37;
-      color: white;
-    }
-    .menu-item {
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .menu-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(212, 166, 55, 0.4);
-    }
-    .cart-sidebar {
-      transition: transform 0.3s ease;
-    }
-    .cart-sidebar.active {
-      transform: translateX(0);
-    }
-    .cart-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1rem;
-      border-bottom: 1px solid #eee;
-    }
-    .cart-item:hover {
-      background-color: #f9f6f0;
-    }
-    .footer-icon {
-      width: 40px;
-      height: 40px;
-      margin-right: 10px;
-    }
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    .fade-in {
-      animation: fadeIn 0.6s ease-out;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Księstwo Sushi | Prince's Feast</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Google Fonts: Playfair Display & Lato -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: '#D4AF37',
+                        cream: '#F9F6F0',
+                        dark: '#1A1A1A',
+                        'gold-hover': '#B5952E',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #F9F6F0; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #B5952E; }
+        
+        .glass-effect {
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
-<body class="font-serif text-lg text-gray-800" x-data="{ cart: [], activeCategory: null, showMenu: true }">
-  <!-- Logo and Navigation -->
-  <header class="fixed w-full bg-white shadow-lg z-50">
-    <div class="container mx-auto px-4 py-4 flex justify-between items-center">
-      <div class="flex items-center space-x-4">
-        <img src="https://via.placeholder.com/60" alt="Logo" class="logo text-xl font-bold" />
-        <h1 class="text-white text-lg font-extrabold">Księstwo Sushi</h1>
-      </div>
-      <div class="flex items-center space-x-4">
-        <button @click="showMenu = !showMenu" class="p-2 rounded-full bg-gradient-to-r from-#D4AF37 to-white hover:bg-gradient-to-r from-#D4AF37 to-white">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h8a1 1 0 001-1v-3m-6 3h6"></path>
-          </svg>
-        </button>
-        <div x-show="showMenu" class="hidden md:block flex items-center space-x-4">
-          <nav class="space-x-6">
-            <a href="#" class="text-white hover:text-gradient">Home</a>
-            <a href="#" class="text-white hover:text-gradient">Menu</a>
-            <a href="#" class="text-white hover:text-gradient">About</a>
-            <a href="#" class="text-white hover:text-gradient">Contact</a>
-          </nav>
+<body class="bg-[#F9F6F0] text-gray-800 font-sans antialiased" x-data="{ cartOpen: false, lang: 'pl' }">
+
+    <!-- === NAVIGATION === -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md border-b border-gold/20 shadow-sm">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 group">
+                <span class="text-3xl font-serif font-bold text-gold tracking-wide group-hover:opacity-80 transition-opacity">Księstwo</span>
+                <span class="hidden md:block text-xl font-serif italic text-dark opacity-70 group-hover:opacity-100 transition-opacity">Sushi</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-8 font-sans text-gray-600 text-sm uppercase tracking-wider font-semibold">
+                <a href="#menu" :class="{'text-gold': activeSection === 'menu'}" @click.prevent="activeSection='menu'" class="hover:text-gold transition-colors duration-300 cursor-pointer pointer-events-auto">Menu</a>
+                <a href="#about" :class="{'text-gold': activeSection === 'about'}" @click.prevent="activeSection='about'" class="hover:text-gold transition-colors duration-300 cursor-pointer pointer-events-auto">O nas / About</a>
+            </div>
+
+            <!-- Controls -->
+            <div class="flex items-center gap-4">
+                <!-- Language Switcher -->
+                <div class="relative group" x-data="{ open: false }">
+                    <button @click="open = !open" class="uppercase text-xs font-bold tracking-widest border border-gray-300 rounded-full px-4 py-2 hover:border-gold hover:text-gold transition-colors focus:outline-none">
+                        LANG <span :class="lang === 'pl' ? 'text-dark' : 'text-gold'">PL</span> / EN
+                    </button>
+                    
+                    <!-- Dropdown Menu -->
+                    <div x-show="open" @click.away="open = false" class="absolute right-0 mt-2 w-32 bg-white shadow-lg rounded-md ring-1 ring-black ring-opacity-5 z-50">
+                        <a href="#" @click.prevent="lang = 'pl'; open = false;" :class="lang === 'pl' ? 'bg-gold text-white' : 'text-gray-800 hover:bg-gray-100'" class="block px-4 py-2 text-sm font-medium">Polski</a>
+                        <a href="#" @click.prevent="lang = 'en'; open = false;" :class="lang === 'en' ? 'bg-gold text-white' : 'text-gray-800 hover:bg-gray-100'" class="block px-4 py-2 text-sm font-medium">English</a>
+                    </div>
+                </div>
+
+                <!-- Cart Icon -->
+                <button @click="cartOpen = !cartOpen" class="relative p-2 rounded-full hover:bg-gold/10 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gold hover:text-dark transition-colors">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.577-2.25h-.031a.575.575 0 01-.577 0.618l-1.03.413c-.937.371-1.264 1.436-.633 2.067L12 21l3.07-1.154c.63-.631.203-1.696-.633-2.067l-1.03-.413a.575.575 0 01-.577-.618h-.031z" />
+                    </svg>
+                    <!-- Cart Badge -->
+                    <span x-show="cartCount > 0" class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-gold rounded-full shadow-md transition-all">
+                        <span x-text="cartCount"></span>
+                    </span>
+                </button>
+                
+                <!-- Mobile Menu Button -->
+                <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden text-dark p-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                    </svg>
+                </button>
+            </div>
         </div>
-      </div>
-    </div>
-  </header>
-
-  <!-- Hero Section -->
-  <section id="hero" class="fade-in py-20 bg-hero">
-    <div class="container mx-auto px-4 text-center">
-      <h1 class="text-5xl font-bold mb-4">Prince's Feast</h1>
-      <p class="text-xl mb-8">Experience the ultimate sushi dining with premium ingredients and elegant service.</p>
-      <button class="accent text-white px-8 py-3 rounded-full hover:bg-gradient-to-r from-#D4AF37 to-white transition">
-        Zamów teraz
-      </button>
-    </div>
-  </section>
-
-  <!-- Menu Engine -->
-  <main class="pt-20">
-    <section class="container mx-auto px-4">
-      <h2 class="text-3xl font-bold mb-8 text-center">Our Menu</h2>
-      <div class="flex flex-wrap gap-4 mb-12">
-        <button @click="activeCategory = null" class="menu-item px-6 py-2 rounded-lg bg-white text-gray-800 hover:bg-gray-100 transition">
-          Nigiri
-        </button>
-        <button @click="activeCategory = null" class="menu-item px-6 py-2 rounded-lg bg-white hover:bg-gray-100 transition">
-          Rolls
-        </button>
-        <button @click="activeCategory = null" class="menu-item px-6 py-2 rounded-lg bg-white hover:bg-gray-100 transition">
-          Setty
-        </button>
-        <button @click="activeCategory = null" class="menu-item px-6 py-2 rounded-lg bg-white hover:bg-gray-100 transition">
-          Ramen
-        </button>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <!-- Sushi Card -->
-        <div x-show="activeCategory ? activeCategory === 'Nigiri' : true" class="cart-item p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition">
-          <img src="images/nigiri1.jpg" alt="Nigiri" class="w-full h-48 object-cover rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold mb-2">Tuna Nigiri</h3>
-          <p class="text-gray-600">Fresh tuna on vinegared rice, served with wasabi.</p>
+        
+        <!-- Mobile Menu Dropdown -->
+        <div x-show="mobileMenuOpen" @click.away="mobileMenuOpen = false" class="md:hidden bg-white border-t border-gray-100 absolute w-full left-0 z-40 shadow-lg" style="display: none;">
+            <div class="flex flex-col p-6 gap-4">
+                <a href="#menu" @click="activeSection='menu'; mobileMenuOpen=false" class="text-lg font-serif text-dark hover:text-gold">Menu</a>
+                <a href="#about" @click="mobileMenuOpen=false" class="text-lg font-serif text-dark hover:text-gold">O nas / About</a>
+                
+                <div class="border-t border-gray-100 pt-4">
+                     <span class="text-xs uppercase text-gray-500 tracking-wider block mb-2">Język / Language</span>
+                    <button @click.prevent="lang = 'pl'; mobileMenuOpen=false" :class="lang === 'pl' ? 'text-gold font-bold' : 'text-gray-600'" class="block w-full text-left py-2">Polski</button>
+                    <button @click.prevent="lang = 'en'; mobileMenuOpen=false" :class="lang === 'en' ? 'text-gold font-bold' : 'text-gray-600'" class="block w-full text-left py-2">English</button>
+                </div>
+            </div>
         </div>
+    </nav>
 
-        <!-- Rolls Card -->
-        <div x-show="activeCategory ? activeCategory === 'Rolls' : (activeCategory === 'Rolls' && activeCategory !== '')" class="cart-item p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition">
-          <img src="images/rolls.jpg" alt="Rolls" class="w-full h-48 object-cover rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold mb-2">Salmon Roll</h3>
-          <p class="text-gray-600">Smoked salmon with avocado and cream cheese.</p>
-        </div>
+    <!-- === HERO SECTION === -->
+    <header id="home" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+        <!-- Abstract Background Shapes -->
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-gold/5 rounded-l-[10%] skew-x-12 transform translate-x-20"></div>
+        
+        <div class="container mx-auto px-6 text-center lg:text-left flex flex-col items-center justify-between gap-8 relative z-10">
+            <!-- Badge -->
+            <span class="inline-block py-1 px-3 rounded-full bg-gold/10 border border-gold/20 text-xs uppercase tracking-[0.2em] text-gold font-bold mb-4">
+                Premium Taste
+            </span>
 
-        <!-- Setty Card -->
-        <div x-show="activeCategory ? activeCategory === 'Setty' : (activeCategory === 'Setty' && activeCategory !== '')" class="cart-item p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition">
-          <img src="images/sake-tataki.jpg" alt="Setty" class="w-full h-48 object-cover rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold mb-2">Sake Tataki</h3>
-          <p class="text-gray-600">Seared salmon with a citrus glaze.</p>
-        </div>
+            <!-- Hero Content -->
+            <div class="max-w-3xl mx-auto lg:mx-0" x-data="{ showHero: false }">
+                <h1 x-init="setTimeout(() => showHero = true, 200)" x-show="showHero" 
+                    x-transition:enter="transition ease-out duration=1000"
+                    x-transition:enter-start="opacity-0 translate-y-10 scale-95"
+                    x-transition:enter-end="opacity-100 translate-y-0 scale-100"
+                    class="font-serif text-5xl md:text-7xl font-bold text-dark leading-[1.1]">
+                    <span :class="lang === 'pl' ? '' : 'text-gold'">Książęca</span> 
+                    Uczta
+                    <span class="block lg:inline hidden font-light text-2xl md:text-3xl italic" :class="lang === 'en' ? 'mt-0 block lg:inline' : 'mt-2 block lg:hidden'">
+                        Prince's Feast
+                    </span>
+                </h1>
 
-        <!-- Ramen Card -->
-        <div x-show="activeCategory ? activeCategory === 'Ramen' : (activeCategory === 'Ramen' && activeCategory !== '')" class="cart-item p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition">
-          <img src="images/ramen.jpg" alt="Ramen" class="w-full h-48 object-cover rounded-lg mb-4" />
-          <h3 class="text-xl font-semibold mb-2">Miso Ramen</h3>
-          <p class="text-gray-600">Rich miso broth with tender pork and soft-boiled egg.</p>
+                <p class="mt-6 max-w-xl mx-auto lg:mx-0 text-lg text-gray-500 font-light leading-relaxed" 
+                   :class="lang === 'en' ? '' : 'text-right'"
+                   x-text="lang === 'en' ? 'Experience sushi perfection in every bite. Our premium selection delivers the finest ingredients to your door.' : 'Doświadczenie doskonałości w każdym gryzieniu. Nasza ekskluzywna selekcja dostarcza najlepsze składniki do Twoich drzwi.'">
+                </p>
+
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button @click="document.getElementById('menu').scrollIntoView({behavior: 'smooth'})" 
+                            class="group relative px-8 py-3 bg-gold text-white font-serif italic tracking-wide hover:bg-gold-hover transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-gold focus:ring-offset-2">
+                        <span x-text="lang === 'en' ? 'Order Now' : 'Zamów teraz'"></span>
+                    </button>
+                    
+                    <button class="px-8 py-3 border border-gray-300 text-gray-600 font-serif italic tracking-wide hover:border-gold hover:text-gold transition-all duration-300 focus:outline-none">
+                         <span x-text="lang === 'en' ? 'Our Story' : 'Nasza Historia'"></span>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
+    </header>
+
+    <!-- === MENU SECTION === -->
+    <section id="menu" class="py-20 bg-white transition-colors duration-500">
+        <div class="container mx-auto px-6">
+            
+            <!-- Section Header -->
+            <div class="text-center mb-12" x-data="{ currentFilter: 'all' }">
+                <h2 class="font-serif text-4xl font-bold text-dark mb-6 flex items-center justify-center gap-3">
+                    <span :class="lang === 'en' ? '' : 'text-gold'" class="mr-2">MENU</span>
+                    <span class="block lg:inline hidden font-light text-gray-400 italic" :class="lang === 'en' ? 'mt-1' : 'hidden'">Menu</span>
+                </h2>
+                
+                <!-- Filter Tabs -->
+                <div class="flex justify-center gap-3 flex-wrap mb-10" x-data="{ active: 'all', options: ['all', 'rolls', 'sets', 'ramen'] }">
+                    <template x-for="item in options">
+                        <button @click="currentFilter = item" 
+                                class="relative px-6 py-2 text-sm uppercase tracking-widest font-bold border transition-all duration-300 rounded-full whitespace-nowrap z-10 overflow-hidden"
+                                :class="currentFilter === item ? 'bg-white text-gold shadow-lg border-gold/30' : 'bg-transparent text-gray-400 border-transparent hover:text-gold hover:border-gold/20'"
+                                x-text="translate('filter.' + item)"></button>
+                    </template>
+                </div>
+            </div>
+
+            <!-- Menu Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8" x-data="{ items: [
+                
+                { id: 1, name: 'Oyakodama', price: 24.50, img: 'images/oyakomaki.jpg', cat: 'rolls', desc: lang==='en'?'Chicken & Rice Roll':'Kurczak i Ryniec'},
+                { id: 2, name: 'Ebi Umeboshi', price: 19.00, img: 'images/ebiten.jpg', cat: 'rolls', desc: lang==='en'?'Shrimp in Pickle':'Krewetka w Miodzie'},
+                { id: 3, name: 'Futomaki', price: 22.00, img: 'images/futomaki.jpg', cat: 'rolls', desc: lang==='en'?'Long Thick Roll':'Długi Gruby Rolik'},
+                { id: 4, name: 'Hosomaki (Tuna)', price: 26.00, img: 'images/hosomaki.jpg', cat: 'rolls', desc: lang==='en'?'Thin Roll with Tuna':'Cieńki Rolik z Tuńczykiem'},
+                { id: 5, name: 'Nigiri (Salmon)', price: 32.00, img: 'images/nigiri1.jpg', cat: 'sets', desc: lang==='en'?'Fresh Salmon Nigiri':'Słodka Ryba Salmóna'},
+                { id: 6, name: 'Premium Sashimi', price: 45.00, img: 'images/sashimi.jpg', cat: 'sets', desc: lang==='en'?'Sliced Raw Fish':'Posiekane Surową Rybą'},
+                { id: 7, name: 'Tempura Setsu', price: 38.00, img: 'images/tempura.jpg', cat: 'sets', desc: lang==='en'?'Seafood Tempura':'Morskie Obiedowe Tempura'},
+                { id: 8, name: 'Wakame Salad', price: 18.00, img: 'images/wakame.jpg', cat: 'sets', desc: lang==='en'?'Seaweed Salad':'Sałata z Wodorostów'},
+                
+                { id: 9, name: 'Tonkotsu Ramen', price: 42.00, img: 'images/ramen-zupa.jpg', cat: 'ramen', desc: lang==='en'?'Pork Bone Broth':'Zupa z Kości Dzikiego Żubra'},
+                { id: 10, name: 'Sake Tataki', price: 48.00, img: 'images/sake-tataki.jpg', cat: 'sets', desc: lang==='en'?'Rare Sake with Sesame':'Nadany Namiętna Sesamie'},
+                
+            ]}">
+                <!-- Loop items -->
+                <template x-for="item in items" :key="item.id">
+                    <div class="group relative bg-white rounded-lg shadow-sm hover:shadow-2xl hover:shadow-gold/20 transition-all duration-300 overflow-hidden flex flex-col h-full border border-gray-100" 
+                         @mouseenter="if(item.img) itemImgSrc = item.img">
+                        
+                        <!-- Image Area -->
+                        <div class="h-64 overflow-hidden bg-gray-50 relative">
+                            <img :src="item.img || 'images/futomaki.jpg'" alt="Sushi Item" class="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700 ease-in-out">
+                            
+                            <!-- Category Badge -->
+                            <div class="absolute top-4 left-4 bg-white/90 backdrop-blur text-[10px] uppercase font-bold px-3 py-1 rounded-full shadow-sm text-gray-500" x-text="translate('filter.'+item.cat)"></div>
+                            
+                            <!-- Quick Add Button (Top Right) -->
+                            <button @click="addToCart(item)" class="absolute top-4 right-4 bg-white text-gold p-2 rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-all duration-300 hover:bg-gold hover:text-white transform translate-x-2 group-hover:translate-x-0">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        <!-- Content Area -->
+                        <div class="p-6 flex-grow flex flex-col">
+                            <h3 class="font-serif text-xl font-bold text-dark mb-2 group-hover:text-gold transition-colors" x-text="item.name"></h3>
+                            <p class="text-gray-500 text-sm italic mb-4 leading-relaxed border-b border-dashed border-gray-100 pb-2" x-text="item.desc"></p>
+                            
+                            <!-- Price & Add to Cart -->
+                            <div class="mt-auto flex items-center justify-between pt-4">
+                                <span class="text-xl font-serif text-gold font-bold" x-text="formatPrice(item.price)"></span>
+                                
+                                <button @click="addToCart(item)" 
+                                        class="px-6 py-2 bg-dark text-white text-xs uppercase tracking-widest hover:bg-gold transition-colors duration-300 rounded-sm shadow-sm">
+                                    <span x-text="lang === 'en' ? '+ ADD TO CART' : '+ DOBAWIJ DO KOSZYKA'"></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+
+        </div>
     </section>
-  </main>
 
-  <!-- Premium Cart -->
-  <aside x-show="cart.length > 0" class="fixed right-0 top-20 w-64 bg-white rounded-lg shadow-lg overflow-y-auto h-full transform transition-transform duration-300 ease-in-out" :class="{ 'translate-x-0': !showCart, 'translate-x-full': showCart }">
-    <div class="p-4 border-b border-gray-200">
-      <h2 class="text-lg font-semibold mb-4">Shopping Cart</h2>
-      <ul x-show="cart.length === 0" class="space-y-2 text-gray-500">No items in cart.</p>
-      <div x-show="cart.length > 0" class="space-y-2">
-        <template x-for="(item, index) in cart" :key="index">
-          <li class="flex justify-between items-center p-3 bg-gray-50 rounded-lg">
-            <span>{{ item.name }} ({{ item.quantity }})</span>
-            <button @click="cart = cart.filter((_, i) => i !== index)" class="text-red-500 hover:text-red-700">×</button>
-          </li>
-        </template>
-      </div>
-      <div class="p-4 border-t border-gray-200">
-        <p class="text-xl font-bold">Total: $<span x-text="cart.reduce((sum, i) => sum + i.price * i.quantity, 0).toFixed(2)">${{ (cart.reduce((sum, i) => sum + i.price * i.quantity, 0)).toFixed(2) }}</span></p>
-        <button @click="showCart = false" class="mt-4 w-full bg-gradient-to-r from-#D4AF37 to-white text-white px-6 py-3 rounded-full hover:bg-gradient-to-r from-#D4AF37 to-white transition">
-          Complete Purchase
-        </button>
-      </div>
+    <!-- === PREMIUM CART SIDEBAR === -->
+    <div class="fixed inset-0 z-[60] overflow-hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true" x-show="cartOpen">
+        <!-- Backdrop -->
+        <div x-show="cartOpen" 
+             x-transition:enter="transition ease-in-out duration-500" 
+             x-transition:enter-start="opacity-0" 
+             x-transition:enter-end="opacity-100" 
+             x-transition:leave="transition ease-in-out duration-500" 
+             x-transition:leave-start="opacity-100" 
+             x-transition:leave-end="opacity-0"
+             class="absolute inset-0 bg-gray-900/40 backdrop-blur-sm transition-opacity"></div>
+
+        <!-- Slide-over Panel -->
+        <div class="absolute inset-y-0 right-0 max-w-md flex w-full shadow-2xl pointer-events-none" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+            <div class="w-full h-full flex flex-col bg-white pointer-events-auto transform transition-transform duration-500 ease-out translate-x-full sm:translate-x-0 sm:shadow-xl border-l border-gray-100" x-show="cartOpen" @click.away="cartOpen = false">
+                
+                <!-- Header -->
+                <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-white z-10">
+                    <h2 class="text-xl font-serif font-bold text-dark flex items-center gap-2">
+                        <span x-text="lang === 'en' ? 'Your Basket' : 'Twój Koszyk'"></span>
+                        <span class="bg-gold/10 text-gold p-1 rounded-full" x-show="cartCount > 0"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg></span>
+                    </h2>
+                    
+                    <!-- Close Button -->
+                    <button @click="cartOpen = false" class="text-gray-400 hover:text-dark transition-colors p-1 rounded-full hover:bg-gray-100">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Cart Items -->
+                <div class="flex-1 overflow-y-auto px-6 py-4 space-y-6">
+                    <template x-for="(item, index) in cartItems" :key="index">
+                        <div class="flex gap-4 bg-gray-50/50 p-3 rounded-lg border border-gray-100 hover:border-gold/20 transition-colors group">
+                            <!-- Item Image Thumbnail -->
+                            <img :src="item.img || 'images/sashimi.jpg'" class="w-20 h-20 object-cover rounded-md bg-white" alt="">
+                            
+                            <!-- Details -->
+                            <div class="flex flex-col justify-between w-full">
+                                <div>
+                                    <h4 class="font-serif font-bold text-dark leading-tight group-hover:text-gold transition-colors" x-text="item.name"></h4>
+                                    <p class="text-xs text-gray-500 mt-1 font-light" x-text="formatPrice(item.price)"></p>
+                                </div>
+                                
+                                <!-- Qty Controls -->
+                                <div class="flex items-center gap-3 mt-2">
+                                    <button @click="decreaseQty(index)" class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gold hover:text-white hover:border-gold transition-colors text-xs font-bold">-</button>
+                                    
+                                    <span class="text-sm font-bold w-4 text-center" x-text="item.qty"></span>
+                                    
+                                    <button @click="increaseQty(index)" class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gold hover:text-white hover:border-gold transition-colors text-xs font-bold">+</button>
+                                </div>
+
+                                <!-- Remove Button -->
+                                <button @click="removeItem(index)" class="absolute top-2 right-2 text-gray-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.337 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" /></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- Empty Cart Message -->
+                    <div x-show="cartItems.length === 0" class="h-full flex flex-col items-center justify-center text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-16 h-16 mb-4 text-gold opacity-20">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V7.5m-4.5 4.5l-3-3m3 3l3-3" />
+                        </svg>
+                        <span class="font-serif italic text-lg" x-text="lang === 'en' ? 'Your basket is empty' : 'Twój koszyk jest pusty'"></span>
+                    </div>
+                </div>
+
+                <!-- Footer / Total -->
+                <div class="border-t border-gray-100 p-6 bg-[#F9F6F0]">
+                    <div class="flex justify-between items-end mb-4">
+                        <span class="font-serif text-dark" x-text="lang === 'en' ? 'Total Amount' : 'Suma Wpływu'"></span>
+                        <span class="text-2xl font-bold text-gold tracking-widest flex items-baseline gap-1" 
+                              :class="isFormValid ? '' : 'text-red-500 line-through'" 
+                              x-text="formatPrice(total) + (isFormValid ? '' : '')"></span>
+                        <!-- Polish format adds currency symbol -->
+                        <span class="text-xl font-bold text-gold/80" x-show="total > 0">zł</span>
+                    </div>
+
+                    <!-- Checkout Button -->
+                    <button 
+                        x-show="cartItems.length > 0"
+                        @click="alert('Thank you for your order! Order ID: #' + Math.floor(Math.random() * 1000))"
+                        class="w-full py-4 bg-gold text-white font-serif italic tracking-wide shadow-lg hover:bg-gold-hover transition-colors rounded-sm mb-2 flex items-center justify-center gap-2 cursor-pointer group">
+                        <span x-text="lang === 'en' ? 'Proceed to Checkout' : 'Przejdź Do Kasy'"></span>
+                        <!-- Arrow Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 group-hover:translate-x-1 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-  </aside>
 
-  <!-- Footer -->
-  <footer class="bg-gray-100 py-8 mt-20">
-    <div class="container mx-auto px-4 flex flex-wrap justify-between items-center">
-      <div class="flex space-x-4">
-        <img src="images/instagram.png" alt="Instagram" class="w-10 h-10" />
-        <img src="images/phone.png" alt="Phone" class="w-10 h-10" />
-        <img src="images/google_maps.png" alt="Google Maps" class="w-10 h-10" />
-      </div>
-      <p class="text-gray-600">© 2023 Księstwo Sushi. All rights reserved.</p>
-    </div>
-  </footer>
+    <!-- === FOOTER === -->
+    <footer id="about" class="bg-dark text-white pt-20 pb-10 border-t-4 border-gold">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center mb-10 gap-8">
+                
+                <!-- Footer Content -->
+                <div class="text-center md:text-left max-w-xl">
+                    <h3 class="font-serif text-3xl font-bold text-gold mb-4">Księstwo Sushi</h3>
+                    <p class="text-gray-400 leading-relaxed" x-text="lang === 'en' ? 'The finest sushi in Warsaw. Quality that deserves your crown.' : 'Najlepsze sushi w Warszawie. Jakość, na którą zasłużyłaś się.'"></p>
+                </div>
 
-  <!-- Alpine.js Interactivity -->
-  <script>
-    document.addEventListener('alpine:init', () => {
-      Alpine.data('menu', () => ({
-        cart: [],
-        activeCategory: null,
-        showMenu: true,
-        showCart: false
-      }));
-    });
-  </script>
+                <!-- Socials / Contact -->
+                <div class="flex gap-6">
+                    <!-- Using local images if they exist, else placeholders or standard SVG for robustness. 
+                         In this prompt request, user specified specific paths for icons. I will map them.
+                         Note: Since I cannot access the user's local files directly, I am mapping these paths via style logic
+                         assuming the script runs on their machine where images/ is a relative folder. 
+                         However, to prevent broken images in this preview, I'll use CSS filters or standard SVGs if missing.
+                         Below is the implementation using the requested paths. -->
+                    
+                    <a href="#" class="group relative p-4 rounded-full border border-gray-700 hover:border-gold transition-all duration-300">
+                        <img src="images/instagram.png" alt="Instagram" class="w-6 h-6 filter invert brightness-100 contrast-125 group-hover:invert-0 group-hover:scale-110 transition-transform" onerror="this.style.display='none'; this.parentElement.innerHTML='<svg fill=\'currentColor\' viewBox=\'0 0 24 24\' class=\'w-6 h-6 text-gold\'><path d=\"M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.85-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.364-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.364-2.617-6.78-6.98-6.98-1.281-.059-1.689-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z\"/></svg>';" onerror="this.style.display='none'">
+                        </img>
+                    </a>
+
+                    <a href="#" class="group relative p-4 rounded-full border border-gray-700 hover:border-gold transition-all duration-300">
+                         <!-- Map Icon -->
+                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gold group-hover:scale-110 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                         </svg>
+                    </a>
+
+                    <a href="tel:+48000000000" class="group relative p-4 rounded-full border border-gray-700 hover:border-gold transition-all duration-300 flex items-center gap-2">
+                        <!-- Phone Icon -->
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gold group-hover:scale-110 transition-transform">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.84 7.14 16 15.75 16S21.75 15.59 21.75 6.75A12.852 12.852 0 0111.25 3m9.465-1.034c.17-.112.329-.211.48-.3.75-.433 1.642-.598 2.568-.598A2.89 2.89 0 0124 12a2.89 2.89 0 01-1.152 2.393c-.927.429-2.178.598-3.468.598-.97 0-1.845-.21-2.605-.607-.902-.474-1.508-.566-1.508-.566" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500 tracking-widest uppercase">
+                <p>&copy; 2023 Księstwo Sushi. All Rights Reserved.</p>
+                <div class="flex gap-4 mt-4 md:mt-0">
+                    <a href="#" class="hover:text-gold transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-gold transition-colors">Terms & Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- === ALPINE.JS LOGIC (Single File Logic) === -->
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('shop', () => ({
+                lang: 'pl',
+                cartOpen: false,
+                cartCount: 0,
+                mobileMenuOpen: false,
+                activeSection: 'home', // For nav highlighting logic if needed
+                
+                // Translation Dictionary
+                t: {
+                    pl: {
+                        'filter.rolls': 'Rolls / Roliki',
+                        'filter.sets': 'Zestawy / Sets',
+                        'filter.ramen': 'Ramen / Zupa',
+                        'cart.total': 'Suma:',
+                        'btn.add': 'DODAJ DO KOSZYKA'
+                    },
+                    en: {
+                        'filter.rolls': 'Rolls',
+                        'filter.sets': 'Sets',
+                        'filter.ramen': 'Ramen',
+                        'cart.total': 'Total Amount:',
+                        'btn.add': 'ADD TO CART'
+                    }
+                },
+                
+                // Current Cart Items Array
+                cartItems: [],
+
+                // Translations Method
+                translate(key, defaultVal) {
+                    const dict = this.t[this.lang] || {};
+                    return dict[key] || (this.t['pl'][key] || defaultVal);
+                },
+
+                // Formatter for Polish Currency
+                formatPrice(price) {
+                    return price.toLocaleString('pl-PL', { style: 'currency', currency: 'PLN' }).replace('zł ', '');
+                },
+
+                // Add Item to Cart
+                addToCart(item) {
+                    const existingItem = this.cartItems.find(i => i.id === item.id);
+
+                    if (existingItem) {
+                        existingItem.qty++;
+                    } else {
+                        this.cartItems.push({ ...item, qty: 1 });
+                    }
+
+                    // Close mobile menu if open when adding
+                    this.mobileMenuOpen = false;
+                },
+
+                // Remove Item from Cart
+                removeItem(index) {
+                    this.cartItems.splice(index, 1);
+                },
+
+                // Increase Quantity
+                increaseQty(index) {
+                    this.cartItems[index].qty++;
+                },
+
+                // Decrease Quantity
+                decreaseQty(index) {
+                    if (this.cartItems[index].qty > 1) {
+                        this.cartItems[index].qty--;
+                    } else {
+                        this.removeItem(index);
+                    }
+                },
+
+                // Get Cart Count for Badge
+                get cartCount() {
+                    return this.cartItems.reduce((acc, item) => acc + item.qty, 0);
+                },
+
+                // Calculate Total Price
+                get total() {
+                    return this.cartItems.reduce((acc, item) => acc + (item.price * item.qty), 0);
+                }
+            }));
+        });
+    </script>
 </body>
 </html>
