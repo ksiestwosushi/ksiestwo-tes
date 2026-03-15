@@ -1,646 +1,373 @@
 <!DOCTYPE html>
-<html lang="pl" class="scroll-smooth">
+<html lang="uk">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-  <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
-  <title>Księstwo Sushi & Ramen — ROYAL</title>
-  
-  <!-- FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
-  <!-- TAILWIND CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            cinzel: ['Cinzel', 'serif'],
-            rajdhani: ['Rajdhani', 'sans-serif'],
-          },
-          colors: {
-            paper: '#ffffff',
-            alabaster: '#F0EFEA',
-            gold: '#C5A028',
-            'gold-light': '#F3E5AB',
-            'gold-dark': '#8A7019',
-            ink: '#0F0F0F',
-            smoke: '#4a4a4a',
-          },
-          animation: {
-            'fade-in': 'fadeIn 1.0s ease-out forwards',
-            'slide-up': 'slideUp 1.0s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-            'grow-line': 'growLine 1.0s ease-out forwards',
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-          },
-          keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0' },
-              '100%': { opacity: '1' },
-            },
-            slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
-              '100%': { transform: 'translateY(0)', opacity: '1' },
-            },
-            growLine: {
-              '0%': { width: '0' },
-              '100%': { width: '100px' },
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sushi Vibe - Доставка Суші</title>
+    
+    <!-- Підключення Tailwind CSS через CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Конфігурація кольорів та шрифтів -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        salmon: '#fa8251', // Класичний лососевий колір
+                        darkbg: '#121212',
+                        cardbg: '#1e1e1e'
+                    },
+                    fontFamily: {
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
             }
-          }
         }
-      }
-    }
-  </script>
-  <style>
-    /* CORE STYLES & PROTECTION */
-    body {
-      background-color: #0F0F0F;
-      color: #0F0F0F;
-      overflow-x: hidden;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      -webkit-touch-callout: none;
-    }
-    
-    img {
-      -webkit-user-drag: none;
-      -khtml-user-drag: none;
-      -moz-user-drag: none;
-      -o-user-drag: none;
-      user-drag: none;
-      pointer-events: none; /* Prevents right-click on image directly */
-    }
+    </script>
 
-    /* CUSTOM UTILITIES */
-    .no-scrollbar::-webkit-scrollbar {
-      display: none;
-    }
-    .no-scrollbar {
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
-
-    .parallax-bg {
-      background-attachment: fixed;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-size: cover;
-    }
-    
-    @media (pointer: coarse) {
-        .parallax-bg {
-            background-attachment: scroll;
+    <style>
+        /* Загальні стилі для рівного розміру зображень та закруглення */
+        .uniform-img {
+            width: 100%;
+            height: 240px; /* Фіксована висота для однакового розміру */
+            object-fit: cover;
+            border-radius: 1rem; /* Закруглені кути 1.5cm (1rem) */
+            transition: all 0.3s ease;
         }
-    }
 
-    /* MENU ANIMATION FIXED */
-    .menu-panel {
-      transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                  height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-radius 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      transform-origin: top center;
-      will-change: width, height;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
-      position: relative;
-      overflow: hidden;
-    }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #121212;
+            color: white;
+            padding-bottom: 80px; /* Відступ для фіксованої панелі кошика */
+        }
 
-    .icon-filter-gold {
-      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
-    }
-    .icon-filter-white {
-      filter: brightness(0) invert(1);
-    }
-    .group:hover .group-hover\:icon-filter-gold {
-      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
-    }
-  </style>
-<script type="importmap">
-{
-  "imports": {
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3"
-  }
-}
-</script>
-</head>
-<body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
-
-  <!-- INTRO SCREEN -->
-  <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000">
-    <div class="relative text-center p-8 flex flex-col items-center">
-      <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
-        KS
-      </h1>
-      <div class="h-[2px] bg-gold mb-6 animate-grow-line"></div>
-      <div class="text-gold uppercase tracking-[0.5em] font-rajdhani text-sm animate-fade-in" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
-        CINEMATIC DINING
-      </div>
-    </div>
-  </div>
-
-  <!-- LANGUAGE SELECTION -->
-  <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none">
-    <div class="relative z-10 text-center p-8 w-full max-w-lg flex flex-col items-center">
-       <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KS</div>
-       
-       <div class="flex gap-8 justify-center w-full">
-         <button onclick="setLanguage('pl')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer">
-           <span class="font-rajdhani text-white text-xl tracking-[0.2em] group-hover:text-gold transition-colors">PL</span>
-         </button>
-
-         <button onclick="setLanguage('en')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer">
-           <span class="font-rajdhani text-white text-xl tracking-[0.2em] group-hover:text-gold transition-colors">EN</span>
-         </button>
-       </div>
-    </div>
-  </div>
-
-  <!-- MAIN APPLICATION -->
-  <div id="app" class="min-h-screen bg-alabaster transition-opacity duration-1000 opacity-0 relative hidden">
-    
-    <!-- NAVIGATION (INITIAL SHAPE: PILL TO WIDE CARD) -->
-    <div id="menu-container" class="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none">
-      <div id="menu-panel" class="menu-panel bg-ink/95 backdrop-blur-md pointer-events-auto flex flex-col items-center border border-white/5">
+        .product-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
         
-        <!-- Collapsed Trigger -->
-        <div id="menu-trigger" class="absolute top-0 left-0 w-full h-[50px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-300">
-          <div class="flex items-center gap-3 group-hover:scale-105 transition-transform duration-500 ease-out">
-            <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div>
-            <span class="font-cinzel font-bold text-xs tracking-[0.2em] text-white group-hover:text-gold transition-colors">MENU</span>
-          </div>
+        .product-card:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px -10px rgba(250, 130, 81, 0.3);
+        }
+
+        /* Скроллбар для кошика */
+        .cart-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+        .cart-scroll::-webkit-scrollbar-track {
+            background: #1e1e1e;
+        }
+        .cart-scroll::-webkit-scrollbar-thumb {
+            background: #333;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Шапка (Header) -->
+    <header class="fixed w-full top-0 z-50 bg-cardbg/95 backdrop-blur-md border-b border-gray-800 shadow-lg">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <!-- Логотип -->
+            <div class="text-2xl font-bold tracking-tighter text-white flex items-center gap-1">
+                <span>SUSHI</span>
+                <span style="color: #fa8251;">VIBE</span>
+            </div>
+
+            <!-- Корзина (Іконка) -->
+            <button onclick="scrollToCart()" class="relative p-2 hover:bg-gray-800 rounded-full transition-colors group">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <span id="cart-count" class="absolute -top-1 -right-1 bg-salmon text-xs font-bold px-1.5 py-0.5 rounded-full text-white shadow-sm">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Основний контент -->
+    <main class="flex-grow pt-24 pb-32 container mx-auto px-4 max-w-7xl">
+        
+        <!-- Заголовок секції -->
+        <div class="text-center mb-16">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 tracking-tight">Популярні Розділи</h2>
+            <p class="text-gray-400 max-w-2xl mx-auto text-lg">Обирайте найсмачніше. Усі фотографії реальні, а смак — справжній.</p>
         </div>
 
-        <!-- Expanded Content -->
-        <div id="menu-content" class="w-full h-full pt-[60px] pb-6 px-6 opacity-0 transition-opacity duration-300 flex flex-col pointer-events-none">
-          
-          <!-- Close Button -->
-          <button id="close-menu" class="absolute top-4 right-6 text-white/50 hover:text-white text-xl z-50 transition-colors cursor-pointer">&times;</button>
-          
-          <!-- Header inside menu -->
-          <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4">
-             <div class="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-xs">KS</div>
-             <span class="font-cinzel text-white text-lg tracking-widest">KSIĘSTWO</span>
-          </div>
-          
-          <div class="flex-1 overflow-y-auto no-scrollbar">
-             <!-- List (Grid 2 cols) -->
-             <div id="menu-list" class="grid grid-cols-2 gap-3">
-                <!-- Injected via JS -->
-             </div>
-          </div>
+        <!-- Сітка товарів -->
+        <div id="products-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            <!-- Картка 1: Темпура -->
+            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
+                <div class="flex-grow">
+                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-salmon uppercase bg-salmon/10 rounded-full w-fit mb-4 border border-salmon/20">Хіт Продажів</span>
+                    <img src="tempura.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=TEMPURA'" alt="Tempura" class="uniform-img mb-4">
+                    <h3 class="text-xl font-bold text-white mb-2">Темпура</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Крижані квети кальмара у паніруванні з пшеничним борошном та спеціальним соусом.</p>
+                </div>
+                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
+                    <div>
+                        <span class="text-salmon font-bold text-2xl">290 ₴</span>
+                        <p class="text-xs text-gray-500">за порцію</p>
+                    </div>
+                    <button onclick="addToCart('tempura', 290, 'Темпура')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
+                        ДОДАТИ
+                    </button>
+                </div>
+            </div>
 
-          <!-- Footer inside menu -->
-          <div class="mt-4 pt-4 flex justify-between items-center">
-             <div class="flex bg-white/10 rounded-full p-1 gap-1">
-                <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">PL</button>
-                <button onclick="switchLang('en')" class="lang-btn-en px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">EN</button>
-             </div>
-             <!-- Info modal button kept for accessibility, though content is now also at bottom -->
-             <button onclick="openInfoModal()" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer">!</button>
-          </div>
+            <!-- Картка 2: Нігірі -->
+            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
+                <div class="flex-grow">
+                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-orange-400 uppercase bg-orange-400/10 rounded-full w-fit mb-4 border border-orange-400/20">Японська Класика</span>
+                    <img src="nigiri1.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=NIGIRI'" alt="Nigiri" class="uniform-img mb-4">
+                    <h3 class="text-xl font-bold text-white mb-2">Нігірі (Лосось)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Свіжі рибні шматки на липкій рису. Ідеальний баланс смаків.</p>
+                </div>
+                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
+                    <div>
+                        <span class="text-salmon font-bold text-2xl">180 ₴</span>
+                        <p class="text-xs text-gray-500">за 3-ри філе</p>
+                    </div>
+                    <button onclick="addToCart('nigiri', 180, 'Нігірі (Лосось)')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
+                        ДОДАТИ
+                    </button>
+                </div>
+            </div>
+
+            <!-- Картка 3: Сашімі -->
+            <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
+                <div class="flex-grow">
+                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-teal-400 uppercase bg-teal-400/10 rounded-full w-fit mb-4 border border-teal-400/20">Лайфстайл</span>
+                    <img src="sashimi.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=SASHIMI'" alt="Sashimi" class="uniform-img mb-4">
+                    <h3 class="text-xl font-bold text-white mb-2">Сашімі</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Десерт із свіжого лосося та сливи. Вуайєрівське задоволення.</p>
+                </div>
+                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
+                    <div>
+                        <span class="text-salmon font-bold text-2xl">320 ₴</span>
+                        <p class="text-xs text-gray-500">за порцію</p>
+                    </div>
+                    <button onclick="addToCart('sashimi', 320, 'Сашімі Лосось') " class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
+                        ДОДАТИ
+                    </button>
+                </div>
+            </div>
+
+             <!-- Картка 4: Рамен -->
+             <div class="product-card bg-cardbg rounded-3xl p-5 flex flex-col justify-between border border-gray-800 hover:border-salmon/30">
+                <div class="flex-grow">
+                    <span class="inline-block px-3 py-1 text-xs font-bold tracking-wider text-red-400 uppercase bg-red-400/10 rounded-full w-fit mb-4 border border-red-400/20">Гаряче</span>
+                    <img src="ramen-zupa.jpg" onerror="this.src='https://via.placeholder.com/600x400/333/fa8251?text=RAMEN'" alt="Ramen" class="uniform-img mb-4">
+                    <h3 class="text-xl font-bold text-white mb-2">Рамен (Зупа)</h3>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">Ясний бульйон міцубіші, яйце "Амагакі", в'юнці тофу та зелень.</p>
+                </div>
+                <div class="flex justify-between items-end border-t border-gray-700 pt-4">
+                    <div>
+                        <span class="text-salmon font-bold text-2xl">260 ₴</span>
+                        <p class="text-xs text-gray-500">за бачок</p>
+                    </div>
+                    <button onclick="addToCart('ramen', 260, 'Рамен Зупа')" class="add-btn bg-white text-darkbg hover:bg-salmon hover:text-white font-bold py-3 px-5 rounded-full transition-all duration-300 transform active:scale-95 shadow-lg">
+                        ДОДАТИ
+                    </button>
+                </div>
+            </div>
+
         </div>
-
-      </div>
-    </div>
-
-    <!-- HERO SECTION -->
-    <div class="h-screen w-full relative flex items-center justify-center overflow-hidden">
-      <div class="absolute inset-0 bg-ink">
-          <!-- Overlay to prevent direct interaction with image -->
-          <div class="absolute inset-0 z-20"></div>
-          <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero">
-      </div>
-      <div class="relative z-30 text-center px-6">
-          <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
-            KSIĘSTWO
-            <span class="block text-gold text-2xl md:text-4xl mt-4 tracking-[0.3em] font-normal border-t border-b border-gold/30 py-4 mx-auto max-w-2xl">
-              SUSHI & RAMEN
-            </span>
-          </h1>
-          <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
-            <!-- Text injected by JS -->
-          </p>
-          <button onclick="scrollToSection('sets')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
-            Explore
-          </button>
-      </div>
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gold/50 text-2xl z-20">↓</div>
-    </div>
-
-    <!-- MAIN CONTENT AREA -->
-    <main id="main-content" class="relative z-10 w-full bg-white">
-      <!-- Sections injected by JS -->
     </main>
 
-    <!-- FOOTER -->
-    <footer class="bg-ink text-white pt-32 pb-16 px-6">
-      <div class="max-w-4xl mx-auto text-center">
-          <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
-          
-          <div class="grid md:grid-cols-2 gap-12 mb-20 text-left md:text-center font-rajdhani text-gray-400">
-              <div class="flex flex-col md:items-center items-start">
-                <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
-                <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
-                   <div class="w-6 h-6 mt-1 flex-shrink-0">
-                      <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map">
-                   </div>
-                   <div class="text-left">
-                     <p>Krupówki 38A, Zakopane</p>
-                     <p id="footer-country">Poland</p>
-                   </div>
-                </a>
-              </div>
-              <div class="flex flex-col md:items-center items-start">
-                <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
-                <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
-                    <div class="w-6 h-6 flex-shrink-0">
-                        <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone">
-                    </div>
-                    <span>+48 502 525 544</span>
-                </a>
-                <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
-                    <div class="w-6 h-6 flex-shrink-0">
-                        <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram">
-                    </div>
-                    <span>@ksiestwosushi</span>
-                </a>
-              </div>
-          </div>
+    <!-- Нижня панель (Footer + Cart) -->
+    <footer class="fixed w-full bottom-0 left-0 z-40 bg-cardbg border-t border-gray-800 shadow-[0_-5px_20px_rgba(0,0,0,0.5)]">
+        <div class="container mx-auto px-4 py-3 flex flex-col lg:flex-row justify-between items-center lg:items-start gap-4 max-h-[80vh] overflow-y-auto cart-scroll">
+            
+            <!-- Інформація та Кнопка оформлення -->
+            <div class="w-full lg:w-auto text-sm text-gray-400 flex lg:flex-col justify-between lg:justify-start items-center lg:items-start gap-2 bg-darkbg p-3 rounded-xl border border-gray-800">
+                <p id="cart-summary" class="font-medium">Ваш кошик порожній</p>
+                <div class="text-salmon font-bold text-lg flex items-center gap-1 cursor-pointer hover:underline" onclick="checkout()">
+                    <span id="total-price">0</span> ₴
+                    <button class="bg-salmon text-white text-xs px-3 py-1 rounded-lg ml-2 lg:ml-0 font-bold opacity-50 cursor-not-allowed hover:bg-gray-700 hover:text-gray-400" disabled onclick="checkout()">
+                        ОФОРМИТИ
+                    </button>
+                </div>
+            </div>
 
-          <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
-            © 2025 Księstwo Sushi & Ramen.
-          </div>
-      </div>
+            <!-- Кнопки очищення кошика -->
+            <div class="flex items-center gap-3 w-full lg:w-auto">
+                 <button onclick="clearCart()" class="w-10 h-10 rounded-full bg-gray-800 text-white flex items-center justify-center hover:bg-red-900 hover:text-red-200 transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                    </svg>
+                 </button>
+            </div>
+        </div>
+
+        <!-- Footer Icons Row (Separate section visually for the requested icons) -->
+        <div class="border-t border-gray-800 bg-darkbg py-3">
+             <div class="container mx-auto px-4 flex justify-center lg:justify-end gap-6 items-center">
+                 <p class="text-xs text-gray-500 uppercase tracking-widest mr-2 hidden lg:block">Контакти</p>
+                 
+                 <!-- Instagram Icon -->
+                 <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
+                    <!-- SVG для IG -->
+                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.468 2.39c.636-.247 1.363-.416 2.427-.465C8.901 1.947 9.256 1.934 11.685 1.933h.63zm4.784 2.549a1.423 1.423 0 10-2.424.871c.137.534-.156 1.207-.231 1.465a4.95 4.95 0 01-.321 1.276A5.687 5.687 0 0015 15c1.892 0 3.417-1.69 3.007-3.46a4.95 4.95 0 00-.321-1.276A1.423 1.423 0 0017.099 4.549zm-5.06 11.84a1.423 1.423 0 10-2.424-.87c.136.534-.156 1.206-.232 1.465a4.95 4.95 0 01-.321 1.276A5.686 5.686 0 0015 15c-1.892 0-3.417 1.69-3.007 3.46a4.95 4.95 0 00.321 1.276 1.423 1.423 0 002.497-1.206zM10.3 14c-1.18 0-2.16-.95-2.16-2.16s.95-2.16 2.16-2.16 2.16.95 2.16 2.16S11.48 14 10.3 14z" clip-rule="evenodd"/>
+                    </svg>
+                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Insta</span>
+                 </a>
+
+                 <!-- Phone Icon -->
+                 <a href="tel:+380991234567" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
+                    <!-- SVG for Phone -->
+                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Tel</span>
+                 </a>
+
+                 <!-- Maps Icon -->
+                 <a href="#" class="flex items-center justify-center w-10 h-10 rounded-full bg-white/10 hover:bg-salmon/20 hover:scale-110 transition-all group relative">
+                    <!-- SVG for Map location -->
+                    <svg class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                     <span class="absolute text-[10px] bg-white text-black px-1 rounded -top-8 opacity-0 group-hover:opacity-100 transition-opacity">Maps</span>
+                 </a>
+
+             </div>
+        </div>
     </footer>
-  </div>
 
-  <!-- ALLERGY INFO MODAL -->
-  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all hidden opacity-0">
-    <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-300" id="info-modal-content">
-      <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-300 hover:text-gold transition-colors leading-none cursor-pointer">&times;</button>
-      <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Allergy Information</h2>
-      <div id="modal-text" class="font-rajdhani text-gray-600 leading-8 text-lg mb-8 text-justify font-light"></div>
-      <div id="modal-service" class="p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
+    <!-- Модальне вікно (спливаюче) -->
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 z-[100] hidden flex items-center justify-center p-4">
+        <div class="bg-cardbg border border-gray-700 rounded-2xl max-w-sm w-full shadow-2xl transform transition-all scale-95 opacity-0" id="modal-content">
+            <div class="p-6 text-center">
+                <h3 class="text-2xl font-bold text-white mb-2">Успішно додано!</h3>
+                <p class="text-gray-400">Ваш продукт "Ім'я продукту" додано до кошика.</p>
+            </div>
+            <button onclick="closeModal()" class="w-full bg-salmon hover:bg-orange-600 text-white font-bold py-3 rounded-xl transition-colors mt-2">Закрити</button>
+        </div>
     </div>
-  </div>
 
-  <!-- APPLICATION LOGIC - OBFUSCATED DATA STRUCTURE -->
-  <script>
-    (function(){
-    // CONFIG
-    const PHOTOS_PATH = './images/';
-    
-    // UI TEXT MAP
-    const UI_TEXT = {
-      hero_subtitle: {en: "Experience the art of Japanese cuisine \n Reimagined for the modern era.", pl: "Poznaj sztukę japońskiej kuchni \n Stworzoną na nowo dla współczesności."},
-      explore_btn: {en: "Explore Menu", pl: "Odkryj Menu"},
-      description_label: {en: "Description", pl: "Opis"},
-      uramaki_title: {en: "URAMAKI", pl: "URAMAKI"},
-      tempura_title: {en: "TEMPURA", pl: "W TEMPURZE"},
-      location_label: {en: "LOCATION", pl: "LOKALIZACJA"},
-      contact_label: {en: "CONTACT", pl: "KONTAKT"},
-      poland: {en: "Poland", pl: "Polska"}
-    };
+    <!-- Логіка JavaScript -->
+    <script>
+        let cart = [];
+        const MAX_CARDS = 1; // Для демо показуємо тільки першу додану карту
 
-    const ALLERGIES = {
-      title: {en: 'Allergy Information', pl: 'Informacja o alergenach'},
-      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
-      service: {en: 'We kindly inform you that we add a waiter service of 10% to the final bill.', pl: 'Uprzejmie informujemy, że doliczamy serwis kelnerski w wysokości 10% do rachunku końcowego.'}
-    };
+        function addToCart(name, price, itemTitle) {
+            cart.push({ name, price, title: itemTitle });
+            updateCartUI();
+            showModal(itemTitle);
+            
+            // Прокрутка до верху для візуальної реакції
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
 
-    // MINIFIED DATA TO DETER CASUAL THEFT
-    const _0x4f21 = [
-      {id:'sets',title:{en:'Sushi Sets',pl:'Zestawy Sushi'},img:PHOTOS_PATH+'zestawy.jpg',desc:{en:'Curated combinations of our finest rolls, perfect for experiencing a variety of flavors.',pl:'Starannie dobrane kompozycje naszych najlepszych rolek, idealne do poznania różnorodności smaków.'},items:[{name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'},price:'130 zł',desc:{en:'4x Gold California (surimi wrapped in raw salmon)\n4x Avocado Kani (surimi wrapped in avocado)\n4x Ohio Irygoma (butterfish rolled in black sesame)\n4x Ebi Ten (shrimp tempura)',pl:'4x Gold California (surimi owijane surowym łososiem)\n4x Awokado Kani (surimi owijane awokado)\n4x Ohio Irygoma (ryba maślana obtoczona w czarnym sezamie)\n4x Ebi Ten (krewetka w tempurze)'}},{name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'},price:'150 zł',desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\n4x Mango Sake (raw salmon wrapped in mango)\n4x Ebi Ten (shrimp tempura)\n4x Avocado Kani (surimi wrapped in avocado)\n6x Futomaki Ohio Yaki (baked butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem surowych ryb)\n4x Mango Sake (surowy łosoś owijany mango)\n4x Ebi Ten (krewetka w tempurze)\n4x Awokado Kani (surimi owijane awokado)\n6x Futomaki Ohio Yaki (pieczona ryba maślana)'}},{name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'},price:'280 zł',desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Goma Sake Yaki (baked salmon topped with wakame)\n4x Ebi Ten (shrimp tempura)\n6x Sake Philadelphia (salmon with cream cheese)\n6x Ohio Ten (butterfish tempura)\n6x Maguro Spice (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem surowych ryb)\n8x Goma Sake Yaki (pieczony łosoś obłożony wakame)\n4x Ebi Ten (krewetka w tempurze)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Ohio Ten (maślana w tempurze)\n6x Maguro Spice (pikantny tuńczyk)'}},{name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'},price:'380 zł',desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (butterfish tempura)\n8x Goma Yaki Sake (salmon topped with wakame)\n8x Kegon (salmon wrapped in eel)\n8x Ebi Ten Ohio Tataki (shrimp tempura topped with butterfish tartare)\n6x Sake Philadelphia (salmon with cream cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem surowych ryb)\n8x Tempura Ohio (maślana w tempurze)\n8x Goma Yaki Sake (łosoś obłożony wakame)\n8x Kegon (łosoś owijany węgorzem)\n8x Ebi Ten Ohio Tataki (krewetka w tempurze obłożona tatarem z maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}},{name:{en:'BIWA (60 pcs)',pl:'BIWA (60 szt.)'},price:'520 zł',desc:{en:'8x Gold California (surimi wrapped in salmon)\n8x Ohio Ten Nashi (tempura butterfish wrapped in Japanese pear)\n8x Ebi Ten Avocado (tempura shrimp wrapped in avocado)\n8x Kegon (salmon wrapped in grilled eel)\n8x Tempura Cali Rae (spicy sea bream in tempura)\n6x Maguro Philadelphia (tuna with cream cheese)\n6x Ohio Spice Mango (spicy butterfish with mango)\n8x Nigiri (2x salmon, 2x tuna, 2x butterfish, 2x shrimp)',pl:'8x Gold California (surimi owijane łososiem)\n8x Ohio Ten Nashi (maślana w tempurze owijana japońską gruszką)\n8x Ebi Ten Avocado (krewetka w tempurze owijana awokado)\n8x Kegon (łosoś owijany węgorzem)\n8x Tempura Cali Rae (pikantna dorada cała w tempurze)\n6x Maguro Philadelphia (tuńczyk z serkiem philadelphia)\n6x Ohio Spice Mango (pikantna maślana z mango)\n8x Nigiri (2x łosoś, 2x tuńczyk, 2x maślana, 2x krewetka)'}}]},
-      {id:'starters',title:{en:'Starters',pl:'Przystawki'},img:PHOTOS_PATH+'sake-tataki.jpg',desc:{en:'A selection of light and fresh starters.',pl:'Wybór lekkich i świeżych przystawek.'},items:[{name:{en:'Goma Wakame',pl:'Goma Wakame'},price:'27 zł',desc:{en:'seaweed salad',pl:'sałatka z wodorostów'}},{name:{en:'Ebi Ten (3 pcs)',pl:'Ebi Ten (3 szt.)'},price:'36 zł',desc:{en:'shrimp tempura served with ponzu sauce',pl:'krewetki w tempurze z sosem ponzu'}},{name:{en:'Sake Tataki',pl:'Sake Tataki'},price:'60 zł',desc:{en:'salmon tartare.',pl:'tatar z łososia.'}},{name:{en:'Maguro Tataki',pl:'Maguro Tataki'},price:'70 zł',desc:{en:'tuna tartare.',pl:'tatar z tuńczyka.'}}]},
-      {id:'soups',title:{en:'Soups',pl:'Zupy'},img:PHOTOS_PATH+'ramen-zupa.jpg',desc:{en:'Traditional Japanese soups, including rich Ramen bowls with various fillings.',pl:'Tradycyjne japońskie zupy, w tym bogate miski Ramenu z różnymi dodatkami.'},items:[{name:{en:'Ramen Chicken',pl:'Ramen Chicken'},price:'60 zł',desc:{en:'flavorful broth, ramen noodle, vegetables, chicken.',pl:'Aromatyczny bulion, makaron ramen, warzywa, kurczak.'}},{name:{en:'Ramen Beef',pl:'Ramen Beef'},price:'65 zł',desc:{en:'flavorful broth, ramen noodle, vegetables, beef.',pl:'Aromatyczny bulion, makaron ramen, warzywa, wołowina.'}},{name:{en:'Seafood Udon',pl:'Seafood Udon'},price:'60 zł',desc:{en:'spicy soup with seafood, vegetables, udon noodles.',pl:'pikantna zupa z owocami morza, warzywami i makaronem udon.'}}]},
-      {id:'nigiri',title:{en:'Nigiri (2 pcs)',pl:'Nigiri (2 szt.)'},img:PHOTOS_PATH+'nigiri1.jpg',desc:{en:'Hand-pressed rice topped with a slice of fresh fish.',pl:'Ręcznie formowany ryż z idealnie pokrojonym slajsem świeżej ryby.'},items:[{name:{en:'Sake',pl:'Sake'},price:'30 zł',desc:{en:'salmon',pl:'łosoś'}},{name:{en:'Ohio',pl:'Ohio'},price:'28 zł',desc:{en:'butterfish',pl:'ryba maślana'}},{name:{en:'Maguro',pl:'Maguro'},price:'35 zł',desc:{en:'tuna',pl:'tuńczyk'}},{name:{en:'Unagi',pl:'Unagi'},price:'35 zł',desc:{en:'eel',pl:'węgorz'}},{name:{en:'Hotate',pl:'Hotate'},price:'36 zł',desc:{en:'scallops',pl:'małże św. Jakuba'}},{name:{en:'Tako',pl:'Tako'},price:'35 zł',desc:{en:'octopus',pl:'ośmiornica'}},{name:{en:'Ika',pl:'Ika'},price:'35 zł',desc:{en:'squid',pl:'kalmar'}},{name:{en:'Ebi',pl:'Ebi'},price:'35 zł',desc:{en:'shrimp',pl:'krewetka'}}]},
-      {id:'futomaki',title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},img:PHOTOS_PATH+'futomaki.jpg',desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem na ostro'}},{name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna ryba maślana z mango'}},{name:{en:'Ebi Spicy',pl:'Ebi Spicy'},price:'40 zł',desc:{en:'spicy shrimp',pl:'pikantna krewetka'}},{name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'shrimp tempura',pl:'krewetka w tempurze'}},{name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},{name:{en:'Ika Tempura',pl:'Ika Tempura'},price:'55 zł',desc:{en:'squid tempura',pl:'kalmar w tempurze'}},{name:{en:'Veggie',pl:'Veggie'},price:'50 zł',desc:{en:'vegetables',pl:'warzywa'}}]},
-      {id:'uramaki',title:{en:'Uramaki & Tempura',pl:'Uramaki & Tempura'},img:PHOTOS_PATH+'tempura.jpg',desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},isSplit:true,items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'58 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},{name:{en:'Mango Sake',pl:'Mango Sake'},price:'58 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},{name:{en:'Maguro Orange Pepper',pl:'Maguro Orange Pepper'},price:'60 zł',desc:{en:'tuna with chopped leek',pl:'tuńczyk z siekanym porem'}},{name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'55 zł',desc:{en:'shrimp tempura in soy paper',pl:'krewetka w tempurze w papierze sojowym'}},{name:{en:'Gold California',pl:'Gold California'},price:'55 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},{name:{en:'Rainbow',pl:'Rainbow'},price:'60 zł',desc:{en:'surimi wrapped in fish',pl:'surimi owijane wachlarzem ryb'}},{name:{en:'Ohio Spice Sake',pl:'Ohio Spice Sake'},price:'55 zł',desc:{en:'salmon wrapped in butterfish',pl:'łosoś owijany opalaną maślaną'}},{name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'60 zł',desc:{en:'shrimp tempura wrapped in tuna',pl:'krewetka w tempurze owijana tuńczykiem'}},{name:{en:'Kegon',pl:'Kegon'},price:'60 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany węgorzem'}},{name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'60 zł',desc:{en:'salmon wrapped in seared salmon',pl:'łosoś owijany opalanym łososiem'}},{name:{en:'Tobiko Ohio Ten',pl:'Tobiko Ohio Ten'},price:'62 zł',desc:{en:'butterfish tempura with caviar',pl:'maślana w tempurze z kawiorem'}},{name:{en:'Nashi Sake',pl:'Nashi Sake'},price:'60 zł',desc:{en:'salmon wrapped in pear',pl:'łosoś owijany gruszką'}},{name:{en:'Sake Tataki Ebiten',pl:'Sake Tataki Ebiten'},price:'60 zł',desc:{en:'shrimp tempura with salmon tartare',pl:'krewetka w tempurze z tatarem z łososia'}}],itemsRight:[{name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'55 zł',desc:{en:'salmon',pl:'łosoś'}},{name:{en:'Tempura Ohio',pl:'Tempura Ohio'},price:'55 zł',desc:{en:'butterfish',pl:'maślana'}},{name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'55 zł',desc:{en:'tuna',pl:'tuńczyk'}},{name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'55 zł',desc:{en:'steamed shrimp',pl:'parzona krewetka'}},{name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}]},
-      {id:'oyakomaki',title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},img:PHOTOS_PATH+'oyakomaki.jpg',desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę zamiast nori.'},items:[{name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimp wrapped in salmon',pl:'siekana krewetka owijana w łososia'}},{name:{en:'Sake Ikura',pl:'Sake Ikura'},price:'50 zł',desc:{en:'caviar with salmon wrapped in tuna',pl:'kawior z łososia owijany tuńczykiem'}},{name:{en:'Maguro Sake Tataki',pl:'Maguro Sake Tataki'},price:'48 zł',desc:{en:'chopped salmon wrapped in tuna',pl:'siekany łosoś owijany tuńczykiem'}}]},
-      {id:'hosomaki',title:{en:'Hosomaki (6 pcs)',pl:'Hosomaki (6 szt.)'},img:PHOTOS_PATH+'hosomaki.jpg',desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},items:[{name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, awokado, oshinko'}},{name:{en:'Fish',pl:'Rybne'},price:'40 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, maślana'}}]},
-      {id:'sashimi',title:{en:'Sashimi (9 pcs)',pl:'Sashimi (9 szt.)'},img:PHOTOS_PATH+'sashimi.jpg',desc:{en:'Thinly sliced raw fish and seafood, served without rice.',pl:'Cienko krojone slajsy surowej ryby i owoców morza, podawane bez ryżu.'},items:[{name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'salmon, tuna, butterfish',pl:'łosoś, tuńczyk, maślana'}}]}
-    ];
-
-    let currentLang = 'pl';
-    let isMenuExpanded = false;
-
-    // --- SECURITY PROTOCOLS ---
-    // Anti-Debug Loop (Faster interval to make inspection harder)
-    setInterval(function(){debugger;}, 500);
-
-    document.addEventListener('contextmenu', e => e.preventDefault());
-    document.addEventListener('dragstart', e => e.preventDefault());
-    document.addEventListener('keydown', (e) => {
-      const isCtrl = e.ctrlKey || e.metaKey;
-      if (e.key === 'F12' || (isCtrl && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) || (isCtrl && ['U','S','P'].includes(e.key.toUpperCase()))) {
-         e.preventDefault();
-         e.stopPropagation();
-      }
-    });
-
-    // INIT
-    window.onload = function() {
-      // Intro
-      setTimeout(() => {
-        document.getElementById('intro').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('intro').style.display = 'none';
-            const langSel = document.getElementById('lang-select');
-            langSel.style.pointerEvents = 'auto';
-            langSel.style.opacity = '1';
-        }, 1000);
-      }, 1500);
-
-      document.getElementById('hero-img').src = PHOTOS_PATH + 'zestawy.jpg';
-      
-      const panel = document.getElementById('menu-panel');
-      const trigger = document.getElementById('menu-trigger');
-      const closeBtn = document.getElementById('close-menu');
-
-      // CLICK OUTSIDE LOGIC (Fixed)
-      document.addEventListener('click', (e) => {
-        if(isMenuExpanded) {
-            const container = document.getElementById('menu-container');
-            const panel = document.getElementById('menu-panel');
-            // Check if click is outside the panel
-            if(panel && !panel.contains(e.target) && !trigger.contains(e.target)) {
-                toggleMenu(false);
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+            if (cart.length === 1) { // Якщо залишилась одна, не закривати модалку автоматично, але оновити список
+                // Тут немає спеціальної логіки змусу показувати кошик, якщо він порожній
             }
         }
-      });
 
-      setMenuState(false);
-
-      trigger.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if(!isMenuExpanded) toggleMenu(true);
-      });
-
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMenu(false);
-      });
-
-      // Expose functions to global scope for HTML onclick attributes, but keep data hidden in closure
-      window.scrollToSection = function(id) {
-          const el = document.getElementById(id);
-          if(el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-              if(isMenuExpanded) toggleMenu(false);
-          }
-      };
-
-      window.setLanguage = function(lang) {
-          currentLang = lang;
-          const langSel = document.getElementById('lang-select');
-          langSel.style.opacity = '0';
-          setTimeout(() => {
-            langSel.style.display = 'none';
-            const app = document.getElementById('app');
-            app.classList.remove('hidden');
-            requestAnimationFrame(() => app.classList.remove('opacity-0'));
-            renderApp();
-          }, 700);
-      };
-
-      window.switchLang = function(lang) {
-          currentLang = lang;
-          renderApp();
-      };
-
-      window.openInfoModal = function() {
-          const modal = document.getElementById('info-modal');
-          const content = document.getElementById('info-modal-content');
-          modal.classList.remove('hidden');
-          requestAnimationFrame(() => {
-              modal.classList.remove('opacity-0');
-              content.classList.remove('scale-95');
-          });
-          document.getElementById('modal-title').textContent = ALLERGIES.title[currentLang];
-          document.getElementById('modal-text').textContent = ALLERGIES.text[currentLang];
-          document.getElementById('modal-service').textContent = ALLERGIES.service[currentLang];
-      };
-
-      window.closeInfoModal = function() {
-          const modal = document.getElementById('info-modal');
-          const content = document.getElementById('info-modal-content');
-          modal.classList.add('opacity-0');
-          content.classList.add('scale-95');
-          setTimeout(() => modal.classList.add('hidden'), 300);
-      };
-
-      window.toggleItem = function(el) {
-        const content = el.nextElementSibling;
-        const arrow = el.querySelector('.arrow');
-        const title = el.querySelector('.item-title');
-        const isOpening = !content.style.maxHeight;
-
-        const allContents = document.querySelectorAll('.set-item-content');
-        allContents.forEach(c => {
-             c.style.maxHeight = null;
-             c.classList.remove('opacity-100', 'pb-8');
-             c.classList.add('opacity-0');
-             const header = c.previousElementSibling;
-             if(header) {
-                 const hArrow = header.querySelector('.arrow');
-                 const hTitle = header.querySelector('.item-title');
-                 if(hArrow) hArrow.classList.remove('rotate-180', 'text-gold');
-                 if(hTitle) hTitle.classList.remove('text-gold-dark');
-             }
-        });
-
-        if (isOpening) {
-            content.style.maxHeight = content.scrollHeight + "px";
-            content.classList.remove('opacity-0');
-            content.classList.add('opacity-100', 'pb-8');
-            arrow.classList.add('rotate-180', 'text-gold');
-            title.classList.add('text-gold-dark');
-        }
-      };
-    };
-
-    function setMenuState(expanded) {
-        const panel = document.getElementById('menu-panel');
-        const trigger = document.getElementById('menu-trigger');
-        const content = document.getElementById('menu-content');
-
-        if(expanded) {
-            panel.style.width = '90vw'; 
-            panel.style.maxWidth = '500px';
-            panel.style.height = '500px';
-            panel.style.borderRadius = '32px'; 
-            
-            trigger.style.opacity = '0';
-            trigger.style.pointerEvents = 'none';
-            
-            content.style.opacity = '1';
-            content.style.pointerEvents = 'auto';
-        } else {
-            panel.style.width = '140px';
-            panel.style.height = '50px';
-            panel.style.maxWidth = 'none';
-            panel.style.borderRadius = '9999px'; 
-            
-            trigger.style.opacity = '1';
-            trigger.style.pointerEvents = 'auto';
-            
-            content.style.opacity = '0';
-            content.style.pointerEvents = 'none';
-        }
-    }
-
-    function toggleMenu(expand) {
-        isMenuExpanded = expand;
-        setMenuState(expand);
-    }
-
-    function renderApp() {
-        document.getElementById('hero-subtitle').textContent = UI_TEXT.hero_subtitle[currentLang];
-        document.getElementById('hero-btn').textContent = UI_TEXT.explore_btn[currentLang];
-        document.getElementById('footer-loc').textContent = UI_TEXT.location_label[currentLang];
-        document.getElementById('footer-contact').textContent = UI_TEXT.contact_label[currentLang];
-        document.getElementById('footer-country').textContent = UI_TEXT.poland[currentLang];
-
-        const plBtns = document.querySelectorAll('.lang-btn-pl');
-        const enBtns = document.querySelectorAll('.lang-btn-en');
-        if(currentLang === 'pl') {
-            plBtns.forEach(b => { b.classList.add('bg-gold', 'text-ink'); b.classList.remove('text-white/60'); });
-            enBtns.forEach(b => { b.classList.remove('bg-gold', 'text-ink'); b.classList.add('text-white/60'); });
-        } else {
-            enBtns.forEach(b => { b.classList.add('bg-gold', 'text-ink'); b.classList.remove('text-white/60'); });
-            plBtns.forEach(b => { b.classList.remove('bg-gold', 'text-ink'); b.classList.add('text-white/60'); });
+        function clearCart() {
+            if(cart.length === 0) return;
+            if(confirm('Ви впевнені, що хочете очистити корзину?')) {
+                cart = [];
+                updateCartUI();
+            }
         }
 
-        const menuList = document.getElementById('menu-list');
-        menuList.innerHTML = _0x4f21.map(s => `
-            <button onclick="scrollToSection('${s.id}')" class="text-left px-4 py-3 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-colors font-rajdhani text-sm uppercase tracking-wider text-white">
-                ${s.title[currentLang]}
-            </button>
-        `).join('');
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const totalEl = document.getElementById('total-price');
+            const summaryEl = document.getElementById('cart-summary');
+            const btn = document.querySelector('.add-btn'); // Оновити кнопки (візуально)
 
-        const main = document.getElementById('main-content');
-        const sectionsHTML = _0x4f21.map((section, idx) => {
-            const isSets = section.id === 'sets';
-            const renderItem = (item) => {
-                if(isSets) {
-                    return `
-                    <div class="border-b border-gray-200 last:border-0">
-                        <div onclick="toggleItem(this)" class="flex items-center justify-between py-6 cursor-pointer group hover:pl-4 transition-all duration-300">
-                            <div class="flex flex-col">
-                                <span class="item-title font-cinzel font-extrabold text-xl md:text-2xl transition-colors duration-300 text-ink group-hover:text-gold-dark">
-                                    ${item.name[currentLang]}
-                                </span>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <span class="font-rajdhani font-bold text-gold-dark text-lg md:text-xl">${item.price}</span>
-                                <span class="arrow text-gray-300 transform transition-transform duration-500">▼</span>
-                            </div>
-                        </div>
-                        <div class="set-item-content overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0">
-                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/30 ml-2">
-                                <h4 class="font-cinzel text-gold text-xs tracking-[0.2em] uppercase mb-3 inline-block">
-                                    ${UI_TEXT.description_label[currentLang]}
-                                </h4>
-                                <p class="font-rajdhani text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium">
-                                    ${item.desc[currentLang]}
-                                </p>
-                            </div>
-                        </div>
-                    </div>`;
-                } else {
-                    return `
-                    <div class="py-6 border-b border-gray-100 last:border-0 group hover:bg-gray-50/50 transition-colors px-4 -mx-4 rounded-xl">
-                        <div class="flex justify-between items-baseline gap-4 mb-2">
-                            <h3 class="font-cinzel text-xl text-ink font-extrabold group-hover:text-gold-dark transition-colors tracking-wide">
-                                ${item.name[currentLang]}
-                            </h3>
-                            <span class="font-rajdhani font-bold text-gold-dark text-lg whitespace-nowrap">
-                                ${item.price}
-                            </span>
-                        </div>
-                        <p class="font-rajdhani text-gray-500 text-base leading-relaxed max-w-3xl">
-                            ${item.desc[currentLang]}
-                        </p>
-                    </div>`;
-                }
-            };
+            const totalItems = cart.length;
+            const totalPrice = cart.reduce((sum, item) => sum + item.price, 0);
 
-            let contentHTML = '';
-            if(section.isSplit) {
-                contentHTML = `
-                <div class="space-y-20">
-                    <div>
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.uramaki_title[currentLang]}</h3>
-                        <div class="flex flex-col">
-                            ${section.items.map(renderItem).join('')}
-                        </div>
-                    </div>
-                    <div>
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.tempura_title[currentLang]}</h3>
-                        <div class="flex flex-col">
-                            ${section.itemsRight ? section.itemsRight.map(renderItem).join('') : ''}
-                        </div>
-                    </div>
-                </div>`;
+            countEl.textContent = totalItems;
+            totalEl.textContent = totalPrice;
+
+            if (totalItems === 0) {
+                summaryEl.textContent = 'Ваш кошик порожній';
+                // Блокуємо кнопку оформлення (якщо вона має логіку, тут просто оновлюємо UI тексту)
             } else {
-                contentHTML = `<div class="flex flex-col">${section.items.map(renderItem).join('')}</div>`;
+                // Якщо є товари, але ми обмежуємо кількість відображених до MAX_CARDS
+                const displayLimit = Math.min(totalItems, MAX_CARDS); 
+                
+                let cartListHTML = '';
+                for(let i=0; i < displayLimit; i++) {
+                    const item = cart[i];
+                    // Створюємо клас "flex flex-col text-left text-gray-300 mb-2" для кожної лінії в кошику
+                    cartListHTML += `
+                        <div class="flex justify-between items-center bg-darkbg border border-gray-800 p-2 rounded-lg mb-2 w-full">
+                            <div class="truncate">
+                                <span class="text-xs text-gray-500 block">${i + 1}</span>
+                                <span class="font-medium truncate max-w-[60%]">${item.title}</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-salmon font-bold text-sm">${item.price} ₴</span>
+                                <button onclick="removeFromCart(${i})" class="text-gray-500 hover:text-red-500 transition-colors">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                summaryEl.innerHTML = cartListHTML;
             }
 
-            return `
-            <section id="${section.id}" class="mb-0 w-full bg-white relative">
-                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden">
-                    <div class="absolute inset-0 z-20"></div>
-                    <div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>
-                    <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
-                    
-                    <div class="relative z-30 text-center text-white px-4">
-                        <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">0${idx + 1}</span>
-                        <h2 class="font-cinzel text-5xl md:text-8xl font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
-                            ${section.title[currentLang]}
-                        </h2>
-                        <p class="font-rajdhani text-lg md:text-2xl max-w-2xl mx-auto text-gray-200 font-light">
-                            ${section.desc[currentLang]}
-                        </p>
-                        ${section.note ? `
-                        <div class="mt-8 inline-block bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-sm font-rajdhani tracking-wide">
-                            ℹ ${section.note[currentLang]}
-                        </div>` : ''}
-                    </div>
-                </div>
+            const btnElement = document.querySelector('button[onclick="checkout()"]');
+            if (btnElement) {
+                if (totalItems > 0) {
+                    // Уявний оновлення кнопки, щоб вона була активна (в реальному проекті тут більше логіки)
+                }
+            }
+        }
 
-                <div class="max-w-5xl mx-auto px-6 py-20 md:py-32 bg-white relative -mt-10 rounded-t-3xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)] z-20">
-                    ${contentHTML}
-                </div>
-            </section>
-            `;
-        }).join('');
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Кошик порожній!');
+                return;
+            }
+            
+            // Генеруємо просте повідомлення про замовлення
+            const message = `Дякуємо за замовлення, ${document.title}!\n\nМи замовили суші:\n${cart.map(i => `- ${i.title}: ${i.price} ₴`).join('\n')}\n\nЗагальна сума: ${cart.reduce((s, i) => s + i.price, 0)} ₴`;
+            alert(message);
+            
+            // Очистка кошика після замовлення
+            cart = [];
+            updateCartUI();
+        }
 
-        const infoHTML = `
-          <div class="bg-alabaster border-t border-gray-200 py-16 px-6">
-              <div class="max-w-3xl mx-auto text-center">
-                  <h4 class="font-cinzel text-gold-dark text-lg mb-4 tracking-widest uppercase">
-                      ${ALLERGIES.title[currentLang]}
-                  </h4>
-                  <p class="font-rajdhani text-gray-600 text-sm leading-7 mb-8">
-                      ${ALLERGIES.text[currentLang]}
-                  </p>
-                   <div class="w-24 h-[1px] bg-gold/30 mx-auto mb-8"></div>
-                  <p class="font-rajdhani text-ink font-semibold text-sm tracking-wide uppercase">
-                      ${ALLERGIES.service[currentLang]}
-                  </p>
-              </div>
-          </div>
-        `;
+        function closeModal() {
+            document.getElementById('modal-overlay').classList.add('hidden');
+            document.getElementById('modal-content').classList.remove('scale-95', 'opacity-0'); // CSS transition fix logic implicitly handled by re-render if needed, but simple hide for now
+        }
 
-        main.innerHTML = sectionsHTML + infoHTML;
-    }
-    })();
-  </script>
+        function showModal(itemName) {
+            const modal = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            
+            content.querySelector('p').textContent = `Ваш продукт "${itemName}" додано до кошика.`;
+            
+            modal.classList.remove('hidden');
+            // Force reflow for animation trigger if necessary
+            void content.offsetWidth; 
+            content.classList.remove('scale-95', 'opacity-0');
+            content.classList.add('scale-100', 'opacity-100');
+        }
+
+        function scrollToCart() {
+            document.getElementById('footer').scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>
