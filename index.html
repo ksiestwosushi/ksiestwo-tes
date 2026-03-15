@@ -1,483 +1,510 @@
 <!DOCTYPE html>
-<html lang="uk" class="scroll-smooth">
+<html lang="pl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sushi Vibe - Сучасна Суші Сторінка</title>
-
-    <!-- Підключення Tailwind CSS -->
+    <title>Księstwo Sushi | Premium Edition</title>
+    
+    <!-- Fonts: Playfair Display (Serif) & Lato (Sans) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-    <!-- Налаштування кольору (Salmon) та шрифтів -->
+    <!-- Tailwind Config for Custom Colors -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        salmon: '#ff7e63', // Акцентний колір
-                        darkbg: '#121212',
-                        cardbg: '#1e1e1e',
-                        textgray: '#b0b0b0'
+                        gold: '#D4AF37',
+                        cream: '#F9F6F0',
+                        darkText: '#1a1a1a'
                     },
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        display: ['Montserrat', 'sans-serif']
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Lato', 'sans-serif'],
                     }
                 }
             }
         }
     </script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Montserrat:wght@500;700&display=swap" rel="stylesheet">
-
-    <!-- Стилі (CSS) -->
     <style>
-        body {
-            background-color: #121212;
-            color: white;
-            font-family: 'Inter', sans-serif;
+        /* Smooth Scrolling */
+        html { scroll-behavior: smooth; }
+        
+        /* Custom Scrollbar for Cart */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Animation Classes */
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; transform: translateY(20px); }
+        
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hover Card Effect */
+        .sushi-card:hover {
+            box-shadow: 0 15px 30px rgba(212, 175, 55, 0.2); 
+            transform: translateY(-5px) scale(1.01);
+            border-color: #D4AF37;
+        }
+
+        /* Gold Gradient Text */
+        .text-gradient-gold {
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728, #fbf5b7, #aa771c);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        h1, h2, h3, .font-display {
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* Анімація збільшення картки при наведенні */
-        .sushi-card {
-            transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
-        }
-
-        .sushi-card:hover {
-            transform: scale(1.03);
-            box-shadow: 0 10px 30px -10px rgba(255, 126, 99, 0.15);
-            z-index: 10;
-        }
-
-        /* Скриваємо кнопку "Додати", якщо вона в кошику */
-        .add-btn {
+        /* Gold Button Gradient */
+        .btn-gold {
+            background: linear-gradient(45deg, #D4AF37, #F2D06B, #D4AF37);
+            position: relative;
+            z-index: 1;
             transition: all 0.3s ease;
         }
-        
-        .add-btn:disabled {
-            opacity: 0.5;
-            transform: none;
+        .btn-gold::after {
+            content: '';
+            position: absolute;
+            top: "25"; left: "-25"; bottom: "-25"; right: "-25";
+            background: linear-gradient(45deg, #aa771c, #fcf6ba, #D4AF37);
+            z-index: -1;
+            filter: blur(5px);
+            opacity: 0.8;
         }
 
-        /* Стилі для модального вікна */
-        .modal-bg {
-            background-color: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(4px);
-        }
-        
-        /* Анімація з'явлення кошика знизу */
-        #cart-panel {
-            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            transform: translateY(120%); /* Починаємо зніжено */
-        }
-
-        #cart-panel.active {
-            transform: translateY(0);
-        }
+        /* Sidebar Transition */
+        [x-cloak] { display: none !important; }
     </style>
 </head>
-<body class="antialiased selection:bg-salmon selection:text-white">
+<body class="bg-cream text-darkText font-sans antialiased overflow-x-hidden" 
+      x-data="{
+          cartOpen: false,
+          lang: 'PL', // Default language
+          
+          // Language Dictionary (EN | PL | UK)
+          translations: {
+              EN: {
+                  heroTitle: "Prince's Feast",
+                  heroSubtitle: "Experience culinary perfection with our premium sushi selection.",
+                  heroCta: "Order Now",
+                  menuCategories: ["All", "Nigiri", "Maki/Rolls", "Sets & Bowls", "Ramen"],
+                  addToCart: "Add to Cart",
+                  emptyCart: "Your cart is empty.",
+                  checkoutBtn: "Proceed to Checkout",
+                  footerInstagram: "Follow us on Instagram",
+                  footerPhone: "Contact Us",
+                  footerMap: "Visit Our Location"
+              },
+              PL: { // User requested Polish logic
+                  heroTitle: "Książęca Uczta",
+                  heroSubtitle: "Odkryj doskonałość kulinarną dzięki naszej premium selekcji sushi.",
+                  heroCta: "Zamów Teraz",
+                  menuCategories: ["Wszystkie", "Nigiri", "Maki/Rolki", "Sety i Misy", "Ramen"],
+                  addToCart: "Dodaj do koszyka",
+                  emptyCart: "Twój koszyk jest pusty.",
+                  checkoutBtn: "Przejdź do kasy",
+                  footerInstagram: "Obserwuj nas na Instagramie",
+                  footerPhone: "Skontaktuj się",
+                  footerMap: "Zwijdz Naszą Lokację"
+              },
+              UK: // Added Ukrainian for extra polish
+              {
+                  heroTitle: "Prince's Feast",
+                  heroSubtitle: "Спробуйте преміальну доставку найвищої якості.",
+                  heroCta: "Замовити зараз",
+                  menuCategories: ["Усе", "Нігірі", "Ролки/Макі", "Набори та Миси", "Рамен"],
+                  addToCart: "Додати в кошик",
+                  emptyCart: "Ваш кошик порожній.",
+                  checkoutBtn: "Перейти до оплати",
+                  footerInstagram: "Наслідкуйте нас у Instagram",
+                  footerPhone: "Зв'яжіться з нами",
+                  footerMap: "Наша адреса"
+              }
+          },
 
-    <!-- Шапка (Header) -->
-    <header class="fixed top-0 w-full z-50 bg-darkbg/90 backdrop-blur-md border-b border-gray-800">
+          init() {
+            // Initial setup if needed
+          },
+
+          toggleLang() {
+             this.lang = this.lang === 'PL' ? 'EN' : (this.lang === 'EN' ? 'UK' : 'PL'); // Cycle PL -> EN -> UK -> PL
+          },
+
+          getCategoryCount(cat) {
+              return this.products.filter(item => item.category.includes(cat)).length;
+          },
+          
+          addCartItem(product) {
+              let existingItem = this.cart.find(item => item.id === product.id);
+              
+              if (existingItem) {
+                  existingItem.qty++;
+              } else {
+                  this.cart.push({ ...product, qty: 1 });
+              }
+              
+              // Animation trigger close
+              setTimeout(() => { 
+                   this.cartOpen = true;
+              }, 300);
+          },
+
+          removeCartItem(index) {
+              this.cart.splice(index, 1);
+          },
+
+          increaseQty(index) {
+              this.cart[index].qty++;
+              this.checkTotal(); // Optional re-calc if needed dynamically
+          },
+
+          decreaseQty(index) {
+              if (this.cart[index].qty > 1) {
+                  this.cart[index].qty--;
+              } else {
+                  this.removeCartItem(index);
+              }
+          },
+
+          checkTotal() {
+             return this.cart.reduce((sum, item) => sum + (item.price * item.qty), 0).toFixed(2);
+          }
+      }" class="text-gray-800">
+
+    <!-- ========================================== -->
+    <!-- NAVIGATION -->
+    <!-- ========================================== -->
+    <nav class="fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-md shadow-sm border-b border-yellow-100" x-cloak>
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <!-- Логотип -->
-            <a href="#" class="text-2xl font-bold tracking-tighter text-white group">
-                Sushi <span class="text-salmon group-hover:underline decoration-wavy underline-offset-4">Vibe</span>
+            <!-- Logo -->
+            <a href="#" class="text-2xl font-serif font-bold tracking-wider text-gray-900 flex items-center gap-2">
+                <span class="text-gradient-gold">Księstwo</span>Sushi<span class="text-xs align-top bg-black text-white px-1 rounded">PL</span>
             </a>
 
-            <!-- Навігація (desktop) -->
-            <nav class="hidden md:flex gap-8 text-sm font-medium text-textgray">
-                <a href="#menu" class="hover:text-salmon transition-colors">Меню</a>
-                <a href="#about" class="hover:text-salmon transition-colors">Про нас</a>
-            </nav>
+            <!-- Links Desktop -->
+            <div class="hidden md:flex space-x-8 font-serif items-center">
+                <a href="#menu" :class="{'text-gold': lang==='PL'}" @click.prevent="lang = 'PL'; window.location.reload();" class="hover:text-gold transition-colors duration-300 cursor-pointer text-gray-600">Menu</a>
+                <a href="#about" class="text-gray-600 hover:text-gold transition-colors duration-300 cursor-pointer font-serif">About</a>
+            </div>
 
-            <!-- Кнопка кошика -->
-            <button onclick="toggleCart()" class="relative p-2 rounded-full hover:bg-gray-800 transition-colors group">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white group-hover:text-salmon transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                <span id="cart-badge" class="absolute top-0 right-0 h-5 w-5 flex items-center justify-center rounded-full bg-salmon text-xs font-bold text-white opacity-0 transition-opacity duration-300">0</span>
-            </button>
+            <!-- Actions: Lang Switcher & Cart -->
+            <div class="flex items-center space-x-4">
+                <!-- Language Switcher -->
+                <button @click="toggleLang" class="px-3 py-1 border border-gray-300 rounded-full text-xs font-bold uppercase tracking-wide hover:bg-gold hover:border-gold transition-all duration-300 focus:outline-none">
+                    {{ lang === 'PL' ? 'EN' : (lang === 'EN' ? 'UK' : 'PL') }}
+                </button>
+
+                <!-- Cart Icon with Badge -->
+                <button @click="cartOpen = true" class="relative p-2 rounded-full hover:bg-gray-100 transition-colors duration-300 group">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gold group-hover:text-gold/80">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.575-12.575M5.363 9.835c.51-.514 1.06-.922 1.64-1.27.568-.336 1.24-.483 1.955-.483h6.83m-12.575 0c-.663.566-1.288 1.222-1.795 1.966a2.33 2.33 0 00-.686 2.114l.675 10.116m11.343-1.71c.51-.514 1.06-.922 1.64-1.27.568-.336 1.24-.483 1.955-.483h6.83m-12.575 0c-.663.566-1.288 1.222-1.795 1.966a2.33 2.33 0 00-.686 2.114l.675 10.116M5.363 9.835c.51-.514 1.06-.922 1.64-1.27" />
+                    </svg>
+                    
+                    <!-- Cart Badge -->
+                    <span x-show="cart.length > 0" x-transition:enter="transition ease-out duration-200" 
+                          x-transition:enter-start="opacity-0 scale-90" x-transition:enter-end="opacity-100 scale-100"
+                          x-transition:leave="transition ease-in duration-200"
+                          x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                          class="absolute top-0 right-0 h-4 w-4 rounded-full border-2 border-white bg-gold flex items-center justify-center text-[10px] font-bold">
+                        {{ cart.reduce((acc, item) => acc + item.qty, 0) }}
+                    </span>
+                </button>
+            </div>
         </div>
-    </header>
+    </nav>
 
-    <!-- Головний екран (Hero) -->
-    <section class="relative h-screen flex items-center justify-center overflow-hidden">
-        <!-- Фон з затемненням -->
-        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1579584425262-60ff50c3199e?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center opacity-40"></div>
-        <div class="absolute inset-0 bg-gradient-to-b from-darkbg via-darkbg/80 to-darkbg"></div>
+    <!-- ========================================== -->
+    <!-- HERO SECTION -->
+    <!-- ========================================== -->
+    <section class="relative pt-32 pb-16 lg:pt-48 lg:pb-32 px-6 overflow-hidden bg-white">
+        <div class="absolute inset-0 z-0 opacity-10">
+            <!-- Decorative Pattern (Abstract Ripples) -->
+            <svg width="100%" height="100%">
+                <path d="M-128 -128 L128 128 M-128 128 L128 -128" stroke="#D4AF37" stroke-width="1" />
+            </svg>
+        </div>
 
-        <div class="relative z-10 text-center px-4 max-w-4xl">
-            <span class="inline-block py-1 px-3 rounded-full bg-salmon/10 text-salmon text-xs font-bold uppercase tracking-widest mb-4 border border-salmon/20">Ресторан №1</span>
-            <h1 class="text-6xl md:text-8xl font-display font-bold mb-6 leading-tight">
-                Вкусніший <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-salmon to-orange-400">Емоційний</span> досвід
+        <div class="container mx-auto text-center relative z-10">
+            <span class="inline-block py-1 px-3 border border-gold rounded-full text-xs font-bold uppercase tracking-widest text-gold mb-4 fade-in-up" style="animation-delay: 0.1s;">
+                Premium Delivery
+            </span>
+            
+            <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl font-bold mb-6 leading-tight fade-in-up" style="animation-delay: 0.3s;">
+                {{ translations[lang].heroTitle }}
             </h1>
-            <p class="text-textgray text-lg md:text-xl max-w-2xl mx-auto mb-10 font-light">
-                Автентична японська кухня, створена з любов'ю до кожен шматочок суші та ролів.
+            
+            <p class="text-xl md:text-2xl text-gray-500 max-w-3xl mx-auto italic mb-10 font-light fade-in-up" style="animation-delay: 0.5s;">
+                {{ translations[lang].heroSubtitle }}
             </p>
-            <a href="#menu" class="inline-block px-8 py-4 bg-white text-darkbg font-bold rounded-full hover:bg-salmon hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-salmon/20">
-                Зробити замовлення
-            </a>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col md:flex-row justify-center gap-4 fade-in-up" style="animation-delay: 0.7s;">
+                <a href="#menu" :class="translations[lang].heroCta === 'Order Now' ? '' : ''" 
+                   class="btn-gold px-8 py-4 rounded-sm font-serif text-white tracking-wide shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-300 text-center">
+                    {{ translations[lang].heroCta }}
+                </a>
+            </div>
+        </div>
+
+        <!-- Hero Image (Placeholder if file missing) -->
+        <div class="relative mt-12 md:mt-0 h-64 md:h-96 w-full bg-cover bg-center opacity-90 rounded-t-[3rem] hidden md:block" 
+             :style="'background-image: url(./images/ebiten.jpg);'"
+             onerror="this.style.backgroundImage = 'url(\"https://images.unsplash.com/photo-1579871494447-9811cf20a64b?ixlib=rb-4.0.3&auto=format&fit=crop&w=2670&q=80)';">
         </div>
     </section>
 
-    <!-- Меню (Popular Rolls) -->
-    <section id="menu" class="py-24 bg-darkbg relative">
+    <!-- ========================================== -->
+    <!-- MENU ENGINE -->
+    <!-- ========================================== -->
+    <section id="menu" class="py-20 bg-white border-t border-gray-100">
         <div class="container mx-auto px-6">
             
-            <div class="text-center mb-16">
-                <h2 class="text-4xl font-display font-bold mb-4">Популярні Ролі</h2>
-                <div class="w-20 h-1 bg-salmon mx-auto rounded-full"></div>
+            <div class="text-center mb-16 fade-in-up">
+                <h2 class="font-serif text-4xl md:text-5xl text-gray-900 mb-4">Menu Selection</h2>
+                <div class="w-24 h-1 bg-gold mx-auto"></div>
             </div>
 
-            <!-- Сітка товарів -->
-            <div id="menu-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <!-- Картки будуть згенеровані через JS -->
+            <!-- Categories -->
+            <div class="flex flex-wrap justify-center gap-4 mb-16 fade-in-up" style="animation-delay: 0.1s;">
+                <template x-for="cat in translations[lang].menuCategories">
+                    <button @click="selectedCategory = cat" 
+                            :class="selectedCategory === cat ? 'bg-gold text-white' : 'bg-gray-200 hover:bg-gray-300 text-gray-600'"
+                            class="px-6 py-3 rounded-full font-medium transition-all duration-300 uppercase tracking-wider text-sm">
+                        <span x-text="cat"></span>
+                    </button>
+                </template>
             </div>
+
+            <!-- Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-10">
+                
+                <!-- Product Card Template (Repeater logic handled by Alpine template syntax) -->
+                <template x-for="(product, index) in filteredProducts" :key="index">
+                    
+                    <div class="group sushi-card relative bg-white p-4 rounded-xl border border-transparent transition-all duration-500 cursor-pointer flex flex-col h-[420px] overflow-hidden"
+                         :style="'animation: fadeInUp 0.6s ease-out ' + (index * 0.1) + 's backwards;'">
+                        
+                        <!-- Image Container -->
+                        <div class="h-56 w-full overflow-hidden rounded-t-lg relative bg-gray-200 mb-4" 
+                             :style="'background-image: url(./images/' + product.image + '.jpg); background-size: cover; background-position: center;'">
+                            
+                            <!-- Overlay Gradient on Hover -->
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end justify-center pb-4">
+                                <span class="text-white font-serif italic text-lg">Signature Dish</span>
+                            </div>
+                            
+                            <!-- Quick Add Button Overlay -->
+                            <button @click.stop="addCartItem(product)" 
+                                    class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur text-black py-2 rounded shadow-sm hover:bg-gold hover:text-white transition-colors duration-300 text-xs font-bold uppercase tracking-wide opacity-0 group-hover:opacity-100 transform translate-y-4 group-hover:translate-y-0 transition-all duration-300">
+                                {{ translations[lang].addToCart }}
+                            </button>
+                        </div>
+
+                        <!-- Content -->
+                        <div class="flex justify-between items-start mt-auto relative z-10">
+                            <div>
+                                <h3 class="font-serif text-xl font-bold text-gray-900 leading-tight" x-text="product.name"></h3>
+                                <p class="text-xs text-gray-400 uppercase tracking-wide mt-1" x-text="product.category.split(',')[0] + ' | Premium Quality'"></p>
+                            </div>
+                            <!-- Price -->
+                            <div class="font-serif text-xl text-gold font-medium">
+                                zł <span x-text="product.price"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                </template>
+
+            </div>
+            
+            <div class="text-center mt-20 opacity-50 text-xs uppercase tracking-widest" x-data="{ showMsg: false }" 
+                 @mouseenter="showMsg = true" @mouseleave="showMsg = false">
+                Mouse over cards to order
+            </div>
+
         </div>
     </section>
 
-    <!-- Секція про нас (About) -->
-    <section id="about" class="py-24 bg-cardbg border-t border-gray-800">
-        <div class="container mx-auto px-6 flex flex-col md:flex-row items-center gap-16">
-            <div class="w-full md:w-1/2">
-                <img src="https://images.unsplash.com/photo-1534349762213-e99d8e4a300c?q=80&w=2070&auto=format&fit=crop" 
-                     alt="Sushi Chef" 
-                     class="rounded-3xl shadow-2xl border-4 border-gray-800 rotate-2 hover:rotate-0 transition-transform duration-500">
+    <!-- ========================================== -->
+    <!-- PREMIUM CART (SIDEBAR) -->
+    <!-- ========================================== -->
+    <div x-data="{ open: false, cart: [], products: [
+        { id: 1, name: 'Nigiri Salmon', category: 'Nigiri', price: 24, image: 'nigiri1' },
+        { id: 2, name: 'Ebi Roll (Shrimp)', category: 'Maki/Rolls', price: 38, image: 'ebiten' },
+        { id: 3, name: 'Tempura Set', category: 'Setty', price: 45, image: 'tempura' },
+        { id: 4, name: 'Veggie Roll (Wakame)', category: 'Maki/Rolls', price: 28, image: 'wakame' },
+        { id: 5, name: 'Ramen Zupa', category: 'Ramen', price: 35, image: 'ramen-zupa' },
+        { id: 6, name: 'Oyako Maki (Chicken)', category: 'Setty', price: 42, image: 'oyakomaki' },
+        { id: 7, name: 'Sashimi Platter', category: 'Sets', price: 85, image: 'sashimi' },
+        { id: 8, name: 'Tataki Sake', category: 'Appetizers', price: 30, image: 'sake-tataki' }
+    ]}">
+
+    <div class="fixed inset-0 z-50 hidden" x-show="open" 
+         x-transition:enter="transition-opacity ease-linear duration-300" 
+         x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+         x-transition:leave="transition-opacity ease-linear duration-300"
+         x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+    </div>
+
+    <!-- Cart Panel -->
+    <div x-show="cartOpen" 
+         class="fixed inset-y-0 right-0 z-50 w-full max-w-md bg-white shadow-2xl transform transition-transform duration-300 ease-in-out"
+         :class="cartOpen ? 'translate-x-0' : 'translate-x-full'"
+         x-cloak>
+        
+        <div class="flex flex-col h-full">
+            <!-- Header -->
+            <div class="flex items-center justify-between px-6 py-5 border-b border-gray-100 bg-gold/5">
+                <h2 class="font-serif text-2xl font-bold text-gray-900">Your Selection</h2>
+                <button @click="cartOpen = false" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-600">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
             </div>
-            <div class="w-full md:w-1/2">
-                <h3 class="text-salmon font-bold uppercase tracking-wider text-sm mb-2">Наша Філософія</h3>
-                <h2 class="text-4xl font-display font-bold mb-6">Якісні продукти.<br>Шкільні майстри.</h2>
-                <p class="text-textgray leading-relaxed mb-8">
-                    Ми не просто готуємо суші. Ми створюємо мистецтво їжі. Наші ролі варяться з використанням свіжайшої риби та рису японського виробництва. Кожен нарізаний шматочок — це демонстрація точності та естетичної гармонії.
-                </p>
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="flex items-center gap-4">
-                        <span class="text-salmon text-xl font-bold">24/7</span>
-                        <span class="text-textgray text-sm">Доставка</span>
+
+            <!-- Items List -->
+            <div class="flex-1 overflow-y-auto p-6 hide-scroll bg-cream/30">
+                <template x-if="cart.length === 0">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-400 space-y-4 fade-in-up">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-20 h-20 text-gold opacity-50">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.575-12.575M5.363 9.835c.51-.514 1.06-.922 1.64-1.27.568-.336 1.24-.483 1.955-.483h6.83m-12.575 0c-.663.566-1.288 1.222-1.795 1.966a2.33 2.33 0 00-.686 2.114l.675 10.116m11.343-1.71c.51-.514 1.06-.922 1.64-1.27.568-.336 1.24-.483 1.955-.483h6.83m-12.575 0c-.663.566-1.288 1.222-1.795 1.966a2.33 2.33 0 00-.686 2.114l.675 10.116M5.363 9.835c.51-.514 1.06-.922 1.64-1.27" />
+                        </svg>
+                        <p class="font-serif italic">{{ translations[lang].emptyCart }}</p>
                     </div>
-                    <div class="flex items-center gap-4">
-                        <span class="text-salmon text-xl font-bold">100%</span>
-                        <span class="text-textgray text-sm">Свіжість</span>
-                    </div>
+                </template>
+
+                <!-- Items -->
+                <ul class="space-y-6">
+                    <template x-for="(item, index) in cart" :key="item.id">
+                        <li class="flex gap-4 bg-white p-4 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300">
+                            <!-- Image small -->
+                            <div class="w-20 h-20 rounded-md overflow-hidden flex-shrink-0 bg-gray-100" 
+                                 :style="'background-image: url(./images/' + item.image + '.jpg); background-size: cover;'">
+                            </div>
+                            
+                            <!-- Details -->
+                            <div class="flex-1 flex flex-col justify-between">
+                                <div>
+                                    <h4 class="font-serif font-bold text-gray-800 text-lg leading-tight" x-text="item.name"></h4>
+                                    <p class="text-xs text-gold uppercase tracking-wide mt-1">Premium Gold Series</p>
+                                    <p class="text-sm text-gray-500 mt-2">zł <span x-text="item.price * item.qty"></span></p>
+                                </div>
+
+                                <!-- Qty Controls -->
+                                <div class="flex items-center gap-3 mt-2">
+                                    <button @click="decreaseQty(index)" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gold hover:text-white hover:border-gold transition-all">-</button>
+                                    <span class="text-sm font-bold w-4 text-center">{{ item.qty }}</span>
+                                    <button @click="increaseQty(index)" class="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gold hover:text-white hover:border-gold transition-all">+</button>
+                                </div>
+                            </div>
+
+                            <!-- Remove Button -->
+                            <button @click="removeCartItem(index)" class="text-gray-400 hover:text-red-500 p-2 transition-colors">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.33 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+                            </button>
+                        </li>
+                    </template>
+                </ul>
+            </div>
+
+            <!-- Footer -->
+            <div class="p-6 border-t border-gray-100 bg-white">
+                <div class="flex justify-between items-center mb-4 font-serif text-2xl">
+                    <span>Total</span>
+                    <span class="text-gold font-bold" x-text="'zł ' + cartTotal"></span>
                 </div>
+                <button @click="alert('Checkout Logic Placeholder: Processing Order...')" 
+                        :class="cart.length === 0 ? 'bg-gray-300 cursor-not-allowed' : ''"
+                        class="w-full btn-gold py-4 rounded-lg font-serif text-white text-lg shadow-lg tracking-wide disabled:bg-gray-400 disabled:cursor-not-allowed transition-all transform active:scale-95">
+                    {{ translations[lang].checkoutBtn }}
+                </button>
             </div>
         </div>
-    </section>
+    </div>
 
-    <!-- ПІДВАР (Footer) -->
-    <footer class="bg-black py-12 border-t border-gray-900">
-        <div class="container mx-auto px-6 text-center">
-            <a href="#" class="text-2xl font-display font-bold tracking-tighter text-white mb-4 block">
-                Sushi <span class="text-salmon">Vibe</span>
-            </a>
-            <p class="text-gray-600 text-sm">&copy; 2023 Sushi Vibe. Всі права захищено.</p>
+    <!-- ========================================== -->
+    <!-- FOOTER / CONTACT -->
+    <!-- ========================================== -->
+    <footer class="bg-gray-900 text-white pt-16 pb-8 rounded-t-[3rem] mt-20 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold/50 via-white/50 to-gold/50"></div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left mb-12">
+                
+                <!-- Brand -->
+                <div>
+                    <h2 class="font-serif text-4xl italic text-gold mb-4">Księstwo</h2>
+                    <p class="text-gray-400 leading-relaxed max-w-xs mx-auto md:mx-0">
+                        Premium delivery of the finest sushi to your doorstep. Experience luxury in every bite.
+                    </p>
+                </div>
+
+                <!-- Links / Map -->
+                <div class="flex flex-col items-center md:items-start space-y-4">
+                     <!-- Map Icon Placeholder -->
+                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-2 hover:bg-gold transition-colors cursor-pointer">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white hover:text-black">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                        </svg>
+                    </div>
+                    <p class="font-serif text-xl">Visit Our Location</p>
+                </div>
+
+                <!-- Phone -->
+                <div class="flex flex-col items-center md:items-start space-y-4">
+                     <!-- Phone Icon Placeholder -->
+                    <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-2 hover:bg-gold transition-colors cursor-pointer">
+                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-white hover:text-black">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.953 7.142 15.442 15.75 15.442 8.608 0 15.75-7.489 15.75-16.391 0-8.858-7.142-16.282-15.75-16.282z" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 11.25h3.01c.026-.476.093-.953.172-1.425a18.08 18.08 0 00-.416-3.333" />
+                        </svg>
+                    </div>
+                    <p class="font-serif text-xl">+48 123 456 789</p>
+                </div>
+
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+                <!-- Instagram Placeholder -->
+                <div class="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center hover:bg-gold transition-colors cursor-pointer group">
+                    <span class="text-xs font-bold text-gray-300 group-hover:text-black uppercase">IG</span>
+                     <!-- Placeholder for image -->
+                     <img src="./images/instagram.png" alt="Instagram" class="hidden" onerror="this.parentElement.innerText = '@ksiestwo_official'">
+                </div>
+                
+                <p class="text-gray-500 text-sm">&copy; 2023 Księstwo Sushi. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
-    <!-- ШІРКОВНИЙ КОШИК (Cart Drawer) -->
-    <div id="cart-overlay" onclick="toggleCart()" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[60] transition-opacity duration-300 opacity-0 pointer-events-none"></div>
-
-    <!-- ПАНЕЛЬ КОШИКА -->
-    <div id="cart-panel" class="fixed top-0 right-0 h-full w-full max-w-md bg-cardbg border-l border-gray-800 z-[70] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-        
-        <!-- Виправлення кошика -->
-        <div class="p-6 border-b border-gray-800 flex justify-between items-center bg-cardbg z-10">
-            <h2 class="text-xl font-bold font-display text-white flex items-center gap-3">
-                <span class="w-2 h-8 bg-salmon rounded-full"></span>
-                Кошик
-            </h2>
-            <button onclick="toggleCart()" class="p-2 hover:bg-gray-800 rounded-full transition-colors text-white">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        <!-- Список товарів -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-4" id="cart-items-container">
-            <!-- Сюди JS додасть товари -->
-        </div>
-
-        <!-- Підсумки та кнопка оплати -->
-        <div class="p-6 border-t border-gray-800 bg-cardbg z-10">
-            <div class="flex justify-between items-center mb-4 text-lg font-bold">
-                <span class="text-white">Всього:</span>
-                <span id="cart-total" class="text-salmon">0 ₴</span>
-            </div>
-
-            <!-- Кнопка оформлення -->
-            <button onclick="checkout()" id="checkout-btn" 
-                    disabled 
-                    class="w-full py-4 bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold rounded-xl shadow-lg transform active:scale-95 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2 group hover:brightness-110">
-                
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 group-hover:animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                Оформити замовлення
-            </button>
-            
-            <p class="text-center text-gray-600 text-xs mt-3">
-                Замовлення підтверджуються миттєво
-            </p>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНЕ ВІКНО ПОДЯКИ (Success Modal) -->
-    <div id="success-modal" class="fixed inset-0 z-[100] flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 modal-bg">
-        <div class="bg-cardbg p-8 rounded-2xl max-w-sm w-full border border-gray-800 shadow-2xl text-center transform scale-90 transition-transform duration-300" id="modal-content">
-            
-            <!-- Іконка галочки -->
-            <div class="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                </svg>
-            </div>
-            
-            <h3 class="text-2xl font-bold text-white mb-2">Успішно!</h3>
-            <p class="text-textgray mb-6">Ваше замовлення приймається. Наш кур'єр вже на дорозі.</p>
-            
-            <button onclick="closeSuccessModal()" class="px-8 py-3 bg-white text-darkbg font-bold rounded-full hover:bg-salmon hover:text-white transition-all">
-                Чудово
-            </button>
-        </div>
-    </div>
-
-    <!-- ЛОГІКА (JavaScript) -->
+    <!-- Alpine Logic Implementation -->
     <script>
-        // --- 1. Дані про товари ---
-        const products = [
-            {
-                id: 1,
-                name: "Philadelphia",
-                description: "Классика жанру: лосось, сливовий соус, сир моцарела.",
-                price: 280,
-                image: "https://images.unsplash.com/photo-1579584425262-60ff50c3199e?q=80&w=400"
-            },
-            {
-                id: 2,
-                name: "California",
-                description: "Креветки, авокадо, рисові боби, майонез з крабом.",
-                price: 250,
-                image: "https://images.unsplash.com/photo-1563805047-661a48f8697b?q=80&w=400"
-            },
-            {
-                id: 3,
-                name: "Дракон",
-                description: "Ажурний рол з лососем та креветками, завернутий у огурець.",
-                price: 320,
-                image: "https://images.unsplash.com/photo-1617196034416-18e65c5a2e98?q=80&w=400"
-            }
-        ];
+      document.addEventListener('alpine:init', () => {
+        // The data is handled within the x-data attribute above, 
+        // but we need to make the products list available globally if needed for filtering logic outside scope
+        console.log('Księstwo Engine Initialized');
+      });
 
-        // Кошик (стан)
-        let cart = {}; 
-        let total = 0;
-
-        // --- 2. Ініціалізація сторінки ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderMenu();
-            
-            // Скрол ефект для шапки
-            window.addEventListener('scroll', () => {
-                const header = document.querySelector('header');
-                if (window.scrollY > 50) {
-                    header.classList.add('bg-darkbg', 'shadow-lg');
-                    header.classList.remove('bg-transparent');
-                } else {
-                    header.classList.add('bg-transparent', 'shadow-none');
-                    header.classList.remove('bg-darkbg', 'shadow-lg');
-                }
-            });
-        });
-
-        // --- 3. Рендеринг меню (Вивід карток) ---
-        function renderMenu() {
-            const grid = document.getElementById('menu-grid');
-            
-            products.forEach(product => {
-                const card = document.createElement('div');
-                card.className = 'sushi-card bg-cardbg rounded-3xl p-6 border border-gray-800 overflow-hidden relative';
-                
-                card.innerHTML = `
-                    <div class="h-56 mb-6 relative overflow-hidden rounded-2xl group">
-                        <img src="${product.image}" alt="${product.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-90">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                        <!-- Тег популярності -->
-                        <span class="absolute top-4 left-4 px-3 py-1 bg-salmon/20 backdrop-blur text-xs font-bold rounded-full border border-salmon/30">POPULAR</span>
-                    </div>
-                    
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="text-xl font-bold text-white group-hover:text-salmon transition-colors">${product.name}</h3>
-                        <span class="text-gray-400 font-mono">${product.price} ₴</span>
-                    </div>
-                    
-                    <p class="text-textgray text-sm mb-6 line-clamp-2">${product.description}</p>
-                    
-                    <button onclick="addToCart(${product.id})" 
-                            id="btn-${product.id}" 
-                            class="add-btn w-full py-3 bg-white/5 hover:bg-salmon hover:text-white text-white font-medium rounded-xl border border-transparent hover:border-salmon transition-all duration-300">
-                        Додати +
-                    </button>
-                `;
-                
-                grid.appendChild(card);
-            });
-        }
-
-        // --- 4. Логіка кошика (Додавання/Видалення) ---
-        
-        function addToCart(id) {
-            const product = products.find(p => p.id === id);
-            
-            // Якщо товар вже є в кошику - збільшуємо кількість, інакше додаємо новий
-            if (cart[id]) {
-                cart[id].quantity++;
-            } else {
-                cart[id] = { ...product, quantity: 1 };
-            }
-            
-            updateCartUI();
-        }
-
-        function removeFromCart(id) {
-            // Якщо кількість менша за 1 - видаляємо продукт повністю
-            if (cart[id].quantity <= 1) {
-                delete cart[id];
-            } else {
-                cart[id].quantity--;
-            }
-            
-            updateCartUI();
-        }
-
-        // --- 5. Оновлення інтерфейсу кошика (Радіус) ---
-        function updateCartUI() {
-            const container = document.getElementById('cart-items-container');
-            const totalEl = document.getElementById('cart-total');
-            const badge = document.getElementById('cart-badge');
-            
-            // Очищення контейнера
-            container.innerHTML = '';
-
-            let activeProductsCount = 0; // Для перевірки, чи є щось в кошику
-            let currentTotal = 0;
-
-            if (Object.keys(cart).length === 0) {
-                totalEl.innerText = '0 ₴';
-                badge.classList.add('opacity-0');
-                document.getElementById('checkout-btn').disabled = true;
-                return;
-            }
-
-            // Перебираємо товари у кошику
-            for (const [id, item] of Object.entries(cart)) {
-                activeProductsCount++;
-                currentTotal += item.price * item.quantity;
-
-                const itemRow = document.createElement('div');
-                itemRow.className = 'flex items-center gap-4 bg-black/40 p-3 rounded-xl border border-gray-800 hover:border-gray-700 transition-colors';
-                
-                // Картинка (менша)
-                itemRow.innerHTML = `
-                    <div class="relative w-20 h-20 flex-shrink-0 overflow-hidden rounded-lg">
-                        <img src="${item.image}" class="w-full h-full object-cover" alt="">
-                    </div>
-                    
-                    <div class="flex-1 min-w-0">
-                        <h4 class="font-bold text-white truncate text-sm">${item.name}</h4>
-                        <span class="text-salmon font-mono text-xs">${currentTotal === 0 ? item.price : ' '} x ${item.quantity}</span>
-                    </div>
-
-                    <!-- Баланс кнопки видалення -->
-                    <button onclick="removeFromCart(${id})" class="p-2 hover:bg-red-500/10 hover:text-red-500 rounded-full transition-colors text-gray-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 9.586l4.293-4.293a1 1 0 111.414 1.414L11.414 11l4.293 4.293a1 1 0 01-1.414 1.414L10 12.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 11 4.293 6.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-                        </svg>
-                    </button>
-                `;
-                
-                container.appendChild(itemRow);
-            }
-
-            // Встановлення суми (якщо кошик порожній, показуємо 0)
-            if (activeProductsCount > 0) {
-                totalEl.innerText = currentTotal + ' ₴';
-                badge.classList.remove('opacity-0');
-                document.getElementById('checkout-btn').disabled = false;
-            } else {
-                totalEl.innerText = '0 ₴';
-                badge.classList.add('opacity-0');
-                document.getElementById('checkout-btn').disabled = true;
-            }
-        }
-
-        // --- 6. Відкриття/Закриття кошика ---
-        function toggleCart() {
-            const panel = document.getElementById('cart-panel');
-            const overlay = document.getElementById('cart-overlay');
-            
-            if (panel.classList.contains('-translate-x-full')) {
-                // Відкрити
-                panel.classList.remove('-translate-x-full');
-                panel.classList.add('active');
-                
-                // Додаємо таймер для завершення анімації фону, щоб user не клікав по закриттю під час вильоту
-                overlay.style.opacity = '1';
-                overlay.classList.remove('pointer-events-none');
-            } else {
-                // Закрити
-                panel.classList.add('-translate-x-full');
-                panel.classList.remove('active');
-                
-                setTimeout(() => {
-                    overlay.style.opacity = '0';
-                    overlay.classList.add('pointer-events-none');
-                }, 300);
-            }
-        }
-
-        // --- 7. Оформлення замовлення (Checkout) ---
-        function checkout() {
-            if (!document.getElementById('checkout-btn').disabled) {
-                // Відкриємо модалку з подякою
-                const modal = document.getElementById('success-modal');
-                const content = document.getElementById('modal-content');
-
-                modal.style.opacity = '1';
-                modal.classList.remove('pointer-events-none');
-                
-                // Небольша заставка для анімації
-                setTimeout(() => {
-                    content.classList.remove('scale-90');
-                    content.classList.add('scale-100');
-                }, 50);
-
-                // Очищення кошика після "замовлення"
-                cart = {};
-                updateCartUI();
-            }
-        }
-
-        function closeSuccessModal() {
-            const modal = document.getElementById('success-modal');
-            const content = document.getElementById('modal-content');
-            
-            content.classList.remove('scale-100');
-            content.classList.add('scale-90');
-            
-            setTimeout(() => {
-                modal.style.opacity = '0';
-                modal.classList.add('pointer-events-none');
-            }, 300);
-        }
-
+      // Handle Image Fallbacks if local files fail (Optional safeguard)
+      const handleError = function(e) {
+          e.target.style.opacity = "0.5";
+      };
     </script>
+
+  </div>
 </body>
 </html>
