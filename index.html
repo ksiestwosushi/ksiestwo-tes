@@ -1,494 +1,53 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Księstwo Sushi | Kulinarny Diament</title>
-  
-  <!-- Google Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap" rel="stylesheet">
-  
-  <!-- Tailwind CSS -->
+  <title>ChocoLux</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            gold: '#D4AF37',
-            ink: '#0A0A0A'
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
-          }
-        }
-      }
-    }
-  </script>
-
-  <!-- Custom CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
   <style>
-    body {
-      background-color: #FFFFFF;
-      color: #0A0A0A;
-      scroll-behavior: smooth;
-    }
-
-    .gold-gradient-text {
-      background: linear-gradient(to right, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .bg-stone-texture {
-      background-color: #0A0A0A;
-      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
-    }
-
-    .bg-wood-texture {
-      background-color: #1A0B08;
-      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.1 0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.08'/%3E%3C/svg%3E");
-    }
-
-    .gold-line {
-      height: 1px;
-      background: linear-gradient(to right, transparent, #D4AF37, transparent);
-    }
-
-    /* Language Toggle Logic */
-    body.lang-pl-active .lang-en { display: none !important; }
-    body.lang-en-active .lang-pl { display: none !important; }
-
-    /* Fade In Animation */
-    .fade-in-section {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 1.2s cubic-bezier(0.25, 0.1, 0.25, 1), transform 1.2s cubic-bezier(0.25, 0.1, 0.25, 1);
-      will-change: opacity, visibility;
-    }
-    .fade-in-section.is-visible {
-      opacity: 1;
-      transform: none;
-    }
+    body { font-family: 'Inter', sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
   </style>
 </head>
-<body class="lang-pl-active antialiased selection:bg-gold selection:text-white">
-
-  <!-- Navigation -->
-  <nav id="navbar" class="fixed w-full z-50 transition-all duration-700 bg-transparent py-8">
-    <div class="max-w-7xl mx-auto px-8 flex justify-between items-center">
-      <div class="w-20"></div> <!-- Spacer -->
-      
-      <span class="font-serif text-2xl md:text-3xl tracking-[0.2em] uppercase text-ink">
-        Księstwo <span class="text-gold">Sushi</span>
-      </span>
-
-      <div class="w-20 flex justify-end gap-4 text-sm font-medium tracking-widest">
-        <button id="btn-pl" onclick="setLang('PL')" class="text-gold transition-colors duration-300">PL</button>
-        <span class="text-gray-300">|</span>
-        <button id="btn-en" onclick="setLang('EN')" class="text-gray-400 hover:text-ink transition-colors duration-300">EN</button>
-      </div>
-    </div>
+<body class="bg-stone-50 text-stone-900">
+  <nav class="flex items-center justify-between px-8 py-6">
+    <h1 class="text-2xl font-bold tracking-tight">ChocoLux</h1>
+    <button class="flex items-center gap-2 bg-stone-900 text-white px-4 py-2 rounded-full text-sm">
+      Cart (0)
+    </button>
   </nav>
-
-  <!-- Hero Section -->
-  <section class="relative h-screen flex flex-col items-center justify-center overflow-hidden bg-white">
-    <div class="absolute inset-0 z-0 bg-white">
-      <div class="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_center,rgba(212,175,55,0.15)_0%,transparent_70%)]"></div>
-    </div>
-
-    <div class="relative z-10 text-center px-4 flex flex-col items-center mt-20 max-w-4xl mx-auto fade-in-section is-visible">
-      <h1 class="font-serif text-5xl md:text-7xl lg:text-8xl text-ink mb-8 leading-tight">
-        Księstwo <span class="italic gold-gradient-text">Sushi</span>
-      </h1>
-      
-      <p class="lang-pl text-gray-400 font-serif italic text-lg md:text-xl mb-24 leading-relaxed px-8">
-        [ Na tle białego marmuru i masywnej dębowej deski spoczywa idealny kawałek nigiri, oprószony płatkami czystego złota, skąpany w ciepłym, kameralnym świetle. ]
-      </p>
-      <p class="lang-en text-gray-400 font-serif italic text-lg md:text-xl mb-24 leading-relaxed px-8">
-        [ Against the backdrop of white marble and a massive oak board rests a perfect piece of nigiri, dusted with flakes of pure gold, bathed in warm, intimate light. ]
-      </p>
-
-      <a href="#menu" class="group flex flex-col items-center gap-6 text-ink hover:text-gold transition-colors duration-500">
-        <span class="lang-pl uppercase tracking-[0.2em] text-xs font-medium">Wejdź do Księstwa</span>
-        <span class="lang-en uppercase tracking-[0.2em] text-xs font-medium">Enter the Principality</span>
-        <div class="w-[1px] h-12 bg-gray-300 group-hover:bg-gold transition-colors duration-500 overflow-hidden relative">
-          <div class="absolute top-0 left-0 w-full h-full bg-gold transform -translate-y-full group-hover:translate-y-0 transition-transform duration-700"></div>
-        </div>
-      </a>
-    </div>
-  </section>
-
-  <!-- Philosophy Section -->
-  <section class="py-32 md:py-48 px-8 bg-stone-texture relative text-white">
-    <div class="max-w-4xl mx-auto text-center fade-in-section">
-      <h2 class="lang-pl font-serif text-3xl md:text-5xl mb-12 text-white">Kulinarny Diament</h2>
-      <h2 class="lang-en font-serif text-3xl md:text-5xl mb-12 text-white">The Culinary Diamond</h2>
-      
-      <div class="gold-line w-24 mx-auto mb-12"></div>
-      
-      <p class="lang-pl text-lg md:text-2xl leading-relaxed text-gray-300 font-light">
-        Tworzenie sushi w Księstwie to praca jubilerska. Każdy ruch noża to hołd dla wielowiekowej tradycji, a każdy składnik to najrzadszy klejnot. Od dzikiego tuńczyka po płatki szczerego złota – łączymy surowość czarnego kamienia, ciepło polerowanego palisandru i nieskazitelną biel, by stworzyć arcydzieło na Twoim talerzu.
-      </p>
-      <p class="lang-en text-lg md:text-2xl leading-relaxed text-gray-300 font-light">
-        Creating sushi in the Principality is jewelry work. Every movement of the knife is a tribute to centuries-old tradition, and every ingredient is the rarest gem. From wild tuna to flakes of pure gold – we combine the rawness of black stone, the warmth of polished rosewood, and flawless white to create a masterpiece on your plate.
-      </p>
-    </div>
-  </section>
-
-  <!-- Gallery Section -->
-  <section id="menu" class="py-32 bg-white">
-    <div class="max-w-7xl mx-auto px-8">
-      <h2 class="lang-pl font-serif text-4xl md:text-6xl text-center mb-32 text-ink fade-in-section">Ekspozycja Smaku</h2>
-      <h2 class="lang-en font-serif text-4xl md:text-6xl text-center mb-32 text-ink fade-in-section">Exposition of Taste</h2>
-
-      <div class="space-y-32 md:space-y-48">
-        
-        <!-- Item 1: Nigiri -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/nigiri1.jpg" alt="Nigiri" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Klejnot Oceanu (Nigiri)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Ocean's Gem (Nigiri)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Delikatność dzikiego łososia spoczywająca na ciepłym ryżu, podana na masywnej dębowej desce, muśnięta 24-karatowym złotem.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">The tenderness of wild salmon resting on warm rice, served on a massive oak board, brushed with 24-karat gold.</p>
-          </div>
-        </div>
-
-        <!-- Item 2: Sashimi -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/sashimi.jpg" alt="Sashimi" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Kryształowa Czystość (Sashimi)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Crystal Purity (Sashimi)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Nieskazitelne cięcia najszlachetniejszych ryb, lśniące na chłodnym, głębokim czarnym kamieniu.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Flawless cuts of the noblest fish, gleaming on cool, deep black stone.</p>
-          </div>
-        </div>
-
-        <!-- Item 3: Ebiten -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/ebiten.jpg" alt="Ebiten" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Złota Korona (Ebiten)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Golden Crown (Ebiten)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Chrupiąca krewetka w złocistej tempurze, kontrastująca z jedwabistym ryżem, podana na ręcznie robionej ceramice.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Crispy shrimp in golden tempura, contrasting with silky rice, served on handmade ceramics.</p>
-          </div>
-        </div>
-
-        <!-- Item 4: Futomaki -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/futomaki.jpg" alt="Futomaki" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Królewska Harmonia (Futomaki)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Royal Harmony (Futomaki)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Bogactwo tekstur zamknięte w perfekcyjnym zwoju, gdzie aksamitne awokado spotyka się z wyrazistym smakiem oceanu.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">A wealth of textures enclosed in a perfect scroll, where velvety avocado meets the distinct taste of the ocean.</p>
-          </div>
-        </div>
-
-        <!-- Item 5: Hosomaki -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/hosomaki.jpg" alt="Hosomaki" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Minimalizm Absolutny (Hosomaki)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Absolute Minimalism (Hosomaki)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Precyzja i prostota. Czysty smak wyselekcjonowanego łososia otulony chrupiącymi algami nori.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Precision and simplicity. The pure taste of selected salmon enveloped in crispy nori seaweed.</p>
-          </div>
-        </div>
-
-        <!-- Item 6: Oyakomaki -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/oyakomaki.jpg" alt="Oyakomaki" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Dynastia Smaku (Oyakomaki)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Dynasty of Taste (Oyakomaki)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Wykwintna kompozycja bez alg, gdzie płatki łososia tworzą koronę dla delikatnego tataru, zwieńczona kawiorem.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">An exquisite composition without seaweed, where salmon petals form a crown for delicate tartare, topped with caviar.</p>
-          </div>
-        </div>
-
-        <!-- Item 7: Ramen -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/ramen-zupa.jpg" alt="Ramen" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Głębia Tradycji (Ramen)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Depth of Tradition (Ramen)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Esencjonalny, wielogodzinny bulion, podawany w masywnej, ciemnej misie, rozgrzewający duszę i ciało.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Essential, multi-hour broth, served in a massive, dark bowl, warming the soul and body.</p>
-          </div>
-        </div>
-
-        <!-- Item 8: Sake Tataki -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/sake-tataki.jpg" alt="Sake Tataki" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Pocałunek Ognia (Sake Tataki)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Kiss of Fire (Sake Tataki)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Łosoś delikatnie opalany żywym płomieniem, uwalniający dymne aromaty, serwowany na polerowanym drewnie.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Salmon delicately seared with an open flame, releasing smoky aromas, served on polished wood.</p>
-          </div>
-        </div>
-
-        <!-- Item 9: Tempura -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/tempura.jpg" alt="Tempura" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Złoty Pył (Tempura)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Golden Dust (Tempura)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Krewetki otulone najdelikatniejszym, koronkowym ciastem, chrupiące niczym poranny szron.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Shrimp enveloped in the most delicate, lace-like batter, crispy like morning frost.</p>
-          </div>
-        </div>
-
-        <!-- Item 10: Wakame -->
-        <div class="flex flex-col md:flex-row-reverse items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/wakame.jpg" alt="Wakame" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Szmaragdowy Las (Wakame)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Emerald Forest (Wakame)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Chrupiące algi morskie o głębokim, szmaragdowym odcieniu, skropione drogocennym olejem sezamowym.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">Crispy seaweed of a deep emerald shade, drizzled with precious sesame oil.</p>
-          </div>
-        </div>
-
-        <!-- Item 11: Zestawy -->
-        <div class="flex flex-col md:flex-row items-center gap-12 md:gap-24 fade-in-section">
-          <div class="w-full md:w-1/2">
-            <div class="relative aspect-[4/5] md:aspect-square overflow-hidden bg-wood-texture group border border-gray-100 shadow-2xl">
-              <img src="images/zestawy.jpg" alt="Zestawy" class="absolute inset-0 w-full h-full object-cover z-10 transition-transform duration-1000 group-hover:scale-105" onerror="this.style.opacity='0'">
-              <div class="absolute inset-0 bg-black/10 z-20 pointer-events-none"></div>
-            </div>
-          </div>
-          <div class="w-full md:w-1/2 flex flex-col justify-center">
-            <h3 class="lang-pl font-serif text-3xl md:text-5xl text-ink mb-8">Książęca Uczta (Omakase)</h3>
-            <h3 class="lang-en font-serif text-3xl md:text-5xl text-ink mb-8">Princely Feast (Omakase)</h3>
-            <div class="gold-line w-16 mb-8"></div>
-            <p class="lang-pl text-gray-500 text-lg md:text-xl leading-relaxed font-light">Monumentalna kompozycja smaków, podana na wielopoziomowej paterze z ciemnego drewna i czarnego kamienia.</p>
-            <p class="lang-en text-gray-500 text-lg md:text-xl leading-relaxed font-light">A monumental composition of flavors, served on a multi-level platter of dark wood and black stone.</p>
-          </div>
-        </div>
-
+  <main class="px-8 py-12">
+    <header class="max-w-3xl mb-16">
+      <h2 class="text-6xl leading-tight mb-6">Indulge in <span class="italic text-amber-700">pure</span> perfection.</h2>
+      <p class="text-xl text-stone-600 mb-8">Artisanal chocolate bars crafted with the finest ethically sourced cocoa.</p>
+      <button class="flex items-center gap-2 text-amber-800 font-semibold border-b-2 border-amber-800 pb-1">
+        Explore Collection
+      </button>
+    </header>
+    <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="group cursor-pointer">
+        <div class="bg-stone-900 h-80 rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow"></div>
+        <h3 class="font-serif text-xl">Velvet Dark</h3>
+        <p class="font-semibold">$12.00</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Secret Collection (Text Only) -->
-  <section class="py-32 bg-[#FAFAFA] border-t border-gray-100">
-    <div class="max-w-6xl mx-auto px-8">
-      <h2 class="lang-pl font-serif text-3xl md:text-5xl text-center mb-24 text-ink italic fade-in-section">Kolekcja Prywatna</h2>
-      <h2 class="lang-en font-serif text-3xl md:text-5xl text-center mb-24 text-ink italic fade-in-section">Private Collection</h2>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
-        <div class="group border-b border-gray-200 pb-8 hover:border-gold transition-colors duration-500 fade-in-section">
-          <h4 class="font-serif text-2xl text-ink mb-4 group-hover:text-gold transition-colors duration-500">O-Toro Supreme</h4>
-          <p class="lang-pl text-gray-500 font-light leading-relaxed text-base">Najtłustsza część brzucha tuńczyka, rozpływająca się w ustach niczym masło, oprószona płatkami 24-karatowego złota.</p>
-          <p class="lang-en text-gray-500 font-light leading-relaxed text-base">The fattiest part of the tuna belly, melting in the mouth like butter, dusted with 24-karat gold flakes.</p>
-        </div>
-        <div class="group border-b border-gray-200 pb-8 hover:border-gold transition-colors duration-500 fade-in-section">
-          <h4 class="font-serif text-2xl text-ink mb-4 group-hover:text-gold transition-colors duration-500">Wagyu A5 Aburi</h4>
-          <p class="lang-pl text-gray-500 font-light leading-relaxed text-base">Marmurkowa wołowina najwyższej klasy, delikatnie opalana żywym ogniem na kamieniu wulkanicznym, podana z truflą.</p>
-          <p class="lang-en text-gray-500 font-light leading-relaxed text-base">Top-class marbled beef, delicately seared with an open flame on volcanic stone, served with truffle.</p>
-        </div>
-        <div class="group border-b border-gray-200 pb-8 hover:border-gold transition-colors duration-500 fade-in-section">
-          <h4 class="font-serif text-2xl text-ink mb-4 group-hover:text-gold transition-colors duration-500">Hokkaido Uni</h4>
-          <p class="lang-pl text-gray-500 font-light leading-relaxed text-base">Kremowa ikra jeżowca z chłodnych wód Hokkaido, serwowana na ciepłym ryżu z kroplą wybornie starzonego sosu sojowego.</p>
-          <p class="lang-en text-gray-500 font-light leading-relaxed text-base">Creamy sea urchin roe from the cold waters of Hokkaido, served on warm rice with a drop of exquisitely aged soy sauce.</p>
-        </div>
-        <div class="group border-b border-gray-200 pb-8 hover:border-gold transition-colors duration-500 fade-in-section">
-          <h4 class="font-serif text-2xl text-ink mb-4 group-hover:text-gold transition-colors duration-500">Hotate Truffle</h4>
-          <p class="lang-pl text-gray-500 font-light leading-relaxed text-base">Słodkie, dzikie przegrzebki z Hokkaido, krojone z jubilerską precyzją, zwieńczone kawiorem z czarnej bieługi.</p>
-          <p class="lang-en text-gray-500 font-light leading-relaxed text-base">Sweet, wild scallops from Hokkaido, sliced with jeweler's precision, crowned with black beluga caviar.</p>
-        </div>
+      <div class="group cursor-pointer">
+        <div class="bg-amber-900 h-80 rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow"></div>
+        <h3 class="font-serif text-xl">Creamy Hazelnut</h3>
+        <p class="font-semibold">$10.50</p>
       </div>
-    </div>
-  </section>
-
-  <!-- Atmosphere / Gallery Section -->
-  <section class="py-32 md:py-48 bg-wood-texture text-white">
-    <div class="max-w-4xl mx-auto px-8 text-center fade-in-section">
-      <h2 class="lang-pl font-serif text-4xl md:text-6xl mb-16 text-white">Galeria Księstwa</h2>
-      <h2 class="lang-en font-serif text-4xl md:text-6xl mb-16 text-white">Gallery of the Principality</h2>
-      
-      <div class="gold-line w-24 mx-auto mb-16"></div>
-      
-      <p class="lang-pl font-serif text-xl md:text-3xl text-gray-300 italic leading-relaxed">
-        "Ręcznie robiona ceramika o surowej fakturze, ciężkie złote sztućce i śnieżnobiała porcelana, ostro kontrastujące z głęboką czernią kamienia i ciepłem polerowanego palisandru. Każda kompozycja to hołd dla estetyki i smaku."
-      </p>
-      <p class="lang-en font-serif text-xl md:text-3xl text-gray-300 italic leading-relaxed">
-        "Artisan ceramics with a raw texture, heavy gold cutlery, and snow-white porcelain, sharply contrasting with the deep black of stone and the warmth of polished rosewood. Every composition is a tribute to aesthetics and taste."
-      </p>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="bg-stone-texture text-white py-32">
-    <div class="max-w-4xl mx-auto px-8 text-center flex flex-col items-center fade-in-section">
-      <h2 class="font-serif text-3xl tracking-[0.2em] uppercase mb-12">
-        Księstwo <span class="text-gold">Sushi</span>
-      </h2>
-      
-      <div class="gold-line w-12 mb-16 opacity-30"></div>
-      
-      <div class="flex flex-col md:flex-row items-center justify-center gap-12 mb-20">
-        <a href="#" class="group flex flex-col items-center gap-4">
-          <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-gold transition-colors duration-500 bg-white/5">
-            <img src="images/instagram.png" alt="Instagram" class="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-500" onerror="this.style.display='none'">
-          </div>
-          <span class="text-xs tracking-widest uppercase text-gray-500 group-hover:text-gold transition-colors duration-500">Instagram</span>
-        </a>
-        
-        <a href="#" class="group flex flex-col items-center gap-4">
-          <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-gold transition-colors duration-500 bg-white/5">
-            <img src="images/phone.png" alt="Phone" class="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-500" onerror="this.style.display='none'">
-          </div>
-          <span class="text-xs tracking-widest uppercase text-gray-500 group-hover:text-gold transition-colors duration-500">Contact</span>
-        </a>
-
-        <a href="#" class="group flex flex-col items-center gap-4">
-          <div class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:border-gold transition-colors duration-500 bg-white/5">
-            <img src="images/google_maps.png" alt="Location" class="w-5 h-5 opacity-70 group-hover:opacity-100 transition-opacity duration-500" onerror="this.style.display='none'">
-          </div>
-          <span class="text-xs tracking-widest uppercase text-gray-500 group-hover:text-gold transition-colors duration-500">Location</span>
-        </a>
+      <div class="group cursor-pointer">
+        <div class="bg-orange-950 h-80 rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow"></div>
+        <h3 class="font-serif text-xl">Sea Salt Caramel</h3>
+        <p class="font-semibold">$11.00</p>
       </div>
-
-      <p class="lang-pl text-gray-400 font-light tracking-widest text-sm uppercase mb-8">
-        Drzwi Księstwa są otwarte dla wybranych.
-      </p>
-      <p class="lang-en text-gray-400 font-light tracking-widest text-sm uppercase mb-8">
-        The doors of the Principality are open to the chosen ones.
-      </p>
-
-      <p class="lang-pl text-gray-600 text-xs tracking-widest uppercase">
-        &copy; 2026 Księstwo Sushi. Sztuka, która nie jest na sprzedaż.
-      </p>
-      <p class="lang-en text-gray-600 text-xs tracking-widest uppercase">
-        &copy; 2026 Księstwo Sushi. Art that is not for sale.
-      </p>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  <script>
-    // Language Toggle
-    function setLang(lang) {
-      if (lang === 'PL') {
-        document.body.classList.add('lang-pl-active');
-        document.body.classList.remove('lang-en-active');
-        document.getElementById('btn-pl').classList.add('text-gold');
-        document.getElementById('btn-pl').classList.remove('text-gray-400', 'hover:text-ink');
-        document.getElementById('btn-en').classList.add('text-gray-400', 'hover:text-ink');
-        document.getElementById('btn-en').classList.remove('text-gold');
-      } else {
-        document.body.classList.add('lang-en-active');
-        document.body.classList.remove('lang-pl-active');
-        document.getElementById('btn-en').classList.add('text-gold');
-        document.getElementById('btn-en').classList.remove('text-gray-400', 'hover:text-ink');
-        document.getElementById('btn-pl').classList.add('text-gray-400', 'hover:text-ink');
-        document.getElementById('btn-pl').classList.remove('text-gold');
-      }
-    }
-
-    // Navbar Scroll Effect
-    window.addEventListener('scroll', () => {
-      const navbar = document.getElementById('navbar');
-      if (window.scrollY > 50) {
-        navbar.classList.add('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
-        navbar.classList.remove('bg-transparent', 'py-8');
-      } else {
-        navbar.classList.add('bg-transparent', 'py-8');
-        navbar.classList.remove('bg-white/95', 'backdrop-blur-md', 'shadow-sm', 'py-4');
-      }
-    });
-
-    // Intersection Observer for Fade-In Animation
-    document.addEventListener("DOMContentLoaded", function() {
-      const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
-      };
-
-      const observer = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('is-visible');
-            observer.unobserve(entry.target);
-          }
-        });
-      }, observerOptions);
-
-      document.querySelectorAll('.fade-in-section').forEach(section => {
-        observer.observe(section);
-      });
-    });
-  </script>
+      <div class="group cursor-pointer">
+        <div class="bg-stone-100 h-80 rounded-2xl mb-4 shadow-lg group-hover:shadow-xl transition-shadow"></div>
+        <h3 class="font-serif text-xl">White Raspberry</h3>
+        <p class="font-semibold">$12.50</p>
+      </div>
+    </section>
+  </main>
 </body>
 </html>
