@@ -98,16 +98,20 @@
         }
     }
 
-    /* MENU ANIMATION FIXED */
+    /* MENU ANIMATION FIXED & SAFARI OPTIMIZED */
     .menu-panel {
       transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
                   height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
                   border-radius 0.5s cubic-bezier(0.25, 1, 0.5, 1);
       transform-origin: top center;
-      will-change: width, height;
+      will-change: width, height, transform; /* Safari optimization */
       box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
       position: relative;
       overflow: hidden;
+      -webkit-transform: translateZ(0); /* Hardware acceleration for Safari */
+      transform: translateZ(0);
+      -webkit-backdrop-filter: blur(12px); /* Safari specific blur */
+      backdrop-filter: blur(12px);
     }
 
     .icon-filter-gold {
@@ -166,7 +170,7 @@
     
     <!-- NAVIGATION (INITIAL SHAPE: PILL TO WIDE CARD) -->
     <div id="menu-container" class="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none">
-      <div id="menu-panel" class="menu-panel bg-ink/95 backdrop-blur-md pointer-events-auto flex flex-col items-center border border-white/5">
+      <div id="menu-panel" class="menu-panel bg-ink/95 pointer-events-auto flex flex-col items-center border border-white/5">
         
         <!-- Collapsed Trigger -->
         <div id="menu-trigger" class="absolute top-0 left-0 w-full h-[50px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-300">
@@ -195,14 +199,14 @@
              </div>
           </div>
 
-          <!-- Footer inside menu -->
-          <div class="mt-4 pt-4 flex justify-between items-center">
-             <div class="flex bg-white/10 rounded-full p-1 gap-1">
+          <!-- Footer inside menu - Fixed for Safari click hitbox -->
+          <div class="mt-auto pt-4 flex justify-between items-center relative z-20 flex-shrink-0">
+             <div class="flex bg-white/10 rounded-full p-1 gap-1 relative z-30">
                 <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">PL</button>
                 <button onclick="switchLang('en')" class="lang-btn-en px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">EN</button>
              </div>
-             <!-- Info modal button kept for accessibility, though content is now also at bottom -->
-             <button onclick="openInfoModal()" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer">!</button>
+             <!-- Info modal button -->
+             <button onclick="openInfoModal()" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer relative z-30">!</button>
           </div>
         </div>
 
@@ -274,7 +278,7 @@
           </div>
 
           <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
-            © 2026 Księstwo Sushi & Ramen.
+            © 2025 Księstwo Sushi & Ramen.
           </div>
       </div>
     </footer>
@@ -363,12 +367,11 @@
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
 
-      // CLICK OUTSIDE LOGIC (Fixed)
+      // CLICK OUTSIDE LOGIC
       document.addEventListener('click', (e) => {
         if(isMenuExpanded) {
             const container = document.getElementById('menu-container');
             const panel = document.getElementById('menu-panel');
-            // Check if click is outside the panel
             if(panel && !panel.contains(e.target) && !trigger.contains(e.target)) {
                 toggleMenu(false);
             }
@@ -387,12 +390,51 @@
         toggleMenu(false);
       });
 
-      // Expose functions to global scope for HTML onclick attributes, but keep data hidden in closure
+      // Кастомная функция очень плавного скролла (Easing)
+      function smoothScrollTo(element, duration) {
+          const targetPosition = element.getBoundingClientRect().top + window.scrollY;
+          const startPosition = window.scrollY;
+          const distance = targetPosition - startPosition;
+          let startTime = null;
+
+          // Функция плавности (easeInOutCubic)
+          function ease(t, b, c, d) {
+              t /= d / 2;
+              if (t < 1) return c / 2 * t * t * t + b;
+              t -= 2;
+              return c / 2 * (t * t * t + 2) + b;
+          }
+
+          function animation(currentTime) {
+              if (startTime === null) startTime = currentTime;
+              const timeElapsed = currentTime - startTime;
+              const run = ease(timeElapsed, startPosition, distance, duration);
+              
+              window.scrollTo(0, run);
+              
+              if (timeElapsed < duration) {
+                  requestAnimationFrame(animation);
+              } else {
+                  window.scrollTo(0, targetPosition); // Выравниваем финальную точку
+              }
+          }
+
+          requestAnimationFrame(animation);
+      }
+
+      // Expose functions to global scope
       window.scrollToSection = function(id) {
           const el = document.getElementById(id);
           if(el) {
-              el.scrollIntoView({ behavior: 'smooth' });
-              if(isMenuExpanded) toggleMenu(false);
+              if(isMenuExpanded) {
+                  toggleMenu(false);
+                  // Небольшая задержка, чтобы меню начало закрываться до начала скролла
+                  setTimeout(() => {
+                      smoothScrollTo(el, 1200); // 1.2 секунды полета
+                  }, 200);
+              } else {
+                  smoothScrollTo(el, 1200);
+              }
           }
       };
 
@@ -465,14 +507,13 @@
       };
     };
 
-function setMenuState(expanded) {
+    function setMenuState(expanded) {
         const panel = document.getElementById('menu-panel');
         const trigger = document.getElementById('menu-trigger');
         const content = document.getElementById('menu-content');
 
         if(expanded) {
-            // Используем min(), чтобы плавно дойти до 500px на ПК или до 90vw на телефонах
-            panel.style.width = 'min(90vw, 500px)'; 
+            panel.style.width = 'min(90vw, 500px)'; // Исправление бага на ПК
             panel.style.height = '500px';
             panel.style.borderRadius = '32px'; 
             
@@ -484,7 +525,6 @@ function setMenuState(expanded) {
         } else {
             panel.style.width = '140px';
             panel.style.height = '50px';
-            // Убрали panel.style.maxWidth = 'none', он здесь больше не нужен
             panel.style.borderRadius = '9999px'; 
             
             trigger.style.opacity = '1';
