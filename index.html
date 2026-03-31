@@ -465,14 +465,14 @@
       };
     };
 
-    function setMenuState(expanded) {
+function setMenuState(expanded) {
         const panel = document.getElementById('menu-panel');
         const trigger = document.getElementById('menu-trigger');
         const content = document.getElementById('menu-content');
 
         if(expanded) {
-            panel.style.width = '90vw'; 
-            panel.style.maxWidth = '500px';
+            // Используем min(), чтобы плавно дойти до 500px на ПК или до 90vw на телефонах
+            panel.style.width = 'min(90vw, 500px)'; 
             panel.style.height = '500px';
             panel.style.borderRadius = '32px'; 
             
@@ -484,7 +484,7 @@
         } else {
             panel.style.width = '140px';
             panel.style.height = '50px';
-            panel.style.maxWidth = 'none';
+            // Убрали panel.style.maxWidth = 'none', он здесь больше не нужен
             panel.style.borderRadius = '9999px'; 
             
             trigger.style.opacity = '1';
