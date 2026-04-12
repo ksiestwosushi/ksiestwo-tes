@@ -20,8 +20,9 @@
           // Оверлей-заглушка для iOS (Safari не дает сделать авторедирект)
           document.addEventListener('DOMContentLoaded', function() {
             var overlay = document.createElement('div');
-            overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0F0F0F;z-index:9999999;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;font-family:"Cinzel", serif;';
-            overlay.innerHTML = '<div style="border: 1px solid #C5A028; padding: 40px 20px; max-width: 400px; background: rgba(0,0,0,0.8);">' +
+            // Добавлено max z-index и box-sizing для надежности
+            overlay.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;background:#0F0F0F;z-index:2147483647;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;text-align:center;font-family:"Cinzel", serif;box-sizing:border-box;';
+            overlay.innerHTML = '<div style="border: 1px solid #C5A028; padding: 40px 20px; max-width: 400px; width: 100%; background: rgba(0,0,0,0.8);">' +
                                 '<h2 style="font-size: 20px; margin-bottom: 20px; color: #ffffff; letter-spacing: 0.1em;">SYSTEM LIMITATION</h2>' +
                                 '<p style="color: #F0EFEA; font-family:\'Rajdhani\', sans-serif; font-size: 18px; line-height: 1.5; margin-bottom: 30px;">Aby strona działała poprawnie, kliknij <b>trzy kropki</b> (⋯) w prawym górnym rogu i wybierz:<br><br><b style="color:#C5A028; letter-spacing: 0.05em; text-transform: uppercase;">Otwórz w przeglądarce</b><br>(Open in system browser)</p>' +
                                 '<div style="font-size: 40px;">↗️</div>' +
@@ -103,7 +104,7 @@
       -moz-user-drag: none;
       -o-user-drag: none;
       user-drag: none;
-      pointer-events: none; /* Prevents right-click on image directly */
+      pointer-events: none;
     }
 
     /* CUSTOM UTILITIES */
@@ -134,13 +135,13 @@
                   height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
                   border-radius 0.5s cubic-bezier(0.25, 1, 0.5, 1);
       transform-origin: top center;
-      will-change: width, height, transform; /* Safari optimization */
+      will-change: width, height, transform;
       box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
       position: relative;
       overflow: hidden;
-      -webkit-transform: translateZ(0); /* Hardware acceleration for Safari */
+      -webkit-transform: translateZ(0);
       transform: translateZ(0);
-      -webkit-backdrop-filter: blur(12px); /* Safari specific blur */
+      -webkit-backdrop-filter: blur(12px);
       backdrop-filter: blur(12px);
     }
 
@@ -334,9 +335,9 @@
       {id:'starters',title:{en:'Starters',pl:'Przystawki'},img:PHOTOS_PATH+'sake-tataki.jpg',desc:{en:'A selection of light and fresh starters.',pl:'Wybór lekkich i świeżych przystawek.'},items:[{name:{en:'Goma Wakame',pl:'Goma Wakame'},price:'27 zł',desc:{en:'seaweed salad',pl:'sałatka z wodorostów'}},{name:{en:'Ebi Ten (3 pcs)',pl:'Ebi Ten (3 szt.)'},price:'36 zł',desc:{en:'shrimp tempura served with ponzu sauce',pl:'krewetki w tempurze z sosem ponzu'}},{name:{en:'Sake Tataki',pl:'Sake Tataki'},price:'60 zł',desc:{en:'salmon tartare.',pl:'tatar z łososia.'}},{name:{en:'Maguro Tataki',pl:'Maguro Tataki'},price:'70 zł',desc:{en:'tuna tartare.',pl:'tatar z tuńczyka.'}}]},
       {id:'soups',title:{en:'Soups',pl:'Zupy'},img:PHOTOS_PATH+'ramen-zupa.jpg',desc:{en:'Traditional Japanese soups, including rich Ramen bowls with various fillings.',pl:'Tradycyjne japońskie zupy, w tym bogate miski Ramenu z różnymi dodatkami.'},items:[{name:{en:'Ramen Chicken',pl:'Ramen Chicken'},price:'60 zł',desc:{en:'flavorful broth, ramen noodle, vegetables, chicken.',pl:'Aromatyczny bulion, makaron ramen, warzywa, kurczak.'}},{name:{en:'Ramen Beef',pl:'Ramen Beef'},price:'65 zł',desc:{en:'flavorful broth, ramen noodle, vegetables, beef.',pl:'Aromatyczny bulion, makaron ramen, warzywa, wołowina.'}},{name:{en:'Seafood Udon',pl:'Seafood Udon'},price:'60 zł',desc:{en:'spicy soup with seafood, vegetables, udon noodles.',pl:'pikantna zupa z owocami morza, warzywami i makaronem udon.'}}]},
       {id:'nigiri',title:{en:'Nigiri (2 pcs)',pl:'Nigiri (2 szt.)'},img:PHOTOS_PATH+'nigiri1.jpg',desc:{en:'Hand-pressed rice topped with a slice of fresh fish.',pl:'Ręcznie formowany ryż z idealnie pokrojonym slajsem świeżej ryby.'},items:[{name:{en:'Sake',pl:'Sake'},price:'30 zł',desc:{en:'salmon',pl:'łosoś'}},{name:{en:'Ohio',pl:'Ohio'},price:'28 zł',desc:{en:'butterfish',pl:'ryba maślana'}},{name:{en:'Maguro',pl:'Maguro'},price:'35 zł',desc:{en:'tuna',pl:'tuńczyk'}},{name:{en:'Unagi',pl:'Unagi'},price:'35 zł',desc:{en:'eel',pl:'węgorz'}},{name:{en:'Hotate',pl:'Hotate'},price:'36 zł',desc:{en:'scallops',pl:'małże św. Jakuba'}},{name:{en:'Tako',pl:'Tako'},price:'35 zł',desc:{en:'octopus',pl:'ośmiornica'}},{name:{en:'Ika',pl:'Ika'},price:'35 zł',desc:{en:'squid',pl:'kalmar'}},{name:{en:'Ebi',pl:'Ebi'},price:'35 zł',desc:{en:'shrimp',pl:'krewetka'}}]},
-      {id:'futomaki',title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},img:PHOTOS_PATH+'futomaki.jpg',desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem na ostro'}},{name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna ryba maślana z mango'}},{name:{en:'Ebi Spicy',pl:'Ebi Spicy'},price:'40 zł',desc:{en:'spicy shrimp',pl:'pikantna krewetka'}},{name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'shrimp tempura',pl:'krewetka w tempurze'}},{name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},{name:{en:'Ika Tempura',pl:'Ika Tempura'},price:'55 zł',desc:{en:'squid tempura',pl:'kalmar w tempurze'}},{name:{en:'Veggie',pl:'Veggie'},price:'50 zł',desc:{en:'vegetables',pl:'warzywa'}}]},
-      {id:'uramaki',title:{en:'Uramaki & Tempura',pl:'Uramaki & Tempura'},img:PHOTOS_PATH+'tempura.jpg',desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},isSplit:true,items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'58 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},{name:{en:'Mango Sake',pl:'Mango Sake'},price:'58 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},{name:{en:'Maguro Orange Pepper',pl:'Maguro Orange Pepper'},price:'60 zł',desc:{en:'tuna with chopped leek',pl:'tuńczyk z siekanym porem'}},{name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'55 zł',desc:{en:'shrimp tempura in soy paper',pl:'krewetka w tempurze w papierze sojowym'}},{name:{en:'Gold California',pl:'Gold California'},price:'55 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},{name:{en:'Rainbow',pl:'Rainbow'},price:'60 zł',desc:{en:'surimi wrapped in fish',pl:'surimi owijane wachlarzem ryb'}},{name:{en:'Ohio Spice Sake',pl:'Ohio Spice Sake'},price:'55 zł',desc:{en:'salmon wrapped in butterfish',pl:'łosoś owijany opalaną maślaną'}},{name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'60 zł',desc:{en:'shrimp tempura wrapped in tuna',pl:'krewetka w tempurze owijana tuńczykiem'}},{name:{en:'Kegon',pl:'Kegon'},price:'60 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany węgorzem'}},{name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'60 zł',desc:{en:'salmon wrapped in seared salmon',pl:'łosoś owijany opalanym łososiem'}},{name:{en:'Tobiko Ohio Ten',pl:'Tobiko Ohio Ten'},price:'62 zł',desc:{en:'butterfish tempura with caviar',pl:'maślana w tempurze z kawiorem'}},{name:{en:'Nashi Sake',pl:'Nashi Sake'},price:'60 zł',desc:{en:'salmon wrapped in pear',pl:'łosoś owijany gruszką'}},{name:{en:'Sake Tataki Ebiten',pl:'Sake Tataki Ebiten'},price:'60 zł',desc:{en:'shrimp tempura with salmon tartare',pl:'krewetka w tempurze z tatarem z łososia'}}],itemsRight:[{name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'55 zł',desc:{en:'salmon',pl:'łosoś'}},{name:{en:'Tempura Ohio',pl:'Tempura Ohio'},price:'55 zł',desc:{en:'butterfish',pl:'maślana'}},{name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'55 zł',desc:{en:'tuna',pl:'tuńczyk'}},{name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'55 zł',desc:{en:'steamed shrimp',pl:'parzona krewetka'}},{name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}]},
-      {id:'oyakomaki',title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},img:PHOTOS_PATH+'oyakomaki.jpg',desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę zamiast nori.'},items:[{name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimp wrapped in salmon',pl:'siekana krewetka owijana w łososia'}},{name:{en:'Sake Ikura',pl:'Sake Ikura'},price:'50 zł',desc:{en:'caviar with salmon wrapped in tuna',pl:'kawior z łososia owijany tuńczykiem'}},{name:{en:'Maguro Sake Tataki',pl:'Maguro Sake Tataki'},price:'48 zł',desc:{en:'chopped salmon wrapped in tuna',pl:'siekany łosoś owijany tuńczykiem'}}]},
+      {id:'futomaki',title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},img:PHOTOS_PATH+'futomaki.jpg',desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem на ostro'}},{name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna ryba maślana z mango'}},{name:{en:'Ebi Spicy',pl:'Ebi Spicy'},price:'40 zł',desc:{en:'spicy shrimp',pl:'pikantna krewetka'}},{name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'shrimp tempura',pl:'krewetka w tempurze'}},{name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},{name:{en:'Ika Tempura',pl:'Ika Tempura'},price:'55 zł',desc:{en:'squid tempura',pl:'kalmar w tempurze'}},{name:{en:'Veggie',pl:'Veggie'},price:'50 zł',desc:{en:'vegetables',pl:'warzywa'}}]},
+      {id:'uramaki',title:{en:'Uramaki & Tempura',pl:'Uramaki & Tempura'},img:PHOTOS_PATH+'tempura.jpg',desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) та chrupiących Uramaki w Tempurze.'},isSplit:true,items:[{name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cream cheese',pl:'łosoś z serkiem philadelphia'}},{name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'58 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},{name:{en:'Mango Sake',pl:'Mango Sake'},price:'58 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},{name:{en:'Maguro Orange Pepper',pl:'Maguro Orange Pepper'},price:'60 zł',desc:{en:'tuna with chopped leek',pl:'tuńczyk z siekanym porem'}},{name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'55 zł',desc:{en:'shrimp tempura in soy paper',pl:'krewetka w tempurze w papierze sojowym'}},{name:{en:'Gold California',pl:'Gold California'},price:'55 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},{name:{en:'Rainbow',pl:'Rainbow'},price:'60 zł',desc:{en:'surimi wrapped in fish',pl:'surimi owijane wachlarzem ryb'}},{name:{en:'Ohio Spice Sake',pl:'Ohio Spice Sake'},price:'55 zł',desc:{en:'salmon wrapped in butterfish',pl:'łosoś owijany opalaną maślaną'}},{name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'60 zł',desc:{en:'shrimp tempura wrapped in tuna',pl:'krewetka w tempurze owijana tuńczykiem'}},{name:{en:'Kegon',pl:'Kegon'},price:'60 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany węgorzem'}},{name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'60 zł',desc:{en:'salmon wrapped in seared salmon',pl:'łosoś owijany opalanym łososiem'}},{name:{en:'Tobiko Ohio Ten',pl:'Tobiko Ohio Ten'},price:'62 zł',desc:{en:'butterfish tempura with caviar',pl:'maślana w tempurze z kawiorem'}},{name:{en:'Nashi Sake',pl:'Nashi Sake'},price:'60 zł',desc:{en:'salmon wrapped in pear',pl:'łosoś owijany gruszką'}},{name:{en:'Sake Tataki Ebiten',pl:'Sake Tataki Ebiten'},price:'60 zł',desc:{en:'shrimp tempura with salmon tartare',pl:'krewetka w tempurze z tatarem z łososia'}}],itemsRight:[{name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'55 zł',desc:{en:'salmon',pl:'łosoś'}},{name:{en:'Tempura Ohio',pl:'Tempura Ohio'},price:'55 zł',desc:{en:'butterfish',pl:'maślana'}},{name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'55 zł',desc:{en:'tuna',pl:'tuńczyk'}},{name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'55 zł',desc:{en:'steamed shrimp',pl:'parzona krewetka'}},{name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}]},
+      {id:'oyakomaki',title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},img:PHOTOS_PATH+'oyakomaki.jpg',desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę замість nori.'},items:[{name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimp wrapped in salmon',pl:'siekana krewetka owijana w łososia'}},{name:{en:'Sake Ikura',pl:'Sake Ikura'},price:'50 zł',desc:{en:'caviar with salmon wrapped in tuna',pl:'kawior z łososia owijany tuńczykiem'}},{name:{en:'Maguro Sake Tataki',pl:'Maguro Sake Tataki'},price:'48 zł',desc:{en:'chopped salmon wrapped in tuna',pl:'siekany łosoś owijany tuńczykiem'}}]},
       {id:'hosomaki',title:{en:'Hosomaki (6 pcs)',pl:'Hosomaki (6 szt.)'},img:PHOTOS_PATH+'hosomaki.jpg',desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},items:[{name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, awokado, oshinko'}},{name:{en:'Fish',pl:'Rybne'},price:'40 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, maślana'}}]},
       {id:'sashimi',title:{en:'Sashimi (9 pcs)',pl:'Sashimi (9 szt.)'},img:PHOTOS_PATH+'sashimi.jpg',desc:{en:'Thinly sliced raw fish and seafood, served without rice.',pl:'Cienko krojone slajsy surowej ryby i owoców morza, podawane bez ryżu.'},items:[{name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'salmon, tuna, butterfish',pl:'łosoś, tuńczyk, maślana'}}]}
     ];
@@ -345,7 +346,7 @@
     let isMenuExpanded = false;
 
     // --- SECURITY PROTOCOLS ---
-    // Anti-Debug Loop (Faster interval to make inspection harder)
+    // Anti-Debug Loop
     setInterval(function(){debugger;}, 500);
 
     document.addEventListener('contextmenu', e => e.preventDefault());
@@ -360,7 +361,7 @@
 
     // INIT
     window.onload = function() {
-      // Intro
+      // FIX: Збільшено час з 1500 до 2500, щоб CSS-анімації встигли програтися до зникнення блоку
       setTimeout(() => {
         document.getElementById('intro').style.opacity = '0';
         setTimeout(() => {
@@ -369,7 +370,7 @@
             langSel.style.pointerEvents = 'auto';
             langSel.style.opacity = '1';
         }, 1000);
-      }, 1500);
+      }, 2500);
 
       document.getElementById('hero-img').src = PHOTOS_PATH + 'zestawy.jpg';
       
@@ -400,14 +401,13 @@
         toggleMenu(false);
       });
 
-      // Кастомная функция очень плавного скролла (Easing)
+      // Кастомная функция очень плавного скролла
       function smoothScrollTo(element, duration) {
           const targetPosition = element.getBoundingClientRect().top + window.scrollY;
           const startPosition = window.scrollY;
           const distance = targetPosition - startPosition;
           let startTime = null;
 
-          // Функция плавности (easeInOutCubic)
           function ease(t, b, c, d) {
               t /= d / 2;
               if (t < 1) return c / 2 * t * t * t + b;
@@ -425,22 +425,20 @@
               if (timeElapsed < duration) {
                   requestAnimationFrame(animation);
               } else {
-                  window.scrollTo(0, targetPosition); // Выравниваем финальную точку
+                  window.scrollTo(0, targetPosition);
               }
           }
 
           requestAnimationFrame(animation);
       }
 
-      // Expose functions to global scope
       window.scrollToSection = function(id) {
           const el = document.getElementById(id);
           if(el) {
               if(isMenuExpanded) {
                   toggleMenu(false);
-                  // Небольшая задержка, чтобы меню начало закрываться до начала скролла
                   setTimeout(() => {
-                      smoothScrollTo(el, 1200); // 1.2 секунды полета
+                      smoothScrollTo(el, 1200);
                   }, 200);
               } else {
                   smoothScrollTo(el, 1200);
@@ -456,7 +454,10 @@
             langSel.style.display = 'none';
             const app = document.getElementById('app');
             app.classList.remove('hidden');
-            requestAnimationFrame(() => app.classList.remove('opacity-0'));
+            // FIX: Додано мікро-затримку (20ms), щоб браузер встиг застосувати видалення 'hidden' перед тим як міняти прозорість
+            setTimeout(() => {
+                app.classList.remove('opacity-0');
+            }, 20);
             renderApp();
           }, 700);
       };
@@ -470,12 +471,12 @@
           const modal = document.getElementById('info-modal');
           const content = document.getElementById('info-modal-content');
           modal.classList.remove('hidden');
-          requestAnimationFrame(() => {
+          // FIX: Аналогічна затримка для плавного відкриття модального вікна
+          setTimeout(() => {
              modal.classList.remove('opacity-0');
-          });
+          }, 20);
       };
       
-      // Блок заглушек для предотвращения ошибок
       window.closeInfoModal = function() {
           const modal = document.getElementById('info-modal');
           modal.classList.add('opacity-0');
