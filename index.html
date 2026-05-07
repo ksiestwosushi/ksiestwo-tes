@@ -162,9 +162,9 @@
   </div>
 
   <!-- MAIN APPLICATION -->
-  <div id="app" class="min-h-screen bg-alabaster transition-opacity duration-1000 opacity-0 relative hidden">
+  <div id="app" class="min-h-screen bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
     
-    <!-- NAVIGATION (INITIAL SHAPE: PILL TO WIDE CARD) -->
+    <!-- NAVIGATION -->
     <div id="menu-container" class="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none">
       <div id="menu-panel" class="menu-panel bg-ink/95 backdrop-blur-md pointer-events-auto flex flex-col items-center border border-white/5">
         
@@ -178,106 +178,100 @@
 
         <!-- Expanded Content -->
         <div id="menu-content" class="w-full h-full pt-[60px] pb-6 px-6 opacity-0 transition-opacity duration-300 flex flex-col pointer-events-none">
-          
-          <!-- Close Button -->
           <button id="close-menu" class="absolute top-4 right-6 text-white/50 hover:text-white text-xl z-50 transition-colors cursor-pointer">&times;</button>
-          
-          <!-- Header inside menu -->
           <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4">
              <div class="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-xs">KS</div>
              <span class="font-cinzel text-white text-lg tracking-widest">KSIĘSTWO</span>
           </div>
-          
           <div class="flex-1 overflow-y-auto no-scrollbar">
-             <!-- List (Grid 2 cols) -->
-             <div id="menu-list" class="grid grid-cols-2 gap-3">
-                <!-- Injected via JS -->
-             </div>
+             <div id="menu-list" class="grid grid-cols-2 gap-3"></div>
           </div>
-
-          <!-- Footer inside menu -->
           <div class="mt-4 pt-4 flex justify-between items-center">
              <div class="flex bg-white/10 rounded-full p-1 gap-1">
                 <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">PL</button>
                 <button onclick="switchLang('en')" class="lang-btn-en px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">EN</button>
              </div>
-             <!-- Info modal button kept for accessibility, though content is now also at bottom -->
              <button onclick="openInfoModal()" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer">!</button>
           </div>
         </div>
-
       </div>
     </div>
 
-    <!-- HERO SECTION -->
-    <div class="h-screen w-full relative flex items-center justify-center overflow-hidden">
-      <div class="absolute inset-0 bg-ink">
-          <!-- Overlay to prevent direct interaction with image -->
-          <div class="absolute inset-0 z-20"></div>
-          <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero">
-      </div>
-      <div class="relative z-30 text-center px-6">
-          <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
-            KSIĘSTWO
-            <span class="block text-gold text-2xl md:text-4xl mt-4 tracking-[0.3em] font-normal border-t border-b border-gold/30 py-4 mx-auto max-w-2xl">
-              SUSHI & RAMEN
-            </span>
-          </h1>
-          <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
-            <!-- Text injected by JS -->
-          </p>
-          <button onclick="scrollToSection('specials')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
-            Explore
-          </button>
-      </div>
-      <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gold/50 text-2xl z-20">↓</div>
+    <!-- SHARED FIXED BACKGROUND (FOR HERO AND CHEF'S SPECIALS) -->
+    <div class="fixed inset-0 z-0 bg-ink pointer-events-none">
+        <div class="absolute inset-0 z-20"></div>
+        <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-transparent via-ink/50 to-ink z-10"></div>
     </div>
 
-    <!-- MAIN CONTENT AREA -->
-    <main id="main-content" class="relative z-10 w-full bg-white">
-      <!-- Sections injected by JS -->
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="bg-ink text-white pt-32 pb-16 px-6">
-      <div class="max-w-4xl mx-auto text-center">
-          <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
-          
-          <div class="grid md:grid-cols-2 gap-12 mb-20 text-left md:text-center font-rajdhani text-gray-400">
-              <div class="flex flex-col md:items-center items-start">
-                <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
-                <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
-                   <div class="w-6 h-6 mt-1 flex-shrink-0">
-                      <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map">
-                   </div>
-                   <div class="text-left">
-                     <p>Krupówki 38A, Zakopane</p>
-                     <p id="footer-country">Poland</p>
-                   </div>
-                </a>
-              </div>
-              <div class="flex flex-col md:items-center items-start">
-                <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
-                <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
-                    <div class="w-6 h-6 flex-shrink-0">
-                        <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone">
-                    </div>
-                    <span>+48 502 525 544</span>
-                </a>
-                <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
-                    <div class="w-6 h-6 flex-shrink-0">
-                        <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram">
-                    </div>
-                    <span>@ksiestwosushi</span>
-                </a>
-              </div>
+    <!-- SCROLLABLE CONTENT -->
+    <div class="relative z-10 w-full flex flex-col">
+      
+      <!-- HERO TEXT -->
+      <div class="h-screen w-full relative flex items-center justify-center overflow-hidden">
+          <div class="relative z-30 text-center px-6">
+              <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
+                KSIĘSTWO
+                <span class="block text-gold text-2xl md:text-4xl mt-4 tracking-[0.3em] font-normal border-t border-b border-gold/30 py-4 mx-auto max-w-2xl">
+                  SUSHI & RAMEN
+                </span>
+              </h1>
+              <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
+                <!-- Text injected by JS -->
+              </p>
+              <button onclick="scrollToSection('specials')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
+                Explore
+              </button>
           </div>
-
-          <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
-            © 2026 Księstwo Sushi & Ramen.
-          </div>
+          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gold/50 text-2xl z-20 cursor-pointer" onclick="scrollToSection('specials')">↓</div>
       </div>
-    </footer>
+
+      <!-- MAIN CONTENT AREA -->
+      <main id="main-content" class="w-full relative z-20">
+        <!-- Sections injected by JS -->
+      </main>
+
+      <!-- FOOTER -->
+      <footer class="bg-ink text-white pt-32 pb-16 px-6 relative z-30">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
+            
+            <div class="grid md:grid-cols-2 gap-12 mb-20 text-left md:text-center font-rajdhani text-gray-400">
+                <div class="flex flex-col md:items-center items-start">
+                  <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
+                  <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
+                     <div class="w-6 h-6 mt-1 flex-shrink-0">
+                        <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map">
+                     </div>
+                     <div class="text-left">
+                       <p>Krupówki 38A, Zakopane</p>
+                       <p id="footer-country">Poland</p>
+                     </div>
+                  </a>
+                </div>
+                <div class="flex flex-col md:items-center items-start">
+                  <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
+                  <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone">
+                      </div>
+                      <span>+48 502 525 544</span>
+                  </a>
+                  <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram">
+                      </div>
+                      <span>@ksiestwosushi</span>
+                  </a>
+                </div>
+            </div>
+
+            <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
+              © 2026 Księstwo Sushi & Ramen.
+            </div>
+        </div>
+      </footer>
+    </div>
   </div>
 
   <!-- ALLERGY INFO MODAL -->
@@ -513,7 +507,6 @@
     let isMenuExpanded = false;
 
     // --- SECURITY PROTOCOLS ---
-    // Anti-Debug Loop (Faster interval to make inspection harder)
     setInterval(function(){debugger;}, 500);
 
     document.addEventListener('contextmenu', e => e.preventDefault());
@@ -545,12 +538,11 @@
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
 
-      // CLICK OUTSIDE LOGIC (Fixed)
+      // CLICK OUTSIDE LOGIC
       document.addEventListener('click', (e) => {
         if(isMenuExpanded) {
             const container = document.getElementById('menu-container');
             const panel = document.getElementById('menu-panel');
-            // Check if click is outside the panel
             if(panel && !panel.contains(e.target) && !trigger.contains(e.target)) {
                 toggleMenu(false);
             }
@@ -569,7 +561,6 @@
         toggleMenu(false);
       });
 
-      // Expose functions to global scope for HTML onclick attributes, but keep data hidden in closure
       window.scrollToSection = function(id) {
           const el = document.getElementById(id);
           if(el) {
@@ -647,13 +638,12 @@
       };
     };
 
-function setMenuState(expanded) {
+    function setMenuState(expanded) {
         const panel = document.getElementById('menu-panel');
         const trigger = document.getElementById('menu-trigger');
         const content = document.getElementById('menu-content');
 
         if(expanded) {
-            // Используем min(), чтобы плавно дойти до 500px на ПК или до 90vw на телефонах
             panel.style.width = 'min(90vw, 500px)'; 
             panel.style.height = '500px';
             panel.style.borderRadius = '32px'; 
@@ -666,7 +656,6 @@ function setMenuState(expanded) {
         } else {
             panel.style.width = '140px';
             panel.style.height = '50px';
-            // Убрали panel.style.maxWidth = 'none', он здесь больше не нужен
             panel.style.borderRadius = '9999px'; 
             
             trigger.style.opacity = '1';
@@ -709,7 +698,10 @@ function setMenuState(expanded) {
         const main = document.getElementById('main-content');
         const sectionsHTML = _0x4f21.map((section, idx) => {
             const isSets = section.id === 'sets';
-            const renderItem = (item) => {
+            const isSpecials = section.id === 'specials';
+            
+            // Helper function do generowania przedmiotu w danym stylu (ciemny dla poleceń szefa, jasny dla reszty)
+            const renderItem = (item, dark = false) => {
                 if(isSets) {
                     return `
                     <div class="border-b border-gray-200 last:border-0">
@@ -737,22 +729,47 @@ function setMenuState(expanded) {
                     </div>`;
                 } else {
                     return `
-                    <div class="py-6 border-b border-gray-100 last:border-0 group hover:bg-gray-50/50 transition-colors px-4 -mx-4 rounded-xl">
+                    <div class="py-6 border-b ${dark ? 'border-white/10 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50/50'} last:border-0 group transition-colors px-4 -mx-4 rounded-xl">
                         <div class="flex justify-between items-baseline gap-4 mb-2">
-                            <h3 class="font-cinzel text-xl text-ink font-extrabold group-hover:text-gold-dark transition-colors tracking-wide">
+                            <h3 class="font-cinzel text-xl ${dark ? 'text-white group-hover:text-gold' : 'text-ink group-hover:text-gold-dark'} font-extrabold transition-colors tracking-wide">
                                 ${item.name[currentLang]}
                             </h3>
-                            <span class="font-rajdhani font-bold text-gold-dark text-lg whitespace-nowrap">
+                            <span class="font-rajdhani font-bold ${dark ? 'text-gold' : 'text-gold-dark'} text-lg whitespace-nowrap">
                                 ${item.price}
                             </span>
                         </div>
-                        <p class="font-rajdhani text-gray-500 text-base leading-relaxed max-w-3xl">
+                        <p class="font-rajdhani ${dark ? 'text-gray-400' : 'text-gray-500'} text-base leading-relaxed max-w-3xl">
                             ${item.desc[currentLang]}
                         </p>
                     </div>`;
                 }
             };
 
+            // Wyjątek z przezroczystym, kinowym tłem dla "Szef kuchni poleca"
+            if (isSpecials) {
+                return `
+                <section id="${section.id}" class="w-full relative z-30 pt-10 pb-32 px-6">
+                    <div class="max-w-4xl mx-auto text-center mb-16">
+                        <div class="flex items-center justify-center gap-4 mb-6">
+                            <div class="h-[1px] w-12 bg-gold/50"></div>
+                            <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em]">01</span>
+                            <div class="h-[1px] w-12 bg-gold/50"></div>
+                        </div>
+                        <h2 class="font-cinzel text-4xl md:text-6xl text-white font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
+                            ${section.title[currentLang]}
+                        </h2>
+                        <p class="font-rajdhani text-lg md:text-xl max-w-2xl mx-auto text-gray-300 font-light">
+                            ${section.desc[currentLang]}
+                        </p>
+                    </div>
+                    <div class="max-w-4xl mx-auto flex flex-col">
+                        ${section.items.map(item => renderItem(item, true)).join('')}
+                    </div>
+                </section>
+                `;
+            }
+
+            // Standardowe białe sekcje od "Zestawy" w dół
             let contentHTML = '';
             if(section.isSplit) {
                 contentHTML = `
@@ -760,18 +777,18 @@ function setMenuState(expanded) {
                     <div>
                         <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.uramaki_title[currentLang]}</h3>
                         <div class="flex flex-col">
-                            ${section.items.map(renderItem).join('')}
+                            ${section.items.map(item => renderItem(item, false)).join('')}
                         </div>
                     </div>
                     <div>
                         <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.tempura_title[currentLang]}</h3>
                         <div class="flex flex-col">
-                            ${section.itemsRight ? section.itemsRight.map(renderItem).join('') : ''}
+                            ${section.itemsRight ? section.itemsRight.map(item => renderItem(item, false)).join('') : ''}
                         </div>
                     </div>
                 </div>`;
             } else {
-                contentHTML = `<div class="flex flex-col">${section.items.map(renderItem).join('')}</div>`;
+                contentHTML = `<div class="flex flex-col">${section.items.map(item => renderItem(item, false)).join('')}</div>`;
             }
 
             return `
@@ -803,8 +820,8 @@ function setMenuState(expanded) {
             `;
         }).join('');
 
-  const infoHTML = `
-          <div class="bg-alabaster border-t border-gray-200 py-16 px-6">
+        const infoHTML = `
+          <div class="bg-alabaster border-t border-gray-200 py-16 px-6 relative z-30">
               <div class="max-w-3xl mx-auto text-center">
                   <h4 class="font-cinzel text-gold-dark text-lg mb-4 tracking-widest uppercase">
                       ${ALLERGIES.title[currentLang]}
