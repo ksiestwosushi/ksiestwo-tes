@@ -226,7 +226,7 @@
           <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
             <!-- Text injected by JS -->
           </p>
-          <button onclick="scrollToSection('sets')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
+          <button onclick="scrollToSection('specials')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
             Explore
           </button>
       </div>
@@ -316,6 +316,24 @@
 
     // MINIFIED DATA TO DETER CASUAL THEFT
     const _0x4f21 = [
+      {
+        id:'specials',
+        title:{en:"Chef's Specials",pl:'Szef Kuchni Poleca'},
+        img:'',
+        desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
+        items:[
+          {
+            name:{en:'Korean spicy noodle',pl:'Koreańskie pikantne noodle'},
+            price:'50 zł',
+            desc:{en:'Chewy potato noodles coated in sweet and spicy sauce.',pl:'Sprężyste kluski ziemniaczane oblepione słodko-ostrym sosem.'}
+          },
+          {
+            name:{en:'Kimchi Jeon',pl:'Kimchi Jeon'},
+            price:'40 zł',
+            desc:{en:'Crispy pan-fried pancake made with fermented kimchi.',pl:'Smażony placek z kiszonych warzyw kimchi.'}
+          }
+        ]
+      },
       {
         id:'sets',
         title:{en:'Sushi Sets',pl:'Zestawy Sushi'},
@@ -758,9 +776,9 @@ function setMenuState(expanded) {
 
             return `
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
-                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden">
+                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
-                    <div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>
+                    ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
                     <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
                     
                     <div class="relative z-30 text-center text-white px-4">
