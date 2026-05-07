@@ -8,10 +8,10 @@
         @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&display=swap');
 
         :root {
-            --bg-color: #FDFBF7; /* Теплый, дорогой белый (цвет слоновой кости) */
+            --bg-color: #FDFBF7; /* Элегантный цвет слоновой кости */
             --gold: #D4AF37; /* Классическое золото */
             --gold-dark: #B5952F;
-            --black: #1A1C20; /* Графитовый черный */
+            --black: #1A1C20; /* Глубокий графитовый черный */
             --text-muted: #5A5A5A;
         }
 
@@ -37,14 +37,10 @@
         }
 
         /* Золотые рамки по углам */
-        .menu-container::before, .menu-container::after {
-            content: ''; position: absolute; width: 40px; height: 40px; border: 2px solid var(--gold);
-        }
-        .menu-container::before { top: 15px; left: 15px; border-right: none; border-bottom: none; }
-        .menu-container::after { bottom: 15px; right: 15px; border-left: none; border-top: none; }
-
         .corner-tr { position: absolute; top: 15px; right: 15px; width: 40px; height: 40px; border: 2px solid var(--gold); border-left: none; border-bottom: none; }
         .corner-bl { position: absolute; bottom: 15px; left: 15px; width: 40px; height: 40px; border: 2px solid var(--gold); border-right: none; border-top: none; }
+        .corner-tl { position: absolute; top: 15px; left: 15px; width: 40px; height: 40px; border: 2px solid var(--gold); border-right: none; border-bottom: none; }
+        .corner-br { position: absolute; bottom: 15px; right: 15px; width: 40px; height: 40px; border: 2px solid var(--gold); border-left: none; border-top: none; }
 
         header {
             text-align: center;
@@ -66,7 +62,7 @@
 
         h1 {
             font-family: 'Cinzel', serif;
-            font-size: 4rem;
+            font-size: 3.5rem;
             color: var(--black);
             margin: 0;
             letter-spacing: 6px;
@@ -187,18 +183,9 @@
             color: var(--text-muted);
         }
 
-        /* Разделитель категорий */
-        .section-divider {
-            text-align: center;
-            color: var(--gold);
-            font-size: 1.5rem;
-            margin: 40px 0;
-            column-span: all;
-        }
-
         @media (max-width: 900px) {
             .menu-grid { column-count: 1; }
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 2.2rem; }
             .menu-container { padding: 40px 20px; }
         }
 
@@ -213,17 +200,19 @@
 <body>
 
 <div class="menu-container">
+    <div class="corner-tl"></div>
     <div class="corner-tr"></div>
     <div class="corner-bl"></div>
+    <div class="corner-br"></div>
 
     <header>
         <h1>Księstwo Góralskie</h1>
-        <p class="subtitle">Menu</p>
+        <p class="subtitle">Karta Napojów / Drinks Menu</p>
     </header>
 
     <div class="menu-grid">
         
-        <!-- ================= KAWY ================= -->
+        <!-- ================= KAWY (ВСЕ 11 ВИДОВ) ================= -->
         <section>
             <h2>Kawy <span>Coffees</span></h2>
             
@@ -258,6 +247,28 @@
             <div class="menu-item"><div class="item-header"><span class="item-name">Pure matcha</span><span class="dots"></span><span class="item-price">35 zł</span></div><div class="item-desc">tradycyjna matcha na wodzie / traditional, prepared with water <span class="item-volume">190 ml</span></div></div>
         </section>
 
+        <!-- ================= SOKI ŚWIEŻE ================= -->
+        <section>
+            <h2>Sok świeżo wyciskany <span>Freshly squeezed juice</span></h2>
+            
+            <div class="menu-item">
+                <div class="item-header"><span class="item-name">Skomponuj swój sok / Compose your own juice</span><span class="dots"></span><span class="item-price">50 zł</span></div>
+                <div class="item-desc">ananasowy, melonowy, pomarańczowy, grejpfrutowy, selerowy, marchwiowy, buraczany, jabłkowy / pineapple, melon, orange, grapefruit, celery, carrot, beetroot, apple <span class="item-volume">250 ml</span></div>
+            </div>
+        </section>
+
+        <!-- ================= NAPOJE ZIMNE ================= -->
+        <section>
+            <h2>Napoje zimne <span>Cold drinks</span></h2>
+            
+            <div class="menu-item"><div class="item-header"><span class="item-name">San Pellegrino (gazowana)</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">sparkling water (butelka) <span class="item-volume">250 ml</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">San Pellegrino (niegazowana)</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">still water (butelka) <span class="item-volume">250 ml</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Pepsi / Pepsi Zero / Mirinda / 7up</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">butelka szklana <span class="item-volume">200 ml</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Schweppes</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">butelka szklana <span class="item-volume">200 ml</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Sok / Juice</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">pomarańczowy, jabłkowy, z czarnej porzeczki / orange, apple, blackcurrant <span class="item-volume">200 ml</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Red Bull</span><span class="dots"></span><span class="item-price">35 zł</span></div><div class="item-desc"><span class="item-volume">250 ml</span></div></div>
+        </section>
+
         <!-- ================= HERBATY ================= -->
         <section>
             <h2>Herbaty <span>Tea</span></h2>
@@ -281,32 +292,6 @@
             <div class="menu-item"><div class="item-header"><span class="item-name">Porcja miodu</span><span class="dots"></span><span class="item-price">3 zł</span></div><div class="item-desc">honey <span class="item-volume">30 ml</span></div></div>
         </section>
 
-        <!-- ================= NAPOJE ZIMNE ================= -->
-        <section>
-            <h2>Napoje zimne <span>Cold drinks</span></h2>
-            
-            <div class="menu-item"><div class="item-header"><span class="item-name">San Pellegrino (gazowana)</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">sparkling water (butelka) <span class="item-volume">250 ml</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">San Pellegrino (niegazowana)</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">still water (butelka) <span class="item-volume">250 ml</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Pepsi / Pepsi Zero / Mirinda / 7up</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">butelka szklana <span class="item-volume">200 ml</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Schweppes</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">butelka szklana <span class="item-volume">200 ml</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Sok / Juice</span><span class="dots"></span><span class="item-price">20 zł</span></div><div class="item-desc">pomarańczowy, jabłkowy, z czarnej porzeczki / orange, apple, blackcurrant <span class="item-volume">200 ml</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Red Bull</span><span class="dots"></span><span class="item-price">35 zł</span></div><div class="item-desc"><span class="item-volume">250 ml</span></div></div>
-        </section>
-
-        <!-- ================= SOKI ŚWIEŻE ================= -->
-        <section>
-            <h2>Sok świeżo wyciskany <span>Freshly squeezed juice</span></h2>
-            
-            <div class="menu-item">
-                <div class="item-header"><span class="item-name">Skomponuj swój sok</span><span class="dots"></span><span class="item-price">50 zł</span></div>
-                <div class="item-desc">ananasowy, melonowy, pomarańczowy, grejpfrutowy, selerowy, marchwiowy, buraczany, jabłkowy <span class="item-volume">250 ml</span></div>
-            </div>
-            <div class="menu-item">
-                <div class="item-header"><span class="item-name">Compose your own juice</span><span class="dots"></span><span class="item-price">50 zł</span></div>
-                <div class="item-desc">pineapple, melon, orange, grapefruit, celery, carrot, beetroot, apple <span class="item-volume">250 ml</span></div>
-            </div>
-        </section>
-
         <!-- ================= DRINKI ================= -->
         <section>
             <h2>Drinki <span>Cocktails</span></h2>
@@ -327,10 +312,9 @@
             <div class="menu-item"><div class="item-header"><span class="item-name">Rose Spritz</span><span class="dots"></span><span class="item-price">49 zł</span></div><div class="item-desc">syrop różany, prosecco 0%, sok z cytryny, mięta, woda gazowana / rose syrup, prosecco 0%, lemon juice, mint, sparkling water</div></div>
         </section>
 
-        <!-- ================= WINA BIAŁE ================= -->
+        <!-- ================= WINA BIAŁE & CZERWONE ================= -->
         <section>
             <h2>Wino białe <span>White wine</span></h2>
-            
             <div class="menu-item">
                 <div class="item-header"><span class="item-name">Pouilly-Fume Cuvee Riquette Chateau Bel-Air 13%</span><span class="dots"></span></div>
                 <div class="sub-price"><span>butelka / bottle</span><span>390 zł</span></div>
@@ -341,12 +325,8 @@
                 <div class="sub-price"><span>butelka / bottle</span><span>390 zł</span></div>
                 <div class="sub-price"><span>kieliszek / glass 125 ml / 20 cl</span><span>65 zł</span></div>
             </div>
-        </section>
 
-        <!-- ================= WINA CZERWONE ================= -->
-        <section>
-            <h2>Wino czerwone <span>Red wine</span></h2>
-            
+            <h2 style="margin-top: 40px;">Wino czerwone <span>Red wine</span></h2>
             <div class="menu-item">
                 <div class="item-header"><span class="item-name">Le Chene du Prince Malbec Cahros 15%</span><span class="dots"></span></div>
                 <div class="sub-price"><span>butelka / bottle</span><span>390 zł</span></div>
@@ -359,10 +339,9 @@
             </div>
         </section>
 
-        <!-- ================= WINA MUSUJĄCE ================= -->
+        <!-- ================= SZAMPANY & WINO MUSUJĄCE ================= -->
         <section>
             <h2>Wino musujące <span>Sparkling wine</span></h2>
-            
             <div class="menu-item">
                 <div class="item-header"><span class="item-name">S. Ven. Prosecco Superiore DOCG Valdobbiadente Extra Dry 11,5%</span><span class="dots"></span></div>
                 <div class="sub-price"><span>butelka / bottle</span><span>350 zł</span></div>
@@ -376,18 +355,14 @@
                 <div class="item-header"><span class="item-name">S. Ven. Prosecco Superiore DOCG Asolo Extra Brut 12%</span><span class="dots"></span></div>
                 <div class="sub-price"><span>butelka / bottle</span><span>350 zł</span></div>
             </div>
-        </section>
 
-        <!-- ================= SZAMPANY ================= -->
-        <section>
-            <h2>Szampany <span>Champagne</span></h2>
-            
+            <h2 style="margin-top: 40px;">Szampany <span>Champagne</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Champagne Rose Grand Cru Rémi Henry 12,5%</span><span class="dots"></span><span class="item-price">700 zł</span></div><div class="item-desc">butelka / bottle</div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Moët & Chandon Ice Imperial 12%</span><span class="dots"></span><span class="item-price">800 zł</span></div><div class="item-desc">butelka / bottle</div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Moët & Chandon Ice Imperial Rose 12%</span><span class="dots"></span><span class="item-price">1200 zł</span></div><div class="item-desc">butelka / bottle</div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Dom Perignon Vintage 2012 12,5%</span><span class="dots"></span><span class="item-price">2800 zł</span></div><div class="item-desc">butelka / bottle</div></div>
             
-            <div class="menu-item" style="margin-top:30px;">
+            <div class="menu-item" style="margin-top:20px;">
                 <div class="item-header"><span class="item-name">Grzaniec Sabała 13%</span><span class="dots"></span><span class="item-price">50 zł</span></div>
                 <div class="item-desc">Coś na rozgrzanie / Something to warm up - mulled wine</div>
             </div>
@@ -400,43 +375,47 @@
             <div class="menu-item"><div class="item-header"><span class="item-name">Crystal Head Aurora 40%</span><span class="dots"></span><span class="item-price">78 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Belwedere 40%</span><span class="dots"></span><span class="item-price">42 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Rum <span>(40 ml / 4 cl)</span></h2>
+            <h2 style="margin-top:30px;">Rum <span>(40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Zacapa 40%</span><span class="dots"></span><span class="item-price">73 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Don Papa 40%</span><span class="dots"></span><span class="item-price">65 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Koniak <span>Cognac (40 ml / 4 cl)</span></h2>
+            <h2 style="margin-top:30px;">Koniak <span>Cognac (40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Hennessy VS 40%</span><span class="dots"></span><span class="item-price">55 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Hennessy VSOP 40%</span><span class="dots"></span><span class="item-price">70 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Vermouth <span>(100 ml / 10 cl)</span></h2>
+            <h2 style="margin-top:30px;">Vermouth <span>(100 ml / 10 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Martini Rubino 18%</span><span class="dots"></span><span class="item-price">45 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Martini Ambrato 18%</span><span class="dots"></span><span class="item-price">45 zł</span></div></div>
         </section>
 
-        <!-- ================= ALKOHOLE MOCNE 2 ================= -->
+        <!-- ================= ALKOHOLE MOCNE 2 & PIWO ================= -->
         <section>
             <h2>Gin <span>(40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Hendrick's 41,4%</span><span class="dots"></span><span class="item-price">55 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Tanqueray London Dry Gin 43,1%</span><span class="dots"></span><span class="item-price">43 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Tequila <span>(40 ml / 4 cl)</span></h2>
+            <h2 style="margin-top:30px;">Tequila <span>(40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Heradura Plata 40%</span><span class="dots"></span><span class="item-price">65 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Heradura Reposado 40%</span><span class="dots"></span><span class="item-price">65 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Burbon & Whisky <span>(40 ml / 4 cl)</span></h2>
+            <h2 style="margin-top:30px;">Burbon & Whisky <span>(40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Jack Daniel's Single Barrel 45%</span><span class="dots"></span><span class="item-price">65 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Jack Daniel's Gentleman 40%</span><span class="dots"></span><span class="item-price">55 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Wild Turkey 101 40%</span><span class="dots"></span><span class="item-price">50 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Glenffidich 15 40%</span><span class="dots"></span><span class="item-price">60 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Macallan 15YO 43%</span><span class="dots"></span><span class="item-price">180 zł</span></div></div>
 
-            <h2 style="margin-top:40px;">Likiery & Aperitif <span>Liqueurs & Aperitif (40 ml / 4 cl)</span></h2>
+            <h2 style="margin-top:30px;">Likiery & Aperitif <span>(40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Minttu 50%</span><span class="dots"></span><span class="item-price">33 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Baileys 17%</span><span class="dots"></span><span class="item-price">33 zł</span></div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Jagermaister 35%</span><span class="dots"></span><span class="item-price">33 zł</span></div></div>
-        </section>
 
-        <!-- ================= REGIONALNE / PIWO ================= -->
+            <h2 style="margin-top:30px;">Piwo <span>Beer</span></h2>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Watra 4,7%</span><span class="dots"></span><span class="item-price">50 zł</span></div><div class="item-desc">Piwo butelkowe / Bottled beer. helles, miodowe, pszeniczne, marcowe <span class="item-volume">330 ml / 33 cl</span></div></div>
+            <div class="menu-item"><div class="item-header"><span class="item-name">Zośka 0,0%</span><span class="dots"></span><span class="item-price">50 zł</span></div><div class="item-desc">Piwo bezalkoholowe / Non-alcoholic beer <span class="item-volume">500 ml / 50 cl</span></div></div>
+        </section>
+        
+        <!-- ================= REGIONALNE NALEWKI ================= -->
         <section>
             <h2>Alkohole regionalne <span>Regional spirits (40 ml / 4 cl)</span></h2>
             <div class="menu-item"><div class="item-header"><span class="item-name">Zakopiańska Furia 32%</span><span class="dots"></span><span class="item-price">30 zł</span></div><div class="item-desc">wiśniowa / cherry</div></div>
@@ -445,10 +424,6 @@
             <div class="menu-item"><div class="item-header"><span class="item-name">Podstępny Góral 28%</span><span class="dots"></span><span class="item-price">30 zł</span></div><div class="item-desc">czarna porzeczka / blackcurrant</div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Dwór Sieraków Palona Śliwowica 52%</span><span class="dots"></span><span class="item-price">72 zł</span></div><div class="item-desc">Chateau Kirwan Cask Finished</div></div>
             <div class="menu-item"><div class="item-header"><span class="item-name">Deska nalewek regionalnych</span><span class="dots"></span><span class="item-price">60 zł</span></div><div class="item-desc">Regional liqueurs board <span class="item-volume">5 szt.-20ml / 5 pc.-2 cl</span></div></div>
-
-            <h2 style="margin-top:40px;">Piwo <span>Beer</span></h2>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Watra 4,7%</span><span class="dots"></span><span class="item-price">50 zł</span></div><div class="item-desc">Piwo butelkowe / Bottled beer. helles, miodowe, pszeniczne, marcowe <span class="item-volume">330 ml / 33 cl</span></div></div>
-            <div class="menu-item"><div class="item-header"><span class="item-name">Zośka 0,0%</span><span class="dots"></span><span class="item-price">50 zł</span></div><div class="item-desc">Piwo bezalkoholowe / Non-alcoholic beer <span class="item-volume">500 ml / 50 cl</span></div></div>
         </section>
 
     </div>
