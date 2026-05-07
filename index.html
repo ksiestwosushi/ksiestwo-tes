@@ -2,10 +2,33 @@
 <html lang="pl" class="scroll-smooth">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0F0F0F" />
   <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
   <title>Księstwo Sushi & Ramen — ROYAL</title>
   
+  <!-- IN-APP BROWSER BYPASS (INSTAGRAM, TIKTOK, FB) -->
+  <script>
+    (function() {
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      var isInstagram = (ua.indexOf('Instagram') > -1);
+      var isFacebook = (ua.indexOf('FBAN') > -1 || ua.indexOf('FBAV') > -1);
+      var isTikTok = (ua.indexOf('TikTok') > -1 || ua.indexOf('ByteLocale') > -1);
+      var isInApp = isInstagram || isFacebook || isTikTok || ua.indexOf('Snapchat') > -1 || ua.indexOf('Line') > -1 || ua.indexOf('Viber') > -1;
+      
+      if (isInApp) {
+         var isAndroid = /android/i.test(ua);
+         if (isAndroid) {
+           // Авто-переброс в Chrome на Android
+           var url = window.location.href.replace(/^https?:\/\//, '');
+           window.location.href = "intent://" + url + "#Intent;scheme=https;package=com.android.chrome;end";
+         }
+         // Ставим флаг для отображения предупреждения
+         document.documentElement.classList.add('is-inapp-browser');
+      }
+    })();
+  </script>
+
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -65,6 +88,13 @@
       -ms-user-select: none;
       user-select: none;
       -webkit-touch-callout: none;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    
+    html.scroll-smooth {
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
     }
     
     img {
@@ -73,7 +103,7 @@
       -moz-user-drag: none;
       -o-user-drag: none;
       user-drag: none;
-      pointer-events: none; /* Prevents right-click on image directly */
+      pointer-events: none;
     }
 
     /* CUSTOM UTILITIES */
@@ -85,6 +115,7 @@
       scrollbar-width: none;
     }
 
+    /* FIX FOR iOS PARALLAX BUG */
     .parallax-bg {
       background-attachment: fixed;
       background-position: center;
@@ -92,7 +123,7 @@
       background-size: cover;
     }
     
-    @media (pointer: coarse) {
+    @media (pointer: coarse), (hover: none) {
         .parallax-bg {
             background-attachment: scroll;
         }
@@ -108,6 +139,8 @@
       box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
       position: relative;
       overflow: hidden;
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
     }
 
     .icon-filter-gold {
@@ -118,6 +151,17 @@
     }
     .group:hover .group-hover\:icon-filter-gold {
       filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
+    }
+
+    /* IN-APP BROWSER OVERLAY */
+    #inapp-warning-overlay {
+      display: none;
+    }
+    html.is-inapp-browser #inapp-warning-overlay {
+      display: flex;
+    }
+    html.is-inapp-browser body > *:not(#inapp-warning-overlay) {
+      display: none !important;
     }
   </style>
 <script type="importmap">
@@ -131,8 +175,19 @@
 </head>
 <body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
+  <!-- IN-APP BROWSER WARNING OVERLAY -->
+  <div id="inapp-warning-overlay" class="fixed inset-0 z-[10000] bg-ink flex-col items-center justify-center p-8 text-center text-white">
+    <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-8">KS</div>
+    <h2 class="font-cinzel text-2xl mb-4 tracking-widest text-gold">Open in Browser</h2>
+    <p class="font-rajdhani text-lg text-gray-300 max-w-md mb-8 leading-relaxed">
+      You are viewing this site inside an app. For the full Cinematic Experience, please tap the menu <strong class="text-white">(...)</strong> in the top right or bottom corner and select <strong class="text-white">"Open in system browser" / "Otwórz w przeglądarce"</strong>.
+    </p>
+    <div class="animate-bounce text-gold text-3xl">↑</div>
+  </div>
+
   <!-- INTRO SCREEN -->
-  <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000">
+  <!-- h-[100dvh] used for perfect height on mobile -->
+  <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-[100dvh]">
     <div class="relative text-center p-8 flex flex-col items-center">
       <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
         KS
@@ -145,7 +200,7 @@
   </div>
 
   <!-- LANGUAGE SELECTION -->
-  <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none">
+  <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none min-h-[100dvh]">
     <div class="relative z-10 text-center p-8 w-full max-w-lg flex flex-col items-center">
        <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KS</div>
        
@@ -162,11 +217,11 @@
   </div>
 
   <!-- MAIN APPLICATION -->
-  <div id="app" class="min-h-screen bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
+  <div id="app" class="min-h-[100dvh] bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
     
     <!-- NAVIGATION -->
-    <div id="menu-container" class="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none">
-      <div id="menu-panel" class="menu-panel bg-ink/95 backdrop-blur-md pointer-events-auto flex flex-col items-center border border-white/5">
+    <div id="menu-container" class="fixed top-6 left-0 w-full z-50 flex justify-center pointer-events-none px-4" style="padding-top: env(safe-area-inset-top);">
+      <div id="menu-panel" class="menu-panel bg-ink/90 pointer-events-auto flex flex-col items-center border border-white/5">
         
         <!-- Collapsed Trigger -->
         <div id="menu-trigger" class="absolute top-0 left-0 w-full h-[50px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-300">
@@ -179,14 +234,14 @@
         <!-- Expanded Content -->
         <div id="menu-content" class="w-full h-full pt-[60px] pb-6 px-6 opacity-0 transition-opacity duration-300 flex flex-col pointer-events-none">
           <button id="close-menu" class="absolute top-4 right-6 text-white/50 hover:text-white text-xl z-50 transition-colors cursor-pointer">&times;</button>
-          <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4">
+          <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4 mt-2">
              <div class="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-xs">KS</div>
              <span class="font-cinzel text-white text-lg tracking-widest">KSIĘSTWO</span>
           </div>
           <div class="flex-1 overflow-y-auto no-scrollbar">
              <div id="menu-list" class="grid grid-cols-2 gap-3"></div>
           </div>
-          <div class="mt-4 pt-4 flex justify-between items-center">
+          <div class="mt-4 pt-4 flex justify-between items-center border-t border-white/10">
              <div class="flex bg-white/10 rounded-full p-1 gap-1">
                 <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">PL</button>
                 <button onclick="switchLang('en')" class="lang-btn-en px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">EN</button>
@@ -197,7 +252,7 @@
       </div>
     </div>
 
-    <!-- SHARED FIXED BACKGROUND (FOR HERO AND CHEF'S SPECIALS) -->
+    <!-- SHARED FIXED BACKGROUND -->
     <div class="fixed inset-0 z-0 bg-ink pointer-events-none">
         <div class="absolute inset-0 z-20"></div>
         <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero Background">
@@ -208,8 +263,9 @@
     <div class="relative z-10 w-full flex flex-col">
       
       <!-- HERO TEXT -->
-      <div class="h-screen w-full relative flex items-center justify-center overflow-hidden">
-          <div class="relative z-30 text-center px-6">
+      <!-- 100dvh instead of 100vh solves the jumping address bar issue on iOS/Android -->
+      <div class="h-[100dvh] w-full relative flex items-center justify-center overflow-hidden">
+          <div class="relative z-30 text-center px-6 mt-10">
               <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
                 KSIĘSTWO
                 <span class="block text-gold text-2xl md:text-4xl mt-4 tracking-[0.3em] font-normal border-t border-b border-gold/30 py-4 mx-auto max-w-2xl">
@@ -232,7 +288,7 @@
       </main>
 
       <!-- FOOTER -->
-      <footer class="bg-ink text-white pt-32 pb-16 px-6 relative z-30">
+      <footer class="bg-ink text-white pt-32 pb-16 px-6 relative z-30" style="padding-bottom: max(4rem, env(safe-area-inset-bottom));">
         <div class="max-w-4xl mx-auto text-center">
             <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
             
@@ -275,7 +331,7 @@
   </div>
 
   <!-- ALLERGY INFO MODAL -->
-  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all hidden opacity-0">
+  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all hidden opacity-0" style="padding-top: env(safe-area-inset-top);">
     <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-300" id="info-modal-content">
       <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-300 hover:text-gold transition-colors leading-none cursor-pointer">&times;</button>
       <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Allergy Information</h2>
@@ -284,13 +340,11 @@
     </div>
   </div>
 
-  <!-- APPLICATION LOGIC - OBFUSCATED DATA STRUCTURE -->
+  <!-- APPLICATION LOGIC -->
   <script>
     (function(){
-    // CONFIG
     const PHOTOS_PATH = './images/';
     
-    // UI TEXT MAP
     const UI_TEXT = {
       hero_subtitle: {en: "Experience the art of Japanese cuisine \n Reimagined for the modern era.", pl: "Poznaj sztukę japońskiej kuchni \n Stworzoną na nowo dla współczesności."},
       explore_btn: {en: "Explore Menu", pl: "Odkryj Menu"},
@@ -304,11 +358,10 @@
 
     const ALLERGIES = {
       title: {en: 'Allergy Information', pl: 'Informacja o alergenach'},
-      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
+      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą могут zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
       service: {en: '', pl: ''}
     };
 
-    // MINIFIED DATA TO DETER CASUAL THEFT
     const _0x4f21 = [
       {
         id:'specials',
@@ -434,7 +487,7 @@
         id:'hosomaki',
         title:{en:'Hosomaki (6 pcs)',pl:'Hosomaki (6 szt.)'},
         img:PHOTOS_PATH+'hosomaki.jpg',
-        desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},
+        desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające один, wyrazisty składnik.'},
         items:[
           {name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, avocado, oshinko'}},
           {name:{en:'Fish',pl:'Rybne'},price:'40 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, maślana'}}
@@ -444,10 +497,10 @@
         id:'futomaki',
         title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},
         img:PHOTOS_PATH+'futomaki.jpg',
-        desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},
+        desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori на zewnątrz.'},
         items:[
           {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
-          {name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem na ostro'}},
+          {name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem на ostro'}},
           {name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna maślana z mango'}},
           {name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'spicy shrimps',pl:'krewetki w tempurze'}},
           {name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},
@@ -458,7 +511,7 @@
         id:'uramaki',
         title:{en:'Uramaki & Tempura',pl:'Uramaki & Tempura'},
         img:PHOTOS_PATH+'tempura.jpg',
-        desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},
+        desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem на zewnątrz) oraz chrupiących Uramaki w Tempurze.'},
         isSplit:true,
         items:[
           {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
@@ -564,7 +617,9 @@
       window.scrollToSection = function(id) {
           const el = document.getElementById(id);
           if(el) {
-              el.scrollIntoView({ behavior: 'smooth' });
+              const yOffset = -80; 
+              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+              window.scrollTo({top: y, behavior: 'smooth'});
               if(isMenuExpanded) toggleMenu(false);
           }
       };
@@ -700,7 +755,6 @@
             const isSets = section.id === 'sets';
             const isSpecials = section.id === 'specials';
             
-            // Helper function do generowania przedmiotu w danym stylu (ciemny dla poleceń szefa, jasny dla reszty)
             const renderItem = (item, dark = false) => {
                 if(isSets) {
                     return `
@@ -745,7 +799,6 @@
                 }
             };
 
-            // Wyjątek z przezroczystym, kinowym tłem dla "Szef kuchni poleca"
             if (isSpecials) {
                 return `
                 <section id="${section.id}" class="w-full relative z-30 pt-10 pb-32 px-6">
@@ -769,7 +822,6 @@
                 `;
             }
 
-            // Standardowe białe sekcje od "Zestawy" w dół
             let contentHTML = '';
             if(section.isSplit) {
                 contentHTML = `
@@ -793,7 +845,7 @@
 
             return `
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
-                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden bg-ink">
+                <div class="w-full h-[60dvh] md:h-[80dvh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
                     ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
                     <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
@@ -806,10 +858,6 @@
                         <p class="font-rajdhani text-lg md:text-2xl max-w-2xl mx-auto text-gray-200 font-light">
                             ${section.desc[currentLang]}
                         </p>
-                        ${section.note ? `
-                        <div class="mt-8 inline-block bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 text-sm font-rajdhani tracking-wide">
-                            ℹ ${section.note[currentLang]}
-                        </div>` : ''}
                     </div>
                 </div>
 
