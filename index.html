@@ -7,24 +7,35 @@
   <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
   <title>Księstwo Sushi & Ramen — ROYAL</title>
   
-  <!-- IN-APP BROWSER BYPASS (INSTAGRAM, TIKTOK, FB) -->
+  <!-- IN-APP BROWSER BYPASS (GOOGLE APP AUTO-OPEN) -->
   <script>
     (function() {
       var ua = navigator.userAgent || navigator.vendor || window.opera;
       var isInstagram = (ua.indexOf('Instagram') > -1);
       var isFacebook = (ua.indexOf('FBAN') > -1 || ua.indexOf('FBAV') > -1);
       var isTikTok = (ua.indexOf('TikTok') > -1 || ua.indexOf('ByteLocale') > -1);
-      var isInApp = isInstagram || isFacebook || isTikTok || ua.indexOf('Snapchat') > -1 || ua.indexOf('Line') > -1 || ua.indexOf('Viber') > -1;
+      var isInApp = isInstagram || isFacebook || isTikTok;
       
       if (isInApp) {
          var isAndroid = /android/i.test(ua);
+         var isIOS = /iPad|iPhone|iPod/.test(ua) && !window.MSStream;
+         var currentUrl = window.location.href;
+         
          if (isAndroid) {
-           // Авто-переброс в Chrome на Android
-           var url = window.location.href.replace(/^https?:\/\//, '');
-           window.location.href = "intent://" + url + "#Intent;scheme=https;package=com.android.chrome;end";
+           // ANDROID: Принудительный редирект в основное приложение Google
+           var cleanUrl = currentUrl.replace(/^https?:\/\//, '');
+           window.location.replace("intent://" + cleanUrl + "#Intent;scheme=https;package=com.google.android.googlequicksearchbox;S.browser_fallback_url=" + encodeURIComponent(currentUrl) + ";end");
+         } else if (isIOS) {
+           // IOS: Попытка открыть приложение Google
+           var googleAppUrl = "googleapp://url?url=" + encodeURIComponent(currentUrl);
+           
+           setTimeout(function() {
+               window.location.href = googleAppUrl;
+           }, 10);
+           
+           // Показываем инструкцию на случай, если Google App не установлен
+           document.documentElement.classList.add('is-inapp-ios');
          }
-         // Ставим флаг для отображения предупреждения
-         document.documentElement.classList.add('is-inapp-browser');
       }
     })();
   </script>
@@ -94,7 +105,7 @@
     
     html.scroll-smooth {
       scroll-behavior: smooth;
-      -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+      -webkit-overflow-scrolling: touch;
     }
     
     img {
@@ -106,7 +117,6 @@
       pointer-events: none;
     }
 
-    /* CUSTOM UTILITIES */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
@@ -115,7 +125,6 @@
       scrollbar-width: none;
     }
 
-    /* FIX FOR iOS PARALLAX BUG */
     .parallax-bg {
       background-attachment: fixed;
       background-position: center;
@@ -129,7 +138,6 @@
         }
     }
 
-    /* MENU ANIMATION FIXED */
     .menu-panel {
       transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
                   height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
@@ -153,16 +161,16 @@
       filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
     }
 
-    /* IN-APP BROWSER OVERLAY */
-    #inapp-warning-overlay {
-      display: none;
+    /* IN-APP BLOCK SCREEN (IOS) */
+    #ios-inapp-warning { display: none; }
+    html.is-inapp-ios #ios-inapp-warning { display: flex; }
+    html.is-inapp-ios body > *:not(#ios-inapp-warning) { display: none !important; }
+    
+    @keyframes pointUpRight {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(10px, -10px); }
     }
-    html.is-inapp-browser #inapp-warning-overlay {
-      display: flex;
-    }
-    html.is-inapp-browser body > *:not(#inapp-warning-overlay) {
-      display: none !important;
-    }
+    .arrow-pointer { animation: pointUpRight 1.5s infinite; }
   </style>
 <script type="importmap">
 {
@@ -175,18 +183,27 @@
 </head>
 <body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
-  <!-- IN-APP BROWSER WARNING OVERLAY -->
-  <div id="inapp-warning-overlay" class="fixed inset-0 z-[10000] bg-ink flex-col items-center justify-center p-8 text-center text-white">
-    <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-8">KS</div>
-    <h2 class="font-cinzel text-2xl mb-4 tracking-widest text-gold">Open in Browser</h2>
-    <p class="font-rajdhani text-lg text-gray-300 max-w-md mb-8 leading-relaxed">
-      You are viewing this site inside an app. For the full Cinematic Experience, please tap the menu <strong class="text-white">(...)</strong> in the top right or bottom corner and select <strong class="text-white">"Open in system browser" / "Otwórz w przeglądarce"</strong>.
-    </p>
-    <div class="animate-bounce text-gold text-3xl">↑</div>
+  <!-- ЭКРАН БЛОКИРОВКИ IOS (Fallback если нет приложения Google) -->
+  <div id="ios-inapp-warning" class="fixed inset-0 z-[10000] bg-ink flex-col items-center justify-start pt-12 px-8 text-center text-white min-h-[100dvh]">
+    <div class="absolute top-10 right-8 text-gold text-5xl arrow-pointer">↗</div>
+    
+    <div class="mt-20 flex flex-col items-center">
+      <div class="w-20 h-20 border-2 border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-8 rounded-full">KS</div>
+      <h2 class="font-cinzel text-2xl mb-2 tracking-widest text-gold uppercase">Opening Google...</h2>
+      
+      <div class="bg-white/5 border border-white/10 p-6 rounded-2xl max-w-sm mt-6 shadow-2xl">
+        <p class="font-rajdhani text-lg text-gray-300 mb-4 leading-relaxed">
+          If the Google App didn't open automatically, please exit Instagram:
+        </p>
+        <p class="font-rajdhani text-xl text-white font-bold leading-relaxed">
+          1. Tap the <span class="text-gold">⋯</span> (three dots) in the top right corner.<br><br>
+          2. Select <span class="text-gold">"Open in System Browser"</span>
+        </p>
+      </div>
+    </div>
   </div>
 
   <!-- INTRO SCREEN -->
-  <!-- h-[100dvh] used for perfect height on mobile -->
   <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-[100dvh]">
     <div class="relative text-center p-8 flex flex-col items-center">
       <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
@@ -252,7 +269,7 @@
       </div>
     </div>
 
-    <!-- SHARED FIXED BACKGROUND -->
+    <!-- SHARED FIXED BACKGROUND (HERO + SPECIALS) -->
     <div class="fixed inset-0 z-0 bg-ink pointer-events-none">
         <div class="absolute inset-0 z-20"></div>
         <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero Background">
@@ -263,7 +280,6 @@
     <div class="relative z-10 w-full flex flex-col">
       
       <!-- HERO TEXT -->
-      <!-- 100dvh instead of 100vh solves the jumping address bar issue on iOS/Android -->
       <div class="h-[100dvh] w-full relative flex items-center justify-center overflow-hidden">
           <div class="relative z-30 text-center px-6 mt-10">
               <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
@@ -358,7 +374,7 @@
 
     const ALLERGIES = {
       title: {en: 'Allergy Information', pl: 'Informacja o alergenach'},
-      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą могут zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
+      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
       service: {en: '', pl: ''}
     };
 
@@ -367,7 +383,7 @@
         id:'specials',
         title:{en:"Chef's Specials",pl:'Szef Kuchni Poleca'},
         img:'',
-        desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
+        desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez нашего Szefa Kuchni.'},
         items:[
           {
             name:{en:'Korean spicy noodle',pl:'Koreańskie pikantne noodle'},
@@ -538,7 +554,7 @@
         id:'oyakomaki',
         title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},
         img:PHOTOS_PATH+'oyakomaki.jpg',
-        desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę zamiast nori.'},
+        desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze специальныe rolki, zawijane w rybę zamiast nori.'},
         items:[
           {name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimps wrapped in salmon',pl:'siekane krewetki owijane w łososia'}},
           {name:{en:'Maguro Sake Ikura',pl:'Maguro Sake Ikura'},price:'50 zł',desc:{en:'salmon caviar wrapped in tuna',pl:'kawior z łososia owijany tuńczykiem'}},
