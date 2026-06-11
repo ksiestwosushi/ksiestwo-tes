@@ -511,15 +511,20 @@
     let isMenuExpanded = false;
     let savedScrollPosition = 0;
 
-    window.onload = function() {
+    function initApp() {
       setTimeout(() => {
-        document.getElementById('intro').style.opacity = '0';
-        setTimeout(() => {
-            document.getElementById('intro').style.display = 'none';
-            const langSel = document.getElementById('lang-select');
-            langSel.style.pointerEvents = 'auto';
-            langSel.style.opacity = '1';
-        }, 1000);
+        const intro = document.getElementById('intro');
+        if (intro) {
+          intro.style.opacity = '0';
+          setTimeout(() => {
+              intro.style.display = 'none';
+              const langSel = document.getElementById('lang-select');
+              if (langSel) {
+                langSel.style.pointerEvents = 'auto';
+                langSel.style.opacity = '1';
+              }
+          }, 1000);
+        }
       }, 1500);
 
       const trigger = document.getElementById('menu-trigger');
@@ -528,16 +533,20 @@
 
       setMenuState(false);
 
-      trigger.addEventListener('click', (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        if(!isMenuExpanded) toggleMenu(true);
-      });
+      if (trigger) {
+        trigger.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if(!isMenuExpanded) toggleMenu(true);
+        });
+      }
 
-      closeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        toggleMenu(false);
-      });
+      if (closeBtn) {
+        closeBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          toggleMenu(false);
+        });
+      }
 
       window.scrollToSection = function(id) {
           if(isMenuExpanded) toggleMenu(false);
@@ -622,7 +631,13 @@
             title.classList.add('text-gold-dark');
         }
       };
-    };
+    }
+    
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
 
     window.toggleMenu = function(expand) {
         isMenuExpanded = expand;
@@ -636,8 +651,10 @@
         const overlay = document.getElementById('menu-overlay');
 
         if(expanded) {
-            overlay.style.opacity = '1';
-            overlay.style.pointerEvents = 'auto';
+            if (overlay) {
+              overlay.style.opacity = '1';
+              overlay.style.pointerEvents = 'auto';
+            }
 
             savedScrollPosition = window.pageYOffset; 
             document.body.style.position = 'fixed';
@@ -647,18 +664,26 @@
             const safeHeight = Math.min(window.innerHeight * 0.85, 600);
             const safeWidth = Math.min(window.innerWidth * 0.9, 380);
 
-            panel.style.width = safeWidth + 'px';
-            panel.style.height = safeHeight + 'px';
-            panel.style.borderRadius = '24px'; 
+            if (panel) {
+              panel.style.width = safeWidth + 'px';
+              panel.style.height = safeHeight + 'px';
+              panel.style.borderRadius = '24px'; 
+            }
             
-            trigger.style.opacity = '0';
-            trigger.style.pointerEvents = 'none';
+            if (trigger) {
+              trigger.style.opacity = '0';
+              trigger.style.pointerEvents = 'none';
+            }
             
-            content.style.opacity = '1';
-            content.style.pointerEvents = 'auto';
+            if (content) {
+              content.style.opacity = '1';
+              content.style.pointerEvents = 'auto';
+            }
         } else {
-            overlay.style.opacity = '0';
-            overlay.style.pointerEvents = 'none';
+            if (overlay) {
+              overlay.style.opacity = '0';
+              overlay.style.pointerEvents = 'none';
+            }
 
             document.body.style.position = '';
             document.body.style.top = '';
@@ -668,15 +693,21 @@
             window.scrollTo(0, savedScrollPosition);
             document.documentElement.style.scrollBehavior = '';
 
-            panel.style.width = '60px';
-            panel.style.height = '60px';
-            panel.style.borderRadius = '30px'; 
+            if (panel) {
+              panel.style.width = '60px';
+              panel.style.height = '60px';
+              panel.style.borderRadius = '30px'; 
+            }
             
-            trigger.style.opacity = '1';
-            trigger.style.pointerEvents = 'auto';
+            if (trigger) {
+              trigger.style.opacity = '1';
+              trigger.style.pointerEvents = 'auto';
+            }
             
-            content.style.opacity = '0';
-            content.style.pointerEvents = 'none';
+            if (content) {
+              content.style.opacity = '0';
+              content.style.pointerEvents = 'none';
+            }
         }
     }
 
@@ -802,22 +833,22 @@
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
                 <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
-                    ${section.img ? \`<div class="absolute inset-0 parallax-bg" style="background-image: url('\${section.img}')"></div>\` : \`<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>\`}
+                    ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
                     <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
                     
                     <div class="relative z-30 text-center text-white px-4">
-                        <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">\${idx < 9 ? '0' : ''}\${idx + 1}</span>
+                        <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">${idx < 9 ? '0' : ''}${idx + 1}</span>
                         <h2 class="font-cinzel text-5xl md:text-8xl font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
-                            \${section.title[currentLang]}
+                            ${section.title[currentLang]}
                         </h2>
                         <p class="font-rajdhani text-lg md:text-2xl max-w-2xl mx-auto text-gray-200 font-light">
-                            \${section.desc[currentLang]}
+                            ${section.desc[currentLang]}
                         </p>
                     </div>
                 </div>
 
                 <div class="max-w-5xl mx-auto px-6 py-20 md:py-32 bg-white relative -mt-10 rounded-t-3xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)] z-20">
-                    \${contentHTML}
+                    ${contentHTML}
                 </div>
             </section>
             `;
