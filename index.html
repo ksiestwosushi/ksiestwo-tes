@@ -128,11 +128,35 @@
       filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
     }
   </style>
+
+  <!-- IN-APP BROWSER REDIRECT -->
+  <script>
+    (function() {
+      var ua = navigator.userAgent || navigator.vendor || window.opera;
+      var isInApp = /Instagram|FBAN|FBAV|Snapchat|Line|TikTok/i.test(ua);
+      var isAndroid = /Android/i.test(ua);
+      var isIOS = /iPhone|iPad|iPod/i.test(ua);
+      
+      if (isInApp) {
+        if (isAndroid) {
+          var urlNoProtocol = window.location.href.replace(/^https?:\/\//, '');
+          window.location.href = 'intent://' + urlNoProtocol + '#Intent;scheme=https;package=com.android.chrome;end';
+        } else if (isIOS) {
+          document.addEventListener('DOMContentLoaded', function() {
+            var overlay = document.createElement('div');
+            overlay.className = 'fixed inset-0 z-[999999] bg-ink flex flex-col items-center justify-center p-8 text-center';
+            overlay.innerHTML = '<div class="text-6xl mb-6 animate-bounce">↗️</div><h2 class="font-cinzel text-2xl text-gold mb-4 tracking-widest uppercase">OTWÓRZ W SAFARI</h2><p class="font-rajdhani text-gray-300 text-lg leading-relaxed max-w-sm">Przeglądarki w aplikacjach (np. Instagram) często ograniczają płynność animacji.<br><br>Jeśli zauważysz skoki podczas przewijania, kliknij ikonę <b>trzech kropek</b> w prawym górnym rogu i wybierz:<br><br><span class="text-gold font-bold">\"Otwórz w domyślnej przeglądarce\"</span>.</p>';
+            document.body.appendChild(overlay);
+          });
+        }
+      }
+    })();
+  </script>
 </head>
 <body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
   <!-- INTRO SCREEN -->
-  <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-screen">
+  <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-[100svh]">
     <div class="relative text-center p-8 flex flex-col items-center">
       <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
         KS
@@ -145,7 +169,7 @@
   </div>
 
   <!-- LANGUAGE SELECTION -->
-  <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none min-h-screen">
+  <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none min-h-[100svh]">
     <div class="relative z-10 text-center p-8 w-full max-w-lg flex flex-col items-center">
        <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KS</div>
        
@@ -162,7 +186,7 @@
   </div>
 
   <!-- MAIN APPLICATION -->
-  <div id="app" class="min-h-screen bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
+  <div id="app" class="min-h-[100svh] bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
     
     <!-- MENU OVERLAY -->
     <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" onclick="toggleMenu(false)"></div>
@@ -215,7 +239,7 @@
     <div class="relative z-10 w-full flex flex-col">
       
       <!-- HERO TEXT -->
-      <div class="h-screen w-full relative flex items-center justify-center overflow-hidden">
+      <div class="h-[100svh] w-full relative flex items-center justify-center overflow-hidden">
           <div class="relative z-30 text-center px-6 mt-10">
               <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
                 KSIĘSTWO
@@ -341,22 +365,22 @@
           {
             name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'},
             price:'130 zł',
-            desc:{en:'4x Gold California (surimi wrapped in salmon)\\n4x Awokado Kani (surimi wrapped in avocado)\\n4x Ohio Irigoma (butterfish with black sesame)\\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\\n4x Awokado Kani (surimi owijane awokado)\\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\\n4x Ebi Tempura (krewetki w tempurze)'}
+            desc:{en:'4x Gold California (surimi wrapped in salmon)\n4x Awokado Kani (surimi wrapped in avocado)\n4x Ohio Irigoma (butterfish with black sesame)\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\n4x Awokado Kani (surimi owijane awokado)\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\n4x Ebi Tempura (krewetki w tempurze)'}
           },
           {
             name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'},
             price:'150 zł',
-            desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\\n4x Mango Sake (salmon wrapped in mango)\\n4x Ebi Tempura (shrimp tempura)\\n4x Awokado Kani (surimi wrapped in avocado)\\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\\n4x Mango Sake (łosoś owijany mango)\\n4x Ebi Tempura (krewetki w tempurze)\\n4x Awokado Kani (surimi owijane awokado)\\n6x Ohio Yaki (pieczona ryba maślana)'}
+            desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\n4x Mango Sake (salmon wrapped in mango)\n4x Ebi Tempura (shrimp tempura)\n4x Awokado Kani (surimi wrapped in avocado)\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\n4x Mango Sake (łosoś owijany mango)\n4x Ebi Tempura (krewetki w tempurze)\n4x Awokado Kani (surimi owijane awokado)\n6x Ohio Yaki (pieczona ryba maślana)'}
           },
           {
             name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'},
             price:'280 zł',
-            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\\n8x Goma Sake Yaki (baked salmon with wakame)\\n4x Ebi Tempura (tempura shrimps)\\n6x Sake Philadelphia (salmon with philadelphia cheese)\\n6x Ohio Ten (tempura butterfish)\\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\\n4x Ebi Tempura (krewetki w tempurze)\\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\\n6x Ohio Ten (ryba maślana w tempurze)\\n6x Maguro Spicy (pikantny tuńczyk)'}
+            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Goma Sake Yaki (baked salmon with wakame)\n4x Ebi Tempura (tempura shrimps)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Ohio Ten (tempura butterfish)\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n4x Ebi Tempura (krewetki w tempurze)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Ohio Ten (ryba maślana w tempurze)\n6x Maguro Spicy (pikantny tuńczyk)'}
           },
           {
             name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'},
             price:'380 zł',
-            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\\n8x Tempura Ohio (tempura butterfish)\\n8x Goma Sake Yaki (baked salmon with wakame)\\n8x Kegon (salmon wrapped in grilled eel)\\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\\n6x Sake Philadelphia (salmon with philadelphia cheese)\\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\\n8x Tempura Ohio (ryba maślana w tempurze)\\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\\n8x Kegon (łosoś owijany grillowanym węgorzem)\\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\\n6x Suzuki Yaki (pikantny sandacz)'}
+            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (tempura butterfish)\n8x Goma Sake Yaki (baked salmon with wakame)\n8x Kegon (salmon wrapped in grilled eel)\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Tempura Ohio (ryba maślana w tempurze)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n8x Kegon (łosoś owijany grillowanym węgorzem)\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}
           }
         ]
       },
@@ -778,7 +802,7 @@
                                 ${item.price}
                             </span>
                         </div>
-                        <p class="font-rajdhani ${dark ? 'text-gray-400' : 'text-gray-500'} text-base leading-relaxed max-w-3xl">
+                        <p class="font-rajdhani ${dark ? 'text-gray-400' : 'text-gray-500'} text-base leading-relaxed max-w-3xl whitespace-pre-line">
                             ${item.desc[currentLang]}
                         </p>
                     </div>`;
@@ -831,7 +855,7 @@
 
             return `
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
-                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden bg-ink">
+                <div class="w-full h-[60svh] md:h-[80svh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
                     ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
                     <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
