@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
   <meta name="theme-color" content="#0F0F0F" />
-  <meta name="description" content="Księstwo Góralskie - Premium Drinks Menu">
-  <title>Księstwo Góralskie — MENU NAPOJÓW</title>
+  <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
+  <title>Księstwo Sushi & Ramen — ROYAL</title>
   
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,7 +20,7 @@
         extend: {
           fontFamily: {
             cinzel: ['Cinzel', 'serif'],
-            rajdhani:['Rajdhani', 'sans-serif'],
+            rajdhani: ['Rajdhani', 'sans-serif'],
           },
           colors: {
             paper: '#ffffff',
@@ -56,11 +56,16 @@
     }
   </script>
   <style>
-    /* CORE STYLES */
+    /* CORE STYLES & PROTECTION */
     body {
       background-color: #0F0F0F;
       color: #0F0F0F;
       overflow-x: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -68,6 +73,15 @@
     html.scroll-smooth {
       scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
+    }
+    
+    img {
+      -webkit-user-drag: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      pointer-events: none;
     }
 
     .no-scrollbar::-webkit-scrollbar {
@@ -91,31 +105,41 @@
         }
     }
 
-    /* MENU ANIMATION */
+    /* MENU ANIMATION FIXED FOR WEBVIEWS */
     .menu-panel {
-      transition: width 0.5s cubic-bezier(0.25, 1, 0.5, 1), 
-                  height 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-                  border-radius 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-      transform-origin: top center;
-      will-change: width, height;
-      box-shadow: 0 10px 30px -10px rgba(0,0,0,0.5);
+      transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1), 
+                  height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+                  border-radius 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: top right;
+      will-change: width, height, border-radius;
+      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.8);
       overflow: hidden;
-      -webkit-backdrop-filter: blur(12px);
-      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(16px);
+      backdrop-filter: blur(16px);
+    }
+
+    .icon-filter-gold {
+      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
+    }
+    .icon-filter-white {
+      filter: brightness(0) invert(1);
+    }
+    .group:hover .group-hover\:icon-filter-gold {
+      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
     }
   </style>
 </head>
-<body class="antialiased">
+<body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
   <!-- INTRO SCREEN -->
   <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-screen">
     <div class="relative text-center p-8 flex flex-col items-center">
       <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
-        KG
+        KS
       </h1>
       <div class="h-[2px] bg-gold mb-6 animate-grow-line"></div>
       <div class="text-gold uppercase tracking-[0.5em] font-rajdhani text-sm animate-fade-in" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
-        PREMIUM BAR EXPERIENCE
+        CINEMATIC DINING
       </div>
     </div>
   </div>
@@ -123,7 +147,7 @@
   <!-- LANGUAGE SELECTION -->
   <div id="lang-select" class="fixed inset-0 z-[9990] bg-ink flex flex-col items-center justify-center transition-opacity duration-700 opacity-0 pointer-events-none min-h-screen">
     <div class="relative z-10 text-center p-8 w-full max-w-lg flex flex-col items-center">
-       <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KG</div>
+       <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KS</div>
        
        <div class="flex gap-8 justify-center w-full">
          <button onclick="setLanguage('pl')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer">
@@ -140,33 +164,42 @@
   <!-- MAIN APPLICATION -->
   <div id="app" class="min-h-screen bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
     
-    <!-- FIXED NAVIGATION -->
-    <div id="menu-panel" class="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 menu-panel bg-ink/90 border border-white/5 flex flex-col items-center" style="margin-top: env(safe-area-inset-top);">
-      
-      <!-- Collapsed Trigger -->
-      <div id="menu-trigger" class="absolute top-0 left-0 w-full h-[50px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-300">
-        <div class="flex items-center gap-3 group-hover:scale-105 transition-transform duration-500 ease-out">
-          <div class="w-2 h-2 rounded-full bg-gold animate-pulse"></div>
-          <span class="font-cinzel font-bold text-xs tracking-[0.2em] text-white group-hover:text-gold transition-colors">MENU</span>
-        </div>
-      </div>
+    <!-- MENU OVERLAY -->
+    <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" onclick="toggleMenu(false)"></div>
 
-      <!-- Expanded Content -->
-      <div id="menu-content" class="w-full h-full pt-[60px] pb-6 px-6 opacity-0 transition-opacity duration-300 flex flex-col pointer-events-none">
-        <button id="close-menu" class="absolute top-4 right-6 text-white/50 hover:text-white text-xl z-50 transition-colors cursor-pointer">&times;</button>
-        <div class="flex items-center gap-4 border-b border-white/10 pb-4 mb-4 mt-2">
-           <div class="w-8 h-8 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-xs">KG</div>
-           <span class="font-cinzel text-white text-lg tracking-widest">KSIĘSTWO</span>
+    <!-- FIXED NAVIGATION RIGHT ALIGNED -->
+    <div class="fixed right-6 z-50 flex justify-end pointer-events-none" style="top: max(1.5rem, env(safe-area-inset-top));">
+      <div id="menu-panel" class="relative menu-panel bg-ink/95 border border-white/10 flex flex-col items-center pointer-events-auto transform origin-top-right overflow-hidden shadow-2xl" style="width: 60px; height: 60px; border-radius: 30px;">
+        
+        <!-- Collapsed Trigger -->
+        <div id="menu-trigger" class="absolute top-0 right-0 w-[60px] h-[60px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
+          <!-- Hamburger Icon -->
+          <div class="flex flex-col gap-1.5 items-end justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
+            <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+            <span class="w-4 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+            <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+          </div>
         </div>
-        <div class="flex-1 overflow-y-auto no-scrollbar">
-           <div id="menu-list" class="grid grid-cols-1 md:grid-cols-2 gap-3"></div>
-        </div>
-        <div class="mt-4 pt-4 flex justify-between items-center border-t border-white/10">
-           <div class="flex bg-white/10 rounded-full p-1 gap-1">
-              <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">PL</button>
-              <button onclick="switchLang('en')" class="lang-btn-en px-4 py-1.5 rounded-full text-[10px] font-bold transition-all uppercase tracking-wider text-white/60 cursor-pointer">EN</button>
-           </div>
-           <button onclick="openInfoModal()" class="w-8 h-8 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer">!</button>
+
+        <!-- Expanded Content -->
+        <div id="menu-content" class="w-full h-full pt-[80px] pb-6 px-6 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col pointer-events-none">
+          <button id="close-menu" class="absolute top-6 right-6 text-white hover:text-gold text-4xl z-50 transition-colors cursor-pointer leading-none font-light">&times;</button>
+          
+          <div class="flex items-center gap-4 border-b border-white/10 pb-6 mb-4 mt-2">
+             <div class="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-sm">KS</div>
+             <span class="font-cinzel text-white text-xl tracking-[0.2em] font-medium">KSIĘSTWO</span>
+          </div>
+          <!-- OVERSCROLL-NONE IS CRITICAL HERE -->
+          <div class="flex-1 overflow-y-auto overscroll-none no-scrollbar flex flex-col gap-2">
+             <div id="menu-list" class="flex flex-col gap-2"></div>
+          </div>
+          <div class="mt-auto pt-6 flex justify-between items-center border-t border-white/10">
+             <div class="flex bg-white/5 rounded-full p-1 gap-1">
+                <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">PL</button>
+                <button onclick="switchLang('en')" class="lang-btn-en px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">EN</button>
+             </div>
+             <button onclick="openInfoModal()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer text-lg font-cinzel">i</button>
+          </div>
         </div>
       </div>
     </div>
@@ -174,7 +207,7 @@
     <!-- SHARED FIXED BACKGROUND -->
     <div class="fixed inset-0 z-0 bg-ink pointer-events-none">
         <div class="absolute inset-0 z-20"></div>
-        <img id="hero-img" src="https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?auto=format&fit=crop&q=80&w=2000" class="w-full h-full object-cover opacity-30 mix-blend-overlay relative z-0" alt="Hero Background">
+        <img id="hero-img" src="" class="w-full h-full object-cover opacity-40 mix-blend-overlay relative z-0" alt="Hero Background">
         <div class="absolute inset-0 bg-gradient-to-b from-transparent via-ink/50 to-ink z-10"></div>
     </div>
 
@@ -187,17 +220,17 @@
               <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
                 KSIĘSTWO
                 <span class="block text-gold text-2xl md:text-4xl mt-4 tracking-[0.3em] font-normal border-t border-b border-gold/30 py-4 mx-auto max-w-2xl">
-                  GÓRALSKIE
+                  SUSHI & RAMEN
                 </span>
               </h1>
               <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
                 <!-- Text injected by JS -->
               </p>
-              <button onclick="scrollToSection('kawy')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
+              <button onclick="scrollToSection('specials')" id="hero-btn" class="mt-12 px-8 py-4 border border-gold text-gold font-cinzel hover:bg-gold hover:text-ink transition-all duration-500 uppercase tracking-widest text-sm cursor-pointer relative z-30">
                 Explore
               </button>
           </div>
-          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gold/50 text-2xl z-20 cursor-pointer" onclick="scrollToSection('kawy')">↓</div>
+          <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce text-gold/50 text-2xl z-20 cursor-pointer" onclick="scrollToSection('specials')">↓</div>
       </div>
 
       <!-- MAIN CONTENT AREA -->
@@ -208,22 +241,40 @@
       <!-- FOOTER -->
       <footer class="bg-ink text-white pt-32 pb-16 px-6 relative z-30" style="padding-bottom: max(4rem, env(safe-area-inset-bottom));">
         <div class="max-w-4xl mx-auto text-center">
-            <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KG</div>
+            <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
             
-            <div class="grid md:grid-cols-2 gap-12 mb-20 text-center font-rajdhani text-gray-400">
-                <div class="flex flex-col items-center">
-                  <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-4">LOCATION</h5>
-                  <p class="leading-relaxed">Zakopane<br><span id="footer-country">Poland</span></p>
+            <div class="grid md:grid-cols-2 gap-12 mb-20 text-left md:text-center font-rajdhani text-gray-400">
+                <div class="flex flex-col md:items-center items-start">
+                  <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
+                  <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
+                     <div class="w-6 h-6 mt-1 flex-shrink-0">
+                        <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map" onerror="this.style.display='none'">
+                     </div>
+                     <div class="text-left">
+                       <p>Krupówki 38A, Zakopane</p>
+                       <p id="footer-country">Poland</p>
+                     </div>
+                  </a>
                 </div>
-                <div class="flex flex-col items-center">
-                  <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-4">CONTACT</h5>
-                  <p class="mb-2">+48 123 456 789</p>
-                  <p>@ksiestwogoralskie</p>
+                <div class="flex flex-col md:items-center items-start">
+                  <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
+                  <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone" onerror="this.style.display='none'">
+                      </div>
+                      <span>+48 502 525 544</span>
+                  </a>
+                  <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram" onerror="this.style.display='none'">
+                      </div>
+                      <span>@ksiestwosushi</span>
+                  </a>
                 </div>
             </div>
 
             <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
-              © 2026 Księstwo Góralskie.
+              © 2026 Księstwo Sushi & Ramen.
             </div>
         </div>
       </footer>
@@ -231,189 +282,235 @@
   </div>
 
   <!-- ALLERGY INFO MODAL -->
-  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all hidden opacity-0" style="padding-top: env(safe-area-inset-top);">
-    <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-300" id="info-modal-content">
+  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hidden opacity-0" style="padding-top: env(safe-area-inset-top);">
+    <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" id="info-modal-content">
       <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-300 hover:text-gold transition-colors leading-none cursor-pointer">&times;</button>
-      <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Ważne informacje</h2>
+      <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Allergy Information</h2>
       <div id="modal-text" class="font-rajdhani text-gray-600 leading-8 text-lg mb-8 text-justify font-light"></div>
+     <div id="modal-service" class="hidden p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
     </div>
   </div>
 
   <!-- APPLICATION LOGIC -->
   <script>
     (function(){
+    const PHOTOS_PATH = './images/';
     
     const UI_TEXT = {
-      hero_subtitle: {
-        en: "Discover our finest selection of spirits, \nsignature cocktails, and premium coffee.", 
-        pl: "Odkryj nasz staranny wybór alkoholi, \nautorskich koktajli i kawy premium."
-      },
-      explore_btn: {en: "Drinks Menu", pl: "Menu Napojów"},
+      hero_subtitle: {en: "Experience the art of Japanese cuisine \n Reimagined for the modern era.", pl: "Poznaj sztukę japońskiej kuchni \n Stworzoną na nowo dla współczesności."},
+      explore_btn: {en: "Explore Menu", pl: "Odkryj Menu"},
+      description_label: {en: "Description", pl: "Opis"},
+      uramaki_title: {en: "URAMAKI", pl: "URAMAKI"},
+      tempura_title: {en: "TEMPURA URAMAKI", pl: "URAMAKI W TEMPURZE"},
       location_label: {en: "LOCATION", pl: "LOKALIZACJA"},
       contact_label: {en: "CONTACT", pl: "KONTAKT"},
       poland: {en: "Poland", pl: "Polska"}
     };
 
     const ALLERGIES = {
-      title: {en: 'Important Information', pl: 'Ważne informacje'},
-      text: {
-        en: 'Some of our drinks and cocktails may contain allergens such as nuts (in syrups), dairy, or eggs. Please inform our staff about your allergies before ordering.', 
-        pl: 'Niektóre z naszych napojów i koktajli mogą zawierać alergeny, takie jak orzechy (w syropach), mleko krowie czy jajka. Poinformuj obsługę o swoich alergiach przed złożeniem zamówienia.'
-      }
+      title: {en: 'Allergy Information', pl: 'Informacja o alergenach'},
+      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
+      service: {en: '', pl: ''}
     };
 
-    // MENU DATA (From Księstwo Góralskie)
-    const menuData =[
+    const _0x4f21 = [
       {
-        id: 'kawy',
-        title: {en: 'Coffees', pl: 'Kawy'},
-        img: 'https://images.unsplash.com/photo-1497935586351-b67a49e012bf?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Premium roasted coffee, prepared by our baristas.', pl: 'Najwyższej jakości kawa, przygotowywana przez naszych baristów.'},
+        id:'specials',
+        title:{en:"Chef's Specials",pl:'Szef Kuchni Poleca'},
+        img:'',
+        desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
         items:[
-          {name: {en: 'Espresso', pl: 'Espresso'}, price: '25 zł', desc: {en: '30 ml', pl: '30 ml'}},
-          {name: {en: 'Espresso macchiato', pl: 'Espresso macchiato'}, price: '30 zł', desc: {en: '30 ml', pl: '30 ml'}},
-          {name: {en: 'Espresso doppio', pl: 'Espresso doppio'}, price: '30 zł', desc: {en: '60 ml', pl: '60 ml'}},
-          {name: {en: 'Americano', pl: 'Americano'}, price: '30 zł', desc: {en: '190 ml', pl: '190 ml'}},
-          {name: {en: 'Flat White', pl: 'Flat White'}, price: '40 zł', desc: {en: '180 ml', pl: '180 ml'}},
-          {name: {en: 'Cappuccino', pl: 'Cappuccino'}, price: '30 zł', desc: {en: '180 ml', pl: '180 ml'}},
-          {name: {en: 'Large Cappuccino', pl: 'Cappuccino duże'}, price: '40 zł', desc: {en: '300 ml', pl: '300 ml'}},
-          {name: {en: 'Viennese coffee', pl: 'Kawa po wiedeńsku'}, price: '40 zł', desc: {en: '180 ml', pl: '180 ml'}},
-          {name: {en: 'Latte macchiato', pl: 'Latte macchiato'}, price: '40 zł', desc: {en: '220 ml', pl: '220 ml'}},
-          {name: {en: 'Spanish latte', pl: 'Spanish latte'}, price: '40 zł', desc: {en: '220 ml', pl: '220 ml'}},
-          {name: {en: 'Turkish coffee', pl: 'Kawa po turecku'}, price: '30 zł', desc: {en: '160 ml', pl: '160 ml'}},
-          {isSubtitle: true, name: {en: 'Add-ons', pl: 'Dodatki'}},
-          {name: {en: 'Syrup (+3 zł)', pl: 'Syrop (+3 zł)'}, price: '', desc: {en: 'amaretto, chocolate, irish cream, vanilla, coconut, nut, caramel', pl: 'amaretto, czekoladowy, irish cream, waniliowy, kokosowy, orzechowy, karmelowy'}},
-          {name: {en: 'Plant-based milk (+4 zł)', pl: 'Mleko roślinne (+4 zł)'}, price: '', desc: {en: 'almond, soy, oat, coconut', pl: 'migdałowe, sojowe, owsiane, kokosowe'}}
+          {
+            name:{en:'Korean spicy noodle',pl:'Koreańskie pikantne noodle'},
+            price:'50 zł',
+            desc:{en:'Chewy potato noodles coated in sweet and spicy sauce.',pl:'Sprężyste kluski ziemniaczane oblepione słodko-ostrym sosem.'}
+          },
+          {
+            name:{en:'Kimchi Jeon',pl:'Kimchi Jeon'},
+            price:'40 zł',
+            desc:{en:'Crispy pan-fried pancake made with fermented kimchi.',pl:'Smażony placek z kiszonych warzyw kimchi.'}
+          }
         ]
       },
       {
-        id: 'matcha',
-        title: {en: 'Matcha', pl: 'Matcha'},
-        img: 'https://images.unsplash.com/photo-1515823064-d6e0c04616a7?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Energizing and antioxidant-rich traditional Japanese green tea.', pl: 'Pobudzająca i bogata w antyoksydanty tradycyjna japońska zielona herbata.'},
+        id:'sets',
+        title:{en:'Sushi Sets',pl:'Zestawy Sushi'},
+        img:PHOTOS_PATH+'zestawy.jpg',
+        desc:{en:'Curated combinations of our finest rolls, perfect for experiencing a variety of flavors.',pl:'Starannie dobrane kompozycje naszych najlepszych rolek, idealne do poznania różnorodności smaków.'},
         items:[
-          {name: {en: 'Matcha latte', pl: 'Matcha latte'}, price: '45 zł', desc: {en: '220 ml', pl: '220 ml'}},
-          {name: {en: 'Matcha cappuccino', pl: 'Matcha cappuccino'}, price: '45 zł', desc: {en: '300 ml', pl: '300 ml'}},
-          {name: {en: 'Matcha affogato', pl: 'Matcha affogato'}, price: '45 zł', desc: {en: 'scoop of vanilla ice cream, shot of matcha', pl: 'gałka lodów waniliowych, shot matcha'}},
-          {name: {en: 'Iced orange matcha', pl: 'Iced orange matcha'}, price: '45 zł', desc: {en: 'orange juice, matcha, ice (400 ml)', pl: 'sok pomarańczowy, matcha, lód (400 ml)'}},
-          {name: {en: 'Iced strawberry matcha', pl: 'Iced strawberry matcha'}, price: '50 zł', desc: {en: 'strawberry puree, matcha, milk, ice (400 ml)', pl: 'puree truskawkowe, matcha, mleko, lód (400 ml)'}},
-          {name: {en: 'Iced passionfruit matcha', pl: 'Iced passionfruit matcha'}, price: '55 zł', desc: {en: 'passionfruit puree, matcha, milk, ice (400 ml)', pl: 'puree marakuja, matcha, mleko, lód (400 ml)'}},
-          {name: {en: 'Pure matcha', pl: 'Pure matcha'}, price: '35 zł', desc: {en: 'traditional, prepared with water (190 ml)', pl: 'tradycyjna matcha na wodzie (190 ml)'}}
+          {
+            name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'},
+            price:'130 zł',
+            desc:{en:'4x Gold California (surimi wrapped in salmon)\\n4x Awokado Kani (surimi wrapped in avocado)\\n4x Ohio Irigoma (butterfish with black sesame)\\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\\n4x Awokado Kani (surimi owijane awokado)\\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\\n4x Ebi Tempura (krewetki w tempurze)'}
+          },
+          {
+            name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'},
+            price:'150 zł',
+            desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\\n4x Mango Sake (salmon wrapped in mango)\\n4x Ebi Tempura (shrimp tempura)\\n4x Awokado Kani (surimi wrapped in avocado)\\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\\n4x Mango Sake (łosoś owijany mango)\\n4x Ebi Tempura (krewetki w tempurze)\\n4x Awokado Kani (surimi owijane awokado)\\n6x Ohio Yaki (pieczona ryba maślana)'}
+          },
+          {
+            name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'},
+            price:'280 zł',
+            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\\n8x Goma Sake Yaki (baked salmon with wakame)\\n4x Ebi Tempura (tempura shrimps)\\n6x Sake Philadelphia (salmon with philadelphia cheese)\\n6x Ohio Ten (tempura butterfish)\\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\\n4x Ebi Tempura (krewetki w tempurze)\\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\\n6x Ohio Ten (ryba maślana w tempurze)\\n6x Maguro Spicy (pikantny tuńczyk)'}
+          },
+          {
+            name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'},
+            price:'380 zł',
+            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\\n8x Tempura Ohio (tempura butterfish)\\n8x Goma Sake Yaki (baked salmon with wakame)\\n8x Kegon (salmon wrapped in grilled eel)\\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\\n6x Sake Philadelphia (salmon with philadelphia cheese)\\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\\n8x Tempura Ohio (ryba maślana w tempurze)\\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\\n8x Kegon (łosoś owijany grillowanym węgorzem)\\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\\n6x Suzuki Yaki (pikantny sandacz)'}
+          }
         ]
       },
       {
-        id: 'drinki',
-        title: {en: 'Cocktails', pl: 'Drinki'},
-        img: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Signature mixes and classic cocktails.', pl: 'Autorskie kompozycje i klasyczne koktajle.'},
+        id:'starters',
+        title:{en:'Starters',pl:'Przystawki'},
+        img:PHOTOS_PATH+'sake-tataki.jpg',
+        desc:{en:'A selection of light and fresh starters.',pl:'Wybór lekkich i świeżych przystawek.'},
         items:[
-          {isSubtitle: true, name: {en: 'Alcoholic', pl: 'Alkoholowe'}},
-          {name: {en: 'Chambord Royal', pl: 'Chambord Royal'}, price: '80 zł', desc: {en: 'prosecco, blackberry liquer', pl: 'prosecco, likier jeżynowy'}},
-          {name: {en: 'Pornstar Martini', pl: 'Pornstar Martini'}, price: '70 zł', desc: {en: 'vanilla vodka, passionfruit liquer, passionfruit puree, lime juice, prosecco', pl: 'wódka waniliowa, likier marakuja, puree z marakui, sok z limonki, prosecco'}},
-          {name: {en: 'Pink Diamond', pl: 'Pink Diamond'}, price: '67 zł', desc: {en: 'rhubarb syrup, rum, lime juice', pl: 'syrop z rabarbaru, rum, sok z limonki'}},
-          {name: {en: 'Aperol Spritz', pl: 'Aperol Spritz'}, price: '62 zł', desc: {en: 'aperol, prosecco, sparkling water', pl: 'aperol, prosecco, woda gazowana'}},
-          {name: {en: 'Mojito', pl: 'Mohito'}, price: '65 zł', desc: {en: 'lime, rum, sparkling water, sugar', pl: 'limonka, rum, mięta, woda gazowana, cukier brązowy'}},
-          {isSubtitle: true, name: {en: 'Non-alcoholic (0%)', pl: 'Bezalkoholowe (0%)'}},
-          {name: {en: 'Limoncello Spritz', pl: 'Limoncello Spritz'}, price: '49 zł', desc: {en: 'limoncello liquer 0%, prosecco 0%, sparkling water', pl: 'likier limoncello 0%, prosecco 0%, woda gazowana'}},
-          {name: {en: 'Aperol Spritz 0%', pl: 'Aperol Spritz 0%'}, price: '45 zł', desc: {en: 'aperol orange spritz, tonic', pl: 'aperol orange spritz, tonik'}},
-          {name: {en: 'Rose Spritz', pl: 'Rose Spritz'}, price: '49 zł', desc: {en: 'rose syrup, prosecco 0%, lemon juice, mint, sparkling water', pl: 'syrop różany, prosecco 0%, sok z cytryny, mięta, woda gazowana'}}
+          {
+            name:{en:'Kimchi',pl:'Kimchi'},
+            price:'27 zł',
+            desc:{en:'spicy, Korean salad made with fermented cabbage',pl:'ostra, koreańska sałatka z kiszonej kapusty'}
+          },
+          {
+            name:{en:'Kappa Sarada',pl:'Kappa Sarada'},
+            price:'27 zł',
+            desc:{en:'spicy cucumber salad',pl:'pikantna sałatka z ogórków'}
+          },
+          {
+            name:{en:'Goma Wakame',pl:'Goma Wakame'},
+            price:'27 zł',
+            desc:{en:'wakame salad',pl:'sałatka z wodorostów'}
+          },
+          {
+            name:{en:'Ebi ten (3 pcs)',pl:'Ebi ten (3 szt.)'},
+            price:'36 zł',
+            desc:{en:'shrimp tempura',pl:'krewetki smażone w cieście tempura'}
+          },
+          {
+            name:{en:'Sake Tataki',pl:'Sake tataki'},
+            price:'60 zł',
+            desc:{en:'salmon tartare.',pl:'tatar z łososia.'}
+          }
         ]
       },
       {
-        id: 'napoje',
-        title: {en: 'Tea & Cold Drinks', pl: 'Herbaty i Napoje Zimne'},
-        img: 'https://images.unsplash.com/photo-1597481499750-3e6b22637e12?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Warming teas, fresh juices, and refreshing soft drinks.', pl: 'Rozgrzewające herbaty, świeże soki i orzeźwiające napoje.'},
+        id:'soups',
+        title:{en:'Soups',pl:'Zupy'},
+        img:PHOTOS_PATH+'ramen-zupa.jpg',
+        desc:{en:'Traditional Japanese soups, including rich Ramen bowls with various fillings.',pl:'Tradycyjne japońskie zupy, w tym bogate miski Ramenu z różnymi dodatkami.'},
         items:[
-          {isSubtitle: true, name: {en: 'Teas', pl: 'Herbaty'}},
-          {name: {en: 'Karak tea', pl: 'Herbata Karak'}, price: '30 zł', desc: {en: '100 ml', pl: '100 ml'}},
-          {name: {en: 'Black / Green tea', pl: 'Herbata czarna / zielona z cytryną'}, price: '25 zł', desc: {en: '250 ml', pl: '250 ml'}},
-          {name: {en: 'Moroccan tea (for 2)', pl: 'Herbata Marokańska (dla 2 os.)'}, price: '70 zł', desc: {en: 'For 4 persons: 100 zł', pl: 'Dla 4 osób: 100 zł'}},
-          {name: {en: 'Winter tea with raspberry', pl: 'Herbata zimowa z maliną'}, price: '50 zł', desc: {en: '300 ml', pl: '300 ml'}},
-          {name: {en: 'Winter tea with pear & ginger', pl: 'Herbata zimowa z gruszką i imbirem'}, price: '50 zł', desc: {en: '300 ml', pl: '300 ml'}},
-          {name: {en: 'Sencha', pl: 'Sencha'}, price: '60 zł', desc: {en: 'green, japanese tea (620 ml)', pl: 'zielona japońska herbata (620 ml)'}},
-          {name: {en: 'Sencha Sakura', pl: 'Sencha Sakura'}, price: '62 zł', desc: {en: 'green tea with cherry', pl: 'herbata zielona z wiśnią'}},
-          {name: {en: 'Sencha Jasmine', pl: 'Sencha Jaśminowa'}, price: '62 zł', desc: {en: 'green tea with jasmine flowers', pl: 'herbata zielona z kwiatami jaśminu'}},
-          {name: {en: 'Genmaicha', pl: 'Genmaicha'}, price: '62 zł', desc: {en: 'green tea with addition of roasted rice', pl: 'herbata zielona z dodatkiem prażonego ryżu'}},
-          {isSubtitle: true, name: {en: 'Cold Drinks', pl: 'Napoje Zimne'}},
-          {name: {en: 'Freshly squeezed juice', pl: 'Sok świeżo wyciskany'}, price: '50 zł', desc: {en: 'Compose your own: pineapple, melon, orange, grapefruit, celery, carrot, beetroot, apple (250 ml)', pl: 'Skomponuj swój sok: ananasowy, melonowy, pomarańczowy, grejpfrutowy, selerowy, marchwiowy, buraczany, jabłkowy (250 ml)'}},
-          {name: {en: 'San Pellegrino sparkling/still', pl: 'San Pellegrino gaz/niegaz'}, price: '20 zł', desc: {en: '250 ml bottle', pl: 'butelka 250 ml'}},
-          {name: {en: 'Pepsi / Mirinda / 7up', pl: 'Pepsi / Mirinda / 7up'}, price: '20 zł', desc: {en: '200 ml glass bottle', pl: '200 ml butelka szklana'}},
-          {name: {en: 'Schweppes', pl: 'Schweppes'}, price: '20 zł', desc: {en: '200 ml glass bottle', pl: '200 ml butelka szklana'}},
-          {name: {en: 'Juices (orange, apple, blackcurrant)', pl: 'Soki (pomarańcza, jabłko, porzeczka)'}, price: '20 zł', desc: {en: '200 ml', pl: '200 ml'}},
-          {name: {en: 'Red Bull', pl: 'Red Bull'}, price: '35 zł', desc: {en: '250 ml', pl: '250 ml'}}
+          {
+            name:{en:'Tom Yum (400 ml)',pl:'Tom Yum (400 ml)'},
+            price:'50 zł',
+            desc:{en:'spicy coconut and lemongrass soup with shrimps and soy noodles.',pl:'pikantna zupa kokosowo-cytrynowa z krewetkami i makaronem sojowym.'}
+          },
+          {
+            name:{en:'Kimchi Jjigae (400 ml)',pl:'Kimchi Jjigae (400 ml)'},
+            price:'45 zł',
+            desc:{en:'kimchi soup with tofu.',pl:'zupa z kiszonej kapusty kimchi z tofu.'}
+          },
+          {
+            name:{en:'Ramen Chicken (800 ml)',pl:'Ramen drobiowy (800 ml)'},
+            price:'60 zł',
+            desc:{en:'flavorful broth, ramen noodle, vegetables, chicken.',pl:'Aromatyczny bulion, makaron ramen, warzywa, kurczak.'}
+          },
+          {
+            name:{en:'Ramen Beef (800 ml)',pl:'Ramen wołowy (800 ml)'},
+            price:'65 zł',
+            desc:{en:'flavorful broth, ramen noodle, vegetables, beef.',pl:'Aromatyczny bulion, makaron ramen, warzywa, wołowina.'}
+          }
         ]
       },
       {
-        id: 'wina',
-        title: {en: 'Wines & Champagne', pl: 'Wina i Szampany'},
-        img: 'https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Exquisite selection of wines from renowned vineyards.', pl: 'Wykwintny wybór win ze znanych winnic.'},
+        id:'nigiri',
+        title:{en:'Nigiri (2 pcs)',pl:'Nigiri (2 szt.)'},
+        img:PHOTOS_PATH+'nigiri1.jpg',
+        desc:{en:'Hand-pressed rice topped with a slice of fresh fish.',pl:'Ręcznie formowany ryż z idealnie pokrojonym slajsem świeżej ryby.'},
         items:[
-          {isSubtitle: true, name: {en: 'White Wine', pl: 'Wino Białe'}},
-          {name: {en: 'Pouilly-Fume Cuvee Riquette Chateau Bel-Air 13%', pl: 'Pouilly-Fume Cuvee Riquette Chateau Bel-Air 13%'}, price: '390 zł', desc: {en: 'Bottle | Glass (125ml): 65 zł', pl: 'Butelka | Kieliszek (125ml): 65 zł'}},
-          {name: {en: 'Chablis 2022 Bégué-Mathiot 12,5%', pl: 'Chablis 2022 Bégué-Mathiot 12,5%'}, price: '390 zł', desc: {en: 'Bottle | Glass (125ml): 65 zł', pl: 'Butelka | Kieliszek (125ml): 65 zł'}},
-          {isSubtitle: true, name: {en: 'Red Wine', pl: 'Wino Czerwone'}},
-          {name: {en: 'Le Chene du Prince Malbec Cahros 15%', pl: 'Le Chene du Prince Malbec Cahros 15%'}, price: '390 zł', desc: {en: 'Bottle | Glass (125ml): 65 zł', pl: 'Butelka | Kieliszek (125ml): 65 zł'}},
-          {name: {en: 'Beaujdais Coeur de Vendanges 2021 13%', pl: 'Beaujdais Coeur de Vendanges 2021 13%'}, price: '390 zł', desc: {en: 'Bottle | Glass (125ml): 65 zł', pl: 'Butelka | Kieliszek (125ml): 65 zł'}},
-          {isSubtitle: true, name: {en: 'Sparkling Wine', pl: 'Wino Musujące'}},
-          {name: {en: 'S. Ven. Prosecco Superiore DOCG Valdobbiadente Extra Dry', pl: 'S. Ven. Prosecco Superiore DOCG Valdobbiadente Extra Dry'}, price: '350 zł', desc: {en: 'Bottle | Glass (100ml): 55 zł', pl: 'Butelka | Kieliszek (100ml): 55 zł'}},
-          {name: {en: 'S. Ven. Prosecco Superiore DOCG Valdobbiadente Brut', pl: 'S. Ven. Prosecco Superiore DOCG Valdobbiadente Brut'}, price: '350 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {name: {en: 'S. Ven. Prosecco Superiore DOCG Asolo Extra Brut', pl: 'S. Ven. Prosecco Superiore DOCG Asolo Extra Brut'}, price: '350 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {isSubtitle: true, name: {en: 'Champagne', pl: 'Szampany'}},
-          {name: {en: 'Champagne Rose Grand Cru Rémi Henry 12,5%', pl: 'Champagne Rose Grand Cru Rémi Henry 12,5%'}, price: '700 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {name: {en: 'Moët & Chandon Ice Imperial 12%', pl: 'Moët & Chandon Ice Imperial 12%'}, price: '800 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {name: {en: 'Moët & Chandon Ice Imperial Rose 12%', pl: 'Moët & Chandon Ice Imperial Rose 12%'}, price: '1200 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {name: {en: 'Dom Perignon Vintage 2012 12,5%', pl: 'Dom Perignon Vintage 2012 12,5%'}, price: '2800 zł', desc: {en: 'Bottle', pl: 'Butelka'}},
-          {isSubtitle: true, name: {en: 'Something to warm up', pl: 'Coś na rozgrzanie'}},
-          {name: {en: 'Mulled Wine (Grzaniec Sabała) 13%', pl: 'Grzaniec Sabała 13%'}, price: '50 zł', desc: {en: '', pl: ''}}
+          {name:{en:'Sake',pl:'Sake'},price:'30 zł',desc:{en:'salmon',pl:'łosoś'}},
+          {name:{en:'Ohio',pl:'Ohio'},price:'28 zł',desc:{en:'butterfish',pl:'maślana'}},
+          {name:{en:'Maguro',pl:'Maguro'},price:'35 zł',desc:{en:'tuna',pl:'tuńczyk'}},
+          {name:{en:'Unagi',pl:'Unagi'},price:'35 zł',desc:{en:'eel',pl:'węgorz'}},
+          {name:{en:'Ebi',pl:'Ebi'},price:'35 zł',desc:{en:'shrimp',pl:'krewetka'}}
         ]
       },
       {
-        id: 'alkohole',
-        title: {en: 'Spirits & Beer', pl: 'Alkohole Mocne i Piwo'},
-        img: 'https://images.unsplash.com/photo-1527281400683-1aae777175f8?auto=format&fit=crop&q=80&w=1600',
-        desc: {en: 'Premium spirits, regional liqueurs, and cold beer.', pl: 'Alkohole premium, regionalne nalewki i zimne piwo.'},
+        id:'hosomaki',
+        title:{en:'Hosomaki (6 pcs)',pl:'Hosomaki (6 szt.)'},
+        img:PHOTOS_PATH+'hosomaki.jpg',
+        desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},
         items:[
-          {isSubtitle: true, name: {en: 'Vodka (40 ml)', pl: 'Wódka (40 ml)'}},
-          {name: {en: 'Roberto Cavalli Gold 40%', pl: 'Roberto Cavalli Gold 40%'}, price: '50 zł', desc: {en: '', pl: ''}},
-          {name: {en: 'Crystal Head Aurora 40%', pl: 'Crystal Head Aurora 40%'}, price: '78 zł', desc: {en: '', pl: ''}},
-          {name: {en: 'Belwedere 40%', pl: 'Belwedere 40%'}, price: '42 zł', desc: {en: '', pl: ''}},
-          
-          {isSubtitle: true, name: {en: 'Rum & Cognac (40 ml)', pl: 'Rum & Koniak (40 ml)'}},
-          {name: {en: 'Zacapa 40%', pl: 'Zacapa 40%'}, price: '73 zł', desc: {en: 'Rum', pl: 'Rum'}},
-          {name: {en: 'Don Papa 40%', pl: 'Don Papa 40%'}, price: '65 zł', desc: {en: 'Rum', pl: 'Rum'}},
-          {name: {en: 'Hennessy VSOP 40%', pl: 'Hennessy VSOP 40%'}, price: '70 zł', desc: {en: 'Cognac', pl: 'Koniak'}},
-          
-          {isSubtitle: true, name: {en: 'Bourbon & Whisky (40 ml)', pl: 'Burbon i Whisky (40 ml)'}},
-          {name: {en: "Jack Daniel's Single Barrel 45%", pl: "Jack Daniel's Single Barrel 45%"}, price: '65 zł', desc: {en: '', pl: ''}},
-          {name: {en: "Jack Daniel's Gentleman 40%", pl: "Jack Daniel's Gentleman 40%"}, price: '55 zł', desc: {en: '', pl: ''}},
-          {name: {en: 'Wild Turkey 101 40%', pl: 'Wild Turkey 101 40%'}, price: '50 zł', desc: {en: '', pl: ''}},
-          {name: {en: 'Glenffidich 15 40%', pl: 'Glenffidich 15 40%'}, price: '60 zł', desc: {en: '', pl: ''}},
-          {name: {en: 'Macallan 15YO 43%', pl: 'Macallan 15YO 43%'}, price: '180 zł', desc: {en: '', pl: ''}},
-          
-          {isSubtitle: true, name: {en: 'Gin & Tequila (40 ml)', pl: 'Gin i Tequila (40 ml)'}},
-          {name: {en: "Hendrick's 41,4%", pl: "Hendrick's 41,4%"}, price: '55 zł', desc: {en: 'Gin', pl: 'Gin'}},
-          {name: {en: 'Heradura Reposado 40%', pl: 'Heradura Reposado 40%'}, price: '65 zł', desc: {en: 'Tequila', pl: 'Tequila'}},
-          
-          {isSubtitle: true, name: {en: 'Regional Spirits (40 ml)', pl: 'Alkohole Regionalne (40 ml)'}},
-          {name: {en: 'Zakopiańska Furia 32%', pl: 'Zakopiańska Furia 32%'}, price: '30 zł', desc: {en: 'cherry', pl: 'wiśniowa'}},
-          {name: {en: 'Soczysta Góralka 28%', pl: 'Soczysta Góralka 28%'}, price: '30 zł', desc: {en: 'raspberry', pl: 'malinowa'}},
-          {name: {en: 'Dla Zdrowia 17,5%', pl: 'Dla Zdrowia 17,5%'}, price: '30 zł', desc: {en: 'gooseberry', pl: 'agrestówka'}},
-          {name: {en: 'Podstępny Góral 28%', pl: 'Podstępny Góral 28%'}, price: '30 zł', desc: {en: 'blackcurrant', pl: 'czarna porzeczka'}},
-          {name: {en: 'Regional liqueurs board', pl: 'Deska nalewek regionalnych'}, price: '60 zł', desc: {en: '5 pcs - 20 ml', pl: '5 szt. - 20 ml'}},
-          
-          {isSubtitle: true, name: {en: 'Beer', pl: 'Piwo'}},
-          {name: {en: 'Watra 4,7%', pl: 'Watra 4,7%'}, price: '50 zł', desc: {en: 'Bottled beer (330 ml)', pl: 'Piwo butelkowe (330 ml)'}},
-          {name: {en: 'Zośka 0,0%', pl: 'Zośka 0,0%'}, price: '50 zł', desc: {en: 'Non-alcoholic beer (500 ml)', pl: 'Piwo bezalkoholowe (500 ml)'}}
+          {name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, avocado, oshinko'}},
+          {name:{en:'Fish',pl:'Rybne'},price:'40 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, maślana'}}
+        ]
+      },
+      {
+        id:'futomaki',
+        title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},
+        img:PHOTOS_PATH+'futomaki.jpg',
+        desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},
+        items:[
+          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
+          {name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem na ostro'}},
+          {name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna maślana z mango'}},
+          {name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'spicy shrimps',pl:'krewetki w tempurze'}},
+          {name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},
+          {name:{en:'Veggi',pl:'Veggi'},price:'50 zł',desc:{en:'vegetables',pl:'warzywa'}}
+        ]
+      },
+      {
+        id:'uramaki',
+        title:{en:'Uramaki & Tempura',pl:'Uramaki & Tempura'},
+        img:PHOTOS_PATH+'tempura.jpg',
+        desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},
+        isSplit:true,
+        items:[
+          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
+          {name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'58 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},
+          {name:{en:'Mango Sake',pl:'Mango Sake'},price:'58 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},
+          {name:{en:'Maguro Orange Pepper',pl:'Maguro Orange Pepper'},price:'60 zł',desc:{en:'tuna with chopped leek and orange pepper',pl:'tuńczyk z siekanym porem i orange pepper'}},
+          {name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'55 zł',desc:{en:'shrimps tempura in soypaper',pl:'krewetki w tempurze zawijane w papier sojowy'}},
+          {name:{en:'Gold California',pl:'Gold California'},price:'55 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},
+          {name:{en:'Rainbow',pl:'Rainbow'},price:'60 zł',desc:{en:'surimi wrapped in variety of raw fish',pl:'surimi owijane wachlarzem ryb'}},
+          {name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'60 zł',desc:{en:'shrimps tempura wrapped in fried tuna',pl:'krewetki w tempurze owijane opalanym tuńczykiem'}},
+          {name:{en:'Kegon',pl:'Kegon'},price:'60 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany grillowanym węgorzem'}},
+          {name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'60 zł',desc:{en:'salmon wrapped in spicy fried salmon',pl:'łosoś owijany opalanym pikantnym łososiem'}},
+          {name:{en:'Tobiko Ohio Ten',pl:'Tobiko Ohio Ten'},price:'62 zł',desc:{en:'butterfish tempura covered in flyingfish caviar',pl:'maślana w tempurze obtoczona kawiorem z latającej ryby'}},
+          {name:{en:'Sake Tataki Ebi Ten',pl:'Sake Tataki Ebi Ten'},price:'60 zł',desc:{en:'shrimps tempura with salmon tartare',pl:'krewetki w tempurze obłożone tatarem z łososia'}}
+        ],
+        itemsRight:[
+          {name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'55 zł',desc:{en:'salmon',pl:'łosoś'}},
+          {name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'55 zł',desc:{en:'tuna',pl:'tuńczyk'}},
+          {name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'55 zł',desc:{en:'shrimps',pl:'parzone krewetki'}},
+          {name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}
+        ]
+      },
+      {
+        id:'oyakomaki',
+        title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},
+        img:PHOTOS_PATH+'oyakomaki.jpg',
+        desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę zamiast nori.'},
+        items:[
+          {name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimps wrapped in salmon',pl:'siekane krewetki owijane w łososia'}},
+          {name:{en:'Maguro Sake Ikura',pl:'Maguro Sake Ikura'},price:'50 zł',desc:{en:'salmon caviar wrapped in tuna',pl:'kawior z łososia owijany tuńczykiem'}},
+          {name:{en:'Maguro Sake Tataki',pl:'Maguro Sake Tataki'},price:'48 zł',desc:{en:'chopped salmon wrapped in tuna',pl:'siekany łosoś owijany tuńczykiem'}}
+        ]
+      },
+      {
+        id:'sashimi',
+        title:{en:'Sashimi (9 pcs)',pl:'Sashimi (9 szt.)'},
+        img:PHOTOS_PATH+'sashimi.jpg',
+        desc:{en:'Thinly sliced raw fish and seafood, served without rice.',pl:'Cienko krojone slajsy surowej ryby i owoców morza, podawane bez ryżu.'},
+        items:[
+          {name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'slices of fish - salmon, tuna, butterfish',pl:'slajsy surowej ryby - łosoś, tuńczyk, maślana'}}
         ]
       }
     ];
 
     let currentLang = 'pl';
     let isMenuExpanded = false;
+    let savedScrollPosition = 0;
 
-    // INIT
     window.onload = function() {
       setTimeout(() => {
         document.getElementById('intro').style.opacity = '0';
@@ -424,23 +521,15 @@
             langSel.style.opacity = '1';
         }, 1000);
       }, 1500);
-      
-      const panel = document.getElementById('menu-panel');
+
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
-
-      // CLICK OUTSIDE LOGIC
-      document.addEventListener('click', (e) => {
-        if(isMenuExpanded) {
-            if(panel && !panel.contains(e.target)) {
-                toggleMenu(false);
-            }
-        }
-      });
+      const overlay = document.getElementById('menu-overlay');
 
       setMenuState(false);
 
       trigger.addEventListener('click', (e) => {
+        e.preventDefault();
         e.stopPropagation();
         if(!isMenuExpanded) toggleMenu(true);
       });
@@ -451,13 +540,19 @@
       });
 
       window.scrollToSection = function(id) {
-          const el = document.getElementById(id);
-          if(el) {
-              const yOffset = -80; 
-              const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-              window.scrollTo({top: y, behavior: 'smooth'});
-              if(isMenuExpanded) toggleMenu(false);
-          }
+          if(isMenuExpanded) toggleMenu(false);
+          
+          setTimeout(() => {
+              const el = document.getElementById(id);
+              if(el) {
+                  const yOffset = -80; 
+                  const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
+                  document.documentElement.style.scrollBehavior = 'smooth';
+                  window.scrollTo({top: y, behavior: 'smooth'});
+                  
+                  setTimeout(() => { document.documentElement.style.scrollBehavior = ''; }, 1000);
+              }
+          }, 100);
       };
 
       window.setLanguage = function(lang) {
@@ -488,6 +583,7 @@
           });
           document.getElementById('modal-title').textContent = ALLERGIES.title[currentLang];
           document.getElementById('modal-text').textContent = ALLERGIES.text[currentLang];
+          document.getElementById('modal-service').textContent = ALLERGIES.service[currentLang];
       };
 
       window.closeInfoModal = function() {
@@ -495,19 +591,65 @@
           const content = document.getElementById('info-modal-content');
           modal.classList.add('opacity-0');
           content.classList.add('scale-95');
-          setTimeout(() => modal.classList.add('hidden'), 300);
+          setTimeout(() => modal.classList.add('hidden'), 500);
       };
+
+      window.toggleItem = function(el) {
+        const content = el.nextElementSibling;
+        const arrow = el.querySelector('.arrow');
+        const title = el.querySelector('.item-title');
+        const isOpening = !content.style.maxHeight;
+
+        const allContents = document.querySelectorAll('.set-item-content');
+        allContents.forEach(c => {
+             c.style.maxHeight = null;
+             c.classList.remove('opacity-100', 'pb-8');
+             c.classList.add('opacity-0');
+             const header = c.previousElementSibling;
+             if(header) {
+                 const hArrow = header.querySelector('.arrow');
+                 const hTitle = header.querySelector('.item-title');
+                 if(hArrow) hArrow.classList.remove('rotate-180', 'text-gold');
+                 if(hTitle) hTitle.classList.remove('text-gold-dark');
+             }
+        });
+
+        if (isOpening) {
+            content.style.maxHeight = content.scrollHeight + "px";
+            content.classList.remove('opacity-0');
+            content.classList.add('opacity-100', 'pb-8');
+            arrow.classList.add('rotate-180', 'text-gold');
+            title.classList.add('text-gold-dark');
+        }
+      };
+    };
+
+    window.toggleMenu = function(expand) {
+        isMenuExpanded = expand;
+        setMenuState(expand);
     };
 
     function setMenuState(expanded) {
         const panel = document.getElementById('menu-panel');
         const trigger = document.getElementById('menu-trigger');
         const content = document.getElementById('menu-content');
+        const overlay = document.getElementById('menu-overlay');
 
         if(expanded) {
-            panel.style.width = 'min(90vw, 500px)'; 
-            panel.style.height = '500px';
-            panel.style.borderRadius = '32px'; 
+            overlay.style.opacity = '1';
+            overlay.style.pointerEvents = 'auto';
+
+            savedScrollPosition = window.pageYOffset; 
+            document.body.style.position = 'fixed';
+            document.body.style.top = '-' + savedScrollPosition + 'px';
+            document.body.style.width = '100%';
+
+            const safeHeight = Math.min(window.innerHeight * 0.85, 600);
+            const safeWidth = Math.min(window.innerWidth * 0.9, 380);
+
+            panel.style.width = safeWidth + 'px';
+            panel.style.height = safeHeight + 'px';
+            panel.style.borderRadius = '24px'; 
             
             trigger.style.opacity = '0';
             trigger.style.pointerEvents = 'none';
@@ -515,9 +657,20 @@
             content.style.opacity = '1';
             content.style.pointerEvents = 'auto';
         } else {
-            panel.style.width = '140px';
-            panel.style.height = '50px';
-            panel.style.borderRadius = '9999px'; 
+            overlay.style.opacity = '0';
+            overlay.style.pointerEvents = 'none';
+
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            
+            document.documentElement.style.scrollBehavior = 'auto';
+            window.scrollTo(0, savedScrollPosition);
+            document.documentElement.style.scrollBehavior = '';
+
+            panel.style.width = '60px';
+            panel.style.height = '60px';
+            panel.style.borderRadius = '30px'; 
             
             trigger.style.opacity = '1';
             trigger.style.pointerEvents = 'auto';
@@ -525,11 +678,6 @@
             content.style.opacity = '0';
             content.style.pointerEvents = 'none';
         }
-    }
-
-    function toggleMenu(expand) {
-        isMenuExpanded = expand;
-        setMenuState(expand);
     }
 
     function renderApp() {
@@ -550,56 +698,126 @@
         }
 
         const menuList = document.getElementById('menu-list');
-        menuList.innerHTML = menuData.map(s => `
-            <button onclick="scrollToSection('${s.id}')" class="text-left px-4 py-3 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-colors font-rajdhani text-sm uppercase tracking-wider text-white">
-                ${s.title[currentLang]}
+        menuList.innerHTML = _0x4f21.map((s, idx) => `
+            <button onclick="scrollToSection('${s.id}')" class="text-left px-5 py-3.5 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-all duration-300 font-rajdhani text-sm uppercase tracking-widest text-white group flex items-center justify-between">
+                <span>${s.title[currentLang]}</span>
+                <span class="text-gold opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0">→</span>
             </button>
         `).join('');
 
         const main = document.getElementById('main-content');
-        const sectionsHTML = menuData.map((section, idx) => {
+        const sectionsHTML = _0x4f21.map((section, idx) => {
+            const isSets = section.id === 'sets';
+            const isSpecials = section.id === 'specials';
             
-            const renderItem = (item) => {
-                if(item.isSubtitle) {
-                    return `<h3 class="font-cinzel text-xl text-gold mt-12 mb-6 tracking-widest text-center uppercase border-b border-gray-200/50 pb-4 inline-block mx-auto">${item.name[currentLang]}</h3>`;
+            const renderItem = (item, dark = false) => {
+                if(isSets) {
+                    return `
+                    <div class="border-b border-gray-200 last:border-0">
+                        <div onclick="toggleItem(this)" class="flex items-center justify-between py-6 cursor-pointer group hover:pl-4 transition-all duration-300">
+                            <div class="flex flex-col">
+                                <span class="item-title font-cinzel font-extrabold text-xl md:text-2xl transition-colors duration-300 text-ink group-hover:text-gold-dark">
+                                    ${item.name[currentLang]}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-4">
+                                <span class="font-rajdhani font-bold text-gold-dark text-lg md:text-xl">${item.price}</span>
+                                <span class="arrow text-gray-300 transform transition-transform duration-500">▼</span>
+                            </div>
+                        </div>
+                        <div class="set-item-content overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0">
+                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/30 ml-2">
+                                <h4 class="font-cinzel text-gold text-xs tracking-[0.2em] uppercase mb-3 inline-block">
+                                    ${UI_TEXT.description_label[currentLang]}
+                                </h4>
+                                <p class="font-rajdhani text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium">
+                                    ${item.desc[currentLang]}
+                                </p>
+                            </div>
+                        </div>
+                    </div>`;
+                } else {
+                    return `
+                    <div class="py-6 border-b ${dark ? 'border-white/10 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50/50'} last:border-0 group transition-colors px-4 -mx-4 rounded-xl">
+                        <div class="flex justify-between items-baseline gap-4 mb-2">
+                            <h3 class="font-cinzel text-xl ${dark ? 'text-white group-hover:text-gold' : 'text-ink group-hover:text-gold-dark'} font-extrabold transition-colors tracking-wide">
+                                ${item.name[currentLang]}
+                            </h3>
+                            <span class="font-rajdhani font-bold ${dark ? 'text-gold' : 'text-gold-dark'} text-lg whitespace-nowrap">
+                                ${item.price}
+                            </span>
+                        </div>
+                        <p class="font-rajdhani ${dark ? 'text-gray-400' : 'text-gray-500'} text-base leading-relaxed max-w-3xl">
+                            ${item.desc[currentLang]}
+                        </p>
+                    </div>`;
                 }
-
-                return `
-                <div class="py-6 border-b border-gray-100 hover:bg-gray-50/50 last:border-0 group transition-colors px-4 -mx-4 rounded-xl w-full">
-                    <div class="flex justify-between items-baseline gap-4 mb-2">
-                        <h3 class="font-cinzel text-xl text-ink group-hover:text-gold-dark font-extrabold transition-colors tracking-wide">
-                            ${item.name[currentLang]}
-                        </h3>
-                        <span class="font-rajdhani font-bold text-gold-dark text-lg whitespace-nowrap">
-                            ${item.price}
-                        </span>
-                    </div>
-                    ${item.desc[currentLang] ? `<p class="font-rajdhani text-gray-500 text-base leading-relaxed max-w-3xl">${item.desc[currentLang]}</p>` : ''}
-                </div>`;
             };
+
+            if (isSpecials) {
+                return `
+                <section id="${section.id}" class="w-full relative z-30 pt-10 pb-32 px-6">
+                    <div class="max-w-4xl mx-auto text-center mb-16">
+                        <div class="flex items-center justify-center gap-4 mb-6">
+                            <div class="h-[1px] w-12 bg-gold/50"></div>
+                            <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em]">01</span>
+                            <div class="h-[1px] w-12 bg-gold/50"></div>
+                        </div>
+                        <h2 class="font-cinzel text-4xl md:text-6xl text-white font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
+                            ${section.title[currentLang]}
+                        </h2>
+                        <p class="font-rajdhani text-lg md:text-xl max-w-2xl mx-auto text-gray-300 font-light">
+                            ${section.desc[currentLang]}
+                        </p>
+                    </div>
+                    <div class="max-w-4xl mx-auto flex flex-col">
+                        ${section.items.map(item => renderItem(item, true)).join('')}
+                    </div>
+                </section>
+                `;
+            }
+
+            let contentHTML = '';
+            if(section.isSplit) {
+                contentHTML = `
+                <div class="space-y-20">
+                    <div>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.uramaki_title[currentLang]}</h3>
+                        <div class="flex flex-col">
+                            ${section.items.map(item => renderItem(item, false)).join('')}
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.tempura_title[currentLang]}</h3>
+                        <div class="flex flex-col">
+                            ${section.itemsRight ? section.itemsRight.map(item => renderItem(item, false)).join('') : ''}
+                        </div>
+                    </div>
+                </div>`;
+            } else {
+                contentHTML = `<div class="flex flex-col">${section.items.map(item => renderItem(item, false)).join('')}</div>`;
+            }
 
             return `
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
-                <div class="w-full h-[50vh] md:h-[70vh] relative flex items-center justify-center overflow-hidden bg-ink">
+                <div class="w-full h-[60vh] md:h-[80vh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
-                    <div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>
-                    <div class="absolute inset-0 bg-black/50 pointer-events-none"></div>
+                    ${section.img ? \`<div class="absolute inset-0 parallax-bg" style="background-image: url('\${section.img}')"></div>\` : \`<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>\`}
+                    <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
                     
                     <div class="relative z-30 text-center text-white px-4">
-                        <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">${idx < 9 ? '0' : ''}${idx + 1}</span>
-                        <h2 class="font-cinzel text-5xl md:text-7xl font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
-                            ${section.title[currentLang]}
+                        <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">\${idx < 9 ? '0' : ''}\${idx + 1}</span>
+                        <h2 class="font-cinzel text-5xl md:text-8xl font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
+                            \${section.title[currentLang]}
                         </h2>
                         <p class="font-rajdhani text-lg md:text-2xl max-w-2xl mx-auto text-gray-200 font-light">
-                            ${section.desc[currentLang]}
+                            \${section.desc[currentLang]}
                         </p>
                     </div>
                 </div>
 
-                <div class="max-w-4xl mx-auto px-6 py-20 md:py-24 bg-white relative -mt-10 rounded-t-3xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)] z-20 flex flex-col items-center">
-                    <div class="flex flex-col w-full">
-                        ${section.items.map(item => renderItem(item)).join('')}
-                    </div>
+                <div class="max-w-5xl mx-auto px-6 py-20 md:py-32 bg-white relative -mt-10 rounded-t-3xl shadow-[0_-20px_60px_-15px_rgba(0,0,0,0.1)] z-20">
+                    \${contentHTML}
                 </div>
             </section>
             `;
@@ -624,3 +842,4 @@
   </script>
 </body>
 </html>
+
