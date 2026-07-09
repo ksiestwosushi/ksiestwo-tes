@@ -192,7 +192,7 @@
     <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" onclick="toggleMenu(false)"></div>
 
     <!-- FIXED NAVIGATION RIGHT ALIGNED -->
-    <div class="fixed right-6 z-50 flex justify-end pointer-events-none" style="top: max(1.5rem, env(safe-area-inset-top));">
+    <div class="fixed right-6 top-6 z-50 flex justify-end pointer-events-none" style="top: calc(1.5rem + env(safe-area-inset-top, 0px));">
       <div id="menu-panel" class="relative menu-panel bg-ink/95 border border-white/10 flex flex-col items-center pointer-events-auto transform origin-top-right overflow-hidden shadow-2xl" style="width: 60px; height: 60px; border-radius: 30px;">
         
         <!-- Collapsed Trigger -->
@@ -680,10 +680,7 @@
               overlay.style.pointerEvents = 'auto';
             }
 
-            savedScrollPosition = window.pageYOffset; 
-            document.body.style.position = 'fixed';
-            document.body.style.top = '-' + savedScrollPosition + 'px';
-            document.body.style.width = '100%';
+            document.body.style.overflow = 'hidden';
 
             const safeHeight = Math.min(window.innerHeight * 0.85, 600);
             const safeWidth = Math.min(window.innerWidth * 0.9, 380);
@@ -709,13 +706,7 @@
               overlay.style.pointerEvents = 'none';
             }
 
-            document.body.style.position = '';
-            document.body.style.top = '';
-            document.body.style.width = '';
-            
-            document.documentElement.style.scrollBehavior = 'auto';
-            window.scrollTo(0, savedScrollPosition);
-            document.documentElement.style.scrollBehavior = '';
+            document.body.style.overflow = '';
 
             if (panel) {
               panel.style.width = '60px';
