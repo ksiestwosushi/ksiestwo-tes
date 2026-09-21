@@ -263,7 +263,8 @@
     <div id="fixed-bg" class="fixed top-0 left-0 w-full h-screen z-0 bg-ink pointer-events-none overflow-hidden" style="transform: translateZ(0);">
         <img
           id="hero-img"
-          src="https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1920&auto=format&fit=crop"
+          src="sushi.jpg"
+          onerror="if(this.src !== 'https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1920&auto=format&fit=crop') this.src='https://images.unsplash.com/photo-1579871494447-9811cf80d66c?q=80&w=1920&auto=format&fit=crop';"
           class="hero-sushi-backdrop"
           alt="Księstwo Sushi Backdrop"
         />
@@ -361,8 +362,23 @@
   <!-- APPLICATION LOGIC WITH PRESERVED CONCEPT & MODERN TRANSITIONS -->
   <script>
     (function(){
-    // Authentic food photography fallbacks
+    // Photo mapping: configured to seamlessly load local image files (e.g. from ./, ./images/, ./assets/, etc.)
+    // Matches the exact section keys: specials, sets, starters, soups, nigiri, hosomaki, futomaki, tempura, oyakomaki, sashimi
     const PHOTOS = {
+      specials: 'specials.jpg',
+      sets: 'sets.jpg',
+      starters: 'starters.jpg',
+      soups: 'soups.jpg',
+      nigiri: 'nigiri.jpg',
+      hosomaki: 'hosomaki.jpg',
+      futomaki: 'futomaki.jpg',
+      tempura: 'tempura.jpg',
+      oyakomaki: 'oyakomaki.jpg',
+      sashimi: 'sashimi.jpg',
+    };
+
+    // Unsplash fallbacks in case local image files are not yet uploaded in preview environment
+    const FALLBACK_PHOTOS = {
       specials: 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?q=80&w=1200&auto=format&fit=crop',
       sets: 'https://images.unsplash.com/photo-1611143669185-af224c5e3252?q=80&w=1200&auto=format&fit=crop',
       starters: 'https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?q=80&w=1200&auto=format&fit=crop',
@@ -398,11 +414,16 @@
       service: {en: '', pl: ''}
     };
 
+    // Helper to get image URL with fallback to online photography if local file is missing
+    function resolvePhoto(key) {
+      return PHOTOS[key] || FALLBACK_PHOTOS[key] || '';
+    }
+
     const _0x4f21 = [
       {
         id:'specials',
         title:{en:"Chef's Specials",pl:'Szef Kuchni Poleca'},
-        img: PHOTOS.specials,
+        img: resolvePhoto('specials'),
         desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
         items:[
           {
@@ -961,7 +982,14 @@
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
                 <div class="w-full h-[60svh] md:h-[80svh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
-                    ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
+                    <div class="absolute inset-0 overflow-hidden">
+                      <img 
+                        src="${section.img}" 
+                        alt="${section.title[currentLang]}" 
+                        class="w-full h-full object-cover parallax-bg" 
+                        onerror="if(this.src !== '${FALLBACK_PHOTOS[section.id] || ''}') this.src='${FALLBACK_PHOTOS[section.id] || ''}';"
+                      />
+                    </div>
                     <div class="absolute inset-0 bg-black/45 pointer-events-none"></div>
                     
                     <div class="relative z-30 text-center text-white px-4 scroll-reveal">
