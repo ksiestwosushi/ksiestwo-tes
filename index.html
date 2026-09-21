@@ -2,19 +2,16 @@
 <html lang="pl">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
   <meta name="theme-color" content="#0F0F0F" />
   <title>Księstwo Sushi & Ramen | Zakopane Krupówki</title>
   <meta name="description" content="Księstwo Sushi & Ramen w Zakopanem. Wyjątkowe sushi i ramen przy Krupówki 38A. Zarezerwuj stolik: +48 502 525 544."> 
-  <meta property="og:title" content="Księstwo Sushi & Ramen | Zakopane Krupówki" />
-  <meta property="og:description" content="Księstwo Sushi & Ramen w Zakopanem. Wyjątkowe sushi i ramen przy Krupówki 38A. Zarezerwuj stolik: +48 502 525 544." />
-  <meta property="og:type" content="website" />
-  
+  <meta name="google-site-verification" content="S3duSoOqtLxMjhomglWoU930JxrHvpnMstdjVtal0l0" />
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="icon" type="image/jpeg" href="ksiestwo38.jpg">
   <!-- TAILWIND CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -40,7 +37,6 @@
             'grow-line': 'growLine 1.0s ease-out forwards',
             'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             'scroll-down': 'scrollDown 2s cubic-bezier(0.4, 0, 0.2, 1) infinite',
-            'float-subtle': 'floatSubtle 4s ease-in-out infinite',
           },
           keyframes: {
             fadeIn: {
@@ -60,42 +56,38 @@
               '30%': { opacity: '1' },
               '70%': { opacity: '1' },
               '100%': { transform: 'translateY(100%)', opacity: '0' },
-            },
-            floatSubtle: {
-              '0%, 100%': { transform: 'translateY(0)' },
-              '50%': { transform: 'translateY(-5px)' },
             }
           }
         }
       }
     }
   </script>
-
   <style>
-    /* CORE STYLES & RETENTION OF ORIGINAL CONCEPT */
-    * {
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
+    /* CORE STYLES & PROTECTION */
     body {
       background-color: #0F0F0F;
       color: #0F0F0F;
       overflow-x: hidden;
-      font-family: 'Rajdhani', sans-serif;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
     
     html {
-      scroll-behavior: smooth;
       -webkit-overflow-scrolling: touch;
-      background-color: #0F0F0F;
     }
     
     img {
       -webkit-user-drag: none;
-      user-select: none;
+      -khtml-user-drag: none;
+      -moz-user-drag: none;
+      -o-user-drag: none;
+      user-drag: none;
+      pointer-events: none;
     }
 
     .no-scrollbar::-webkit-scrollbar {
@@ -106,37 +98,24 @@
       scrollbar-width: none;
     }
 
-    /* BACKGROUND SUSHI PHOTO WITH SOFT BLUR & ELEGANT TRANSPARENCY */
-    .hero-sushi-backdrop {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.38;
-      filter: blur(8px) brightness(0.7) saturate(1.15);
-      transform: scale(1.08) translateZ(0);
-      will-change: transform, opacity;
-      transition: transform 0.5s ease-out, opacity 0.8s ease-out;
-    }
-
     .parallax-bg {
       background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
-      transition: transform 0.4s ease-out;
     }
     
     @media screen and (max-width: 1024px), (pointer: coarse), (hover: none) {
-      .parallax-bg {
-        background-attachment: scroll !important;
-      }
+        .parallax-bg {
+            background-attachment: scroll !important;
+        }
     }
 
-    /* SMOOTH MENU EXPANSION */
+    /* MENU ANIMATION FIXED FOR WEBVIEWS */
     .menu-panel {
-      transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
-                  height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-                  border-radius 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
+                  height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1),
                   box-shadow 0.4s ease;
       transform-origin: top right;
       will-change: width, height, border-radius;
@@ -146,25 +125,22 @@
       backdrop-filter: blur(20px);
     }
 
-    /* SMOOTH PAGE CONTENT TRANSITIONS (CSS TRANSITIONS FOR BUTTON/LANG CHANGES) */
-    .page-fade-container {
-      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-                  filter 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-                  transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-      will-change: opacity, filter, transform;
+    /* BACKGROUND SUSHI SETS PHOTO WITH BLUR & VIGNETTE AS SHARED BACKGROUND */
+    .hero-sets-backdrop {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.45;
+      filter: blur(10px) brightness(0.65) saturate(1.2);
+      transform: scale(1.12) translateZ(0);
+      will-change: transform, opacity;
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
     }
 
-    .page-fade-out {
-      opacity: 0;
-      filter: blur(6px);
-      transform: translateY(10px);
-      pointer-events: none;
-    }
-
-    /* SCROLL REVEAL ANIMATION */
+    /* SMOOTH SCROLL REVEAL ANIMATIONS */
     .scroll-reveal {
       opacity: 0;
-      transform: translateY(28px);
+      transform: translateY(24px);
       transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
                   transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
       will-change: opacity, transform;
@@ -175,16 +151,41 @@
       transform: translateY(0);
     }
 
-    /* SUBTLE HOVER POLISH ON MENU ITEMS */
+    /* SMOOTH TRANSITIONS FOR LANGUAGE TOGGLE */
+    .page-fade-container {
+      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                  filter 0.35s cubic-bezier(0.25, 1, 0.5, 1),
+                  transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
+      will-change: opacity, filter, transform;
+    }
+
+    .page-fade-out {
+      opacity: 0;
+      filter: blur(6px);
+      transform: translateY(8px);
+      pointer-events: none;
+    }
+
+    /* SMOOTH HOVER FOR MENU ITEMS */
     .item-row {
-      transition: background-color 0.25s ease, transform 0.25s ease, padding 0.25s ease;
+      transition: background-color 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .item-row:hover {
       transform: translateX(4px);
     }
+
+    .icon-filter-gold {
+      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
+    }
+    .icon-filter-white {
+      filter: brightness(0) invert(1);
+    }
+    .group:hover .group-hover\:icon-filter-gold {
+      filter: invert(76%) sepia(35%) saturate(859%) hue-rotate(5deg) brightness(92%) contrast(85%);
+    }
   </style>
 </head>
-<body class="antialiased">
+<body class="antialiased" oncontextmenu="return false;" ondragstart="return false;" onselectstart="return false;">
 
   <!-- INTRO SCREEN -->
   <div id="intro" class="fixed inset-0 z-[9999] bg-ink flex flex-col items-center justify-center transition-opacity duration-1000 min-h-[100svh]">
@@ -223,7 +224,7 @@
     <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" onclick="toggleMenu(false)"></div>
 
     <!-- FIXED NAVIGATION RIGHT ALIGNED -->
-    <div class="fixed right-6 top-6 z-50 flex justify-end pointer-events-none" style="padding-top: env(safe-area-inset-top);">
+    <div class="fixed right-6 top-6 z-50 flex justify-end pointer-events-none">
       <div id="menu-panel" class="relative menu-panel bg-ink/95 border border-white/10 flex flex-col items-center pointer-events-auto transform origin-top-right overflow-hidden shadow-2xl" style="width: 60px; height: 60px; border-radius: 30px;">
         
         <!-- Collapsed Trigger -->
@@ -238,13 +239,13 @@
 
         <!-- Expanded Content -->
         <div id="menu-content" class="w-full h-full pt-[80px] pb-6 px-6 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col pointer-events-none">
-          <button id="close-menu" class="absolute top-6 right-6 text-white hover:text-gold text-4xl z-50 transition-colors cursor-pointer leading-none font-light" aria-label="Close">&times;</button>
+          <button id="close-menu" class="absolute top-6 right-6 text-white hover:text-gold text-4xl z-50 transition-colors cursor-pointer leading-none font-light">&times;</button>
           
           <div class="flex items-center gap-4 border-b border-white/10 pb-6 mb-4 mt-2">
              <div class="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-sm">KS</div>
              <span class="font-cinzel text-white text-xl tracking-[0.2em] font-medium">KSIĘSTWO</span>
           </div>
-          <!-- OVERSCROLL-NONE -->
+          <!-- OVERSCROLL-NONE IS CRITICAL HERE -->
           <div class="flex-1 overflow-y-auto overscroll-none no-scrollbar flex flex-col gap-2">
              <div id="menu-list" class="flex flex-col gap-2"></div>
           </div>
@@ -253,25 +254,25 @@
                 <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">PL</button>
                 <button onclick="switchLang('en')" class="lang-btn-en px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">EN</button>
              </div>
-             <button onclick="openInfoModal()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer text-lg font-cinzel" title="Alergeny">i</button>
+             <button onclick="openInfoModal()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer text-lg font-cinzel">i</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- SHARED FIXED BACKGROUND: PHOTO OF SUSHI WITH SOFT BLUR & GENTLE TRANSPARENCY -->
+    <!-- SHARED FIXED BACKGROUND: PHOTO OF SETS (zestawy.jpg) IN CINEMATIC BLUR -->
     <div id="fixed-bg" class="fixed top-0 left-0 w-full h-screen z-0 bg-ink pointer-events-none overflow-hidden" style="transform: translateZ(0);">
         <img
           id="hero-img"
-          src="images/sushi.jpg"
-          class="hero-sushi-backdrop"
-          alt="Księstwo Sushi Backdrop"
+          src="./images/zestawy.jpg"
+          class="hero-sets-backdrop"
+          alt="Księstwo Sushi & Ramen Backdrop"
         />
-        <div class="absolute inset-0 bg-gradient-to-b from-ink/60 via-ink/40 to-ink z-10"></div>
-        <div class="absolute inset-0 z-20" style="background: radial-gradient(circle at center, transparent 30%, rgba(15,15,15,0.7) 100%);"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/45 to-ink z-10"></div>
+        <div class="absolute inset-0 z-20" style="background: radial-gradient(circle at center, rgba(15,15,15,0.15) 20%, rgba(15,15,15,0.85) 100%);"></div>
     </div>
 
-    <!-- SCROLLABLE CONTENT WRAPPER WITH MODERN PAGE TRANSITION -->
+    <!-- SCROLLABLE CONTENT WITH SMOOTH TRANSITION -->
     <div id="page-content-wrapper" class="page-fade-container relative z-10 w-full flex flex-col">
       
       <!-- HERO TEXT -->
@@ -294,7 +295,7 @@
           </div>
       </div>
 
-      <!-- MAIN CONTENT AREA (POPULATED BY JS) -->
+      <!-- MAIN CONTENT AREA -->
       <main id="main-content" class="w-full relative z-20">
         <!-- Sections injected by JS -->
       </main>
@@ -306,41 +307,35 @@
             
             <div class="grid md:grid-cols-2 gap-12 mb-20 text-left md:text-center font-rajdhani text-gray-400">
                 <div class="flex flex-col md:items-center items-start">
-                  <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6 uppercase">LOKALIZACJA</h5>
+                  <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
                   <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
-                     <div class="w-6 h-6 mt-1 flex-shrink-0 text-gold">
-                        <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-                        </svg>
+                     <div class="w-6 h-6 mt-1 flex-shrink-0">
+                        <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map" onerror="this.style.display='none'">
                      </div>
                      <div class="text-left">
-                       <p class="text-white">Krupówki 38A, Zakopane</p>
-                       <p id="footer-country">Polska</p>
+                       <p>Krupówki 38A, Zakopane</p>
+                       <p id="footer-country">Poland</p>
                      </div>
                   </a>
                 </div>
                 <div class="flex flex-col md:items-center items-start">
-                  <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6 uppercase">KONTAKT</h5>
+                  <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
                   <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
-                      <div class="w-6 h-6 flex-shrink-0 text-gold">
-                          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                            <path d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
-                          </svg>
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone" onerror="this.style.display='none'">
                       </div>
-                      <span class="text-white group-hover:text-gold transition-colors">+48 502 525 544</span>
+                      <span>+48 502 525 544</span>
                   </a>
                   <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
-                      <div class="w-6 h-6 flex-shrink-0 text-gold">
-                          <svg class="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                          </svg>
+                      <div class="w-6 h-6 flex-shrink-0">
+                          <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram" onerror="this.style.display='none'">
                       </div>
-                      <span class="text-white group-hover:text-gold transition-colors">@ksiestwosushi</span>
+                      <span>@ksiestwosushi</span>
                   </a>
                 </div>
             </div>
 
-            <div class="text-[10px] text-gray-600 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
+            <div class="text-[10px] text-gray-700 font-rajdhani tracking-[0.3em] uppercase border-t border-white/5 pt-10">
               © 2026 Księstwo Sushi & Ramen.
             </div>
         </div>
@@ -350,38 +345,21 @@
 
   <!-- ALLERGY INFO MODAL -->
   <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hidden opacity-0" style="padding-top: env(safe-area-inset-top);">
-    <div class="bg-paper max-w-xl w-full p-10 md:p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" id="info-modal-content">
-      <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-400 hover:text-gold transition-colors leading-none cursor-pointer" aria-label="Zamknij">&times;</button>
-      <h2 id="modal-title" class="font-cinzel text-2xl md:text-3xl text-ink mb-6 text-center tracking-widest">Informacja o alergenach</h2>
-      <div id="modal-text" class="font-rajdhani text-gray-600 leading-8 text-base md:text-lg mb-8 text-justify font-light"></div>
-      <div id="modal-service" class="hidden p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
+    <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" id="info-modal-content">
+      <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-300 hover:text-gold transition-colors leading-none cursor-pointer">&times;</button>
+      <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Allergy Information</h2>
+      <div id="modal-text" class="font-rajdhani text-gray-600 leading-8 text-lg mb-8 text-justify font-light"></div>
+     <div id="modal-service" class="hidden p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
     </div>
   </div>
 
-  <!-- APPLICATION LOGIC WITH PRESERVED CONCEPT & MODERN TRANSITIONS -->
+  <!-- APPLICATION LOGIC -->
   <script>
     (function(){
-    // Photo mapping: pointing to the images/ folder in repository
-    // Preserving the exact section keys: specials, sets, starters, soups, nigiri, hosomaki, futomaki, tempura, oyakomaki, sashimi
-    const PHOTOS = {
-      sushi: 'images/sushi.jpg',
-      specials: 'images/specials.jpg',
-      sets: 'images/sets.jpg',
-      starters: 'images/starters.jpg',
-      soups: 'images/soups.jpg',
-      nigiri: 'images/nigiri.jpg',
-      hosomaki: 'images/hosomaki.jpg',
-      futomaki: 'images/futomaki.jpg',
-      tempura: 'images/tempura.jpg',
-      oyakomaki: 'images/oyakomaki.jpg',
-      sashimi: 'images/sashimi.jpg',
-    };
+    const PHOTOS_PATH = './images/';
     
     const UI_TEXT = {
-      hero_subtitle: {
-        en: "Experience the art of Japanese cuisine \n Reimagined for the modern era.", 
-        pl: "Poznaj sztukę japońskiej kuchni \n Stworzoną na nowo dla współczesności."
-      },
+      hero_subtitle: {en: "Experience the art of Japanese cuisine \n Reimagined for the modern era.", pl: "Poznaj sztukę japońskiej kuchni \n Stworzoną na nowo dla współczesności."},
       explore_btn: {en: "Explore Menu", pl: "Odkryj Menu"},
       description_label: {en: "Description", pl: "Opis"},
       uramaki_title: {en: "URAMAKI (8 pcs)", pl: "URAMAKI (8 szt.)"},
@@ -393,10 +371,7 @@
 
     const ALLERGIES = {
       title: {en: 'Allergy Information', pl: 'Informacja o alergenach'},
-      text: {
-        en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', 
-        pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'
-      },
+      text: {en: 'According to the recipe, they may contain: gluten, cucumber, oshinko, kampyo, avocado, mango, melon, lettuce, sesame seeds, Philadelphia cream cheese, mayonnaise, sauces, edible gold.', pl: 'Zgodnie z recepturą mogą zawierać: gluten, ogórek, oshinko, kampyo, awokado, mango, melon, sałatę, sezam, serek philadelphia, majonez, sosy, złoto jadalne.'},
       service: {en: '', pl: ''}
     };
 
@@ -404,7 +379,7 @@
       {
         id:'specials',
         title:{en:"Chef's Specials",pl:'Szef Kuchni Poleca'},
-        img: PHOTOS.specials,
+        img:'',
         desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
         items:[
           {
@@ -422,7 +397,7 @@
       {
         id:'sets',
         title:{en:'Sushi Sets',pl:'Zestawy Sushi'},
-        img: PHOTOS.sets,
+        img:PHOTOS_PATH+'zestawy.jpg',
         desc:{en:'Curated combinations of our finest rolls, perfect for experiencing a variety of flavors.',pl:'Starannie dobrane kompozycje naszych najlepszych rolek, idealne do poznania różnorodności smaków.'},
         items:[
           {
@@ -450,7 +425,7 @@
       {
         id:'starters',
         title:{en:'Starters',pl:'Przystawki'},
-        img: PHOTOS.starters,
+        img:PHOTOS_PATH+'sake-tataki.jpg',
         desc:{en:'A selection of light and fresh starters.',pl:'Wybór lekkich i świeżych przystawek.'},
         items:[
           {
@@ -483,7 +458,7 @@
       {
         id:'soups',
         title:{en:'Soups',pl:'Zupy'},
-        img: PHOTOS.soups,
+        img:PHOTOS_PATH+'ramen-zupa.jpg',
         desc:{en:'Traditional Japanese soups, including rich Ramen bowls with various fillings.',pl:'Tradycyjne japońskie zupy, w tym bogate miski Ramenu z różnymi dodatkami.'},
         items:[
           {
@@ -511,7 +486,7 @@
       {
         id:'nigiri',
         title:{en:'Nigiri (2 pcs)',pl:'Nigiri (2 szt.)'},
-        img: PHOTOS.nigiri,
+        img:PHOTOS_PATH+'nigiri1.jpg',
         desc:{en:'Hand-pressed rice topped with a slice of fresh fish.',pl:'Ręcznie formowany ryż z idealnie pokrojonym slajsem świeżej ryby.'},
         items:[
           {name:{en:'Sake',pl:'Sake'},price:'30 zł',desc:{en:'salmon',pl:'łosoś'}},
@@ -524,7 +499,7 @@
       {
         id:'hosomaki',
         title:{en:'Hosomaki (6 pcs)',pl:'Hosomaki (6 szt.)'},
-        img: PHOTOS.hosomaki,
+        img:PHOTOS_PATH+'hosomaki.jpg',
         desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},
         items:[
           {name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, avocado, oshinko'}},
@@ -534,7 +509,7 @@
       {
         id:'futomaki',
         title:{en:'Futomaki (4 pcs)',pl:'Futomaki (4 szt.)'},
-        img: PHOTOS.futomaki,
+        img:PHOTOS_PATH+'futomaki.jpg',
         desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},
         items:[
           {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
@@ -548,7 +523,7 @@
       {
         id:'uramaki',
         title:{en:'Uramaki & Tempura (8 pcs)',pl:'Uramaki & Tempura (8 szt.)'},
-        img: PHOTOS.tempura,
+        img:PHOTOS_PATH+'tempura.jpg',
         desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},
         isSplit:true,
         items:[
@@ -575,7 +550,7 @@
       {
         id:'oyakomaki',
         title:{en:'Oyakomaki (2 pcs)',pl:'Oyakomaki (2 szt.)'},
-        img: PHOTOS.oyakomaki,
+        img:PHOTOS_PATH+'oyakomaki.jpg',
         desc:{en:'Our specialty rolls, wrapped in fish instead of nori.',pl:'Nasze specjalne rolki, zawijane w rybę zamiast nori.'},
         items:[
           {name:{en:'Sake Ebi Tataki',pl:'Sake Ebi Tataki'},price:'44 zł',desc:{en:'chopped shrimps wrapped in salmon',pl:'siekane krewetki owijane w łososia'}},
@@ -586,7 +561,7 @@
       {
         id:'sashimi',
         title:{en:'Sashimi (9 pcs)',pl:'Sashimi (9 szt.)'},
-        img: PHOTOS.sashimi,
+        img:PHOTOS_PATH+'sashimi.jpg',
         desc:{en:'Thinly sliced raw fish and seafood, served without rice.',pl:'Cienko krojone slajsy surowej ryby i owoców morza, podawane bez ryżu.'},
         items:[
           {name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'slices of fish - salmon, tuna, butterfish',pl:'slajsy surowej ryby - łosoś, tuńczyk, maślana'}}
@@ -596,22 +571,14 @@
 
     let currentLang = 'pl';
     let isMenuExpanded = false;
-    let observer = null;
+    let savedScrollPosition = 0;
 
     function initApp() {
       const bg = document.getElementById('fixed-bg');
       if (bg) {
+          // Freeze height to prevent jumping when mobile browser UI shows/hides
           bg.style.height = (window.innerHeight + 100) + 'px';
       }
-
-      // Parallax effect on sushi hero background on scroll
-      window.addEventListener('scroll', function() {
-        const scrolled = window.pageYOffset;
-        const heroImg = document.getElementById('hero-img');
-        if (heroImg) {
-          heroImg.style.transform = `scale(1.08) translateY(${scrolled * 0.12}px) translateZ(0)`;
-        }
-      }, { passive: true });
 
       setTimeout(() => {
         const intro = document.getElementById('intro');
@@ -630,6 +597,7 @@
 
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
+      const overlay = document.getElementById('menu-overlay');
 
       setMenuState(false);
 
@@ -648,21 +616,19 @@
         });
       }
 
-      // Smooth section scrolling with CSS transition
       window.scrollToSection = function(id) {
           if(isMenuExpanded) toggleMenu(false);
           
           setTimeout(() => {
               const el = document.getElementById(id);
               if(el) {
-                  const yOffset = -70; 
+                  const yOffset = -80; 
                   const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
                   window.scrollTo({top: y, behavior: 'smooth'});
               }
-          }, 120);
+          }, 100);
       };
 
-      // Set language with smooth CSS transition
       window.setLanguage = function(lang) {
           currentLang = lang;
           const langSel = document.getElementById('lang-select');
@@ -676,20 +642,27 @@
           }, 700);
       };
 
-      // Switch language with smooth CSS fade transition
+      // SMOOTH PARALLAX ON SCROLL FOR BLURRED BACKGROUND
+      window.addEventListener('scroll', function() {
+          const scrolled = window.pageYOffset || document.documentElement.scrollTop;
+          const heroImg = document.getElementById('hero-img');
+          if (heroImg) {
+              heroImg.style.transform = `scale(1.12) translateY(${scrolled * 0.1}px) translateZ(0)`;
+          }
+      }, { passive: true });
+
       window.switchLang = function(lang) {
           if (currentLang === lang) return;
           currentLang = lang;
-          
           const wrapper = document.getElementById('page-content-wrapper');
           if (wrapper) {
-            wrapper.classList.add('page-fade-out');
-            setTimeout(() => {
-              renderApp();
-              wrapper.classList.remove('page-fade-out');
-            }, 300);
+              wrapper.classList.add('page-fade-out');
+              setTimeout(() => {
+                  renderApp();
+                  wrapper.classList.remove('page-fade-out');
+              }, 300);
           } else {
-            renderApp();
+              renderApp();
           }
       };
 
@@ -711,10 +684,9 @@
           const content = document.getElementById('info-modal-content');
           modal.classList.add('opacity-0');
           content.classList.add('scale-95');
-          setTimeout(() => modal.classList.add('hidden'), 450);
+          setTimeout(() => modal.classList.add('hidden'), 500);
       };
 
-      // Smooth accordion toggle with CSS max-height transition
       window.toggleItem = function(el) {
         const content = el.nextElementSibling;
         const arrow = el.querySelector('.arrow');
@@ -814,34 +786,6 @@
         }
     }
 
-    // Initialize IntersectionObserver for smooth scroll appearance
-    function setupScrollObserver() {
-        if ('IntersectionObserver' in window) {
-          if (observer) observer.disconnect();
-          observer = new IntersectionObserver((entries) => {
-            entries.forEach((entry) => {
-              if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
-                observer.unobserve(entry.target);
-              }
-            });
-          }, {
-            root: null,
-            rootMargin: '0px 0px -40px 0px',
-            threshold: 0.1,
-          });
-
-          document.querySelectorAll('.scroll-reveal').forEach((el) => {
-            observer.observe(el);
-          });
-        } else {
-          // Fallback for older browsers
-          document.querySelectorAll('.scroll-reveal').forEach((el) => {
-            el.classList.add('is-visible');
-          });
-        }
-    }
-
     function renderApp() {
         document.getElementById('hero-subtitle').textContent = UI_TEXT.hero_subtitle[currentLang];
         document.getElementById('footer-loc').textContent = UI_TEXT.location_label[currentLang];
@@ -859,10 +803,10 @@
         }
 
         const menuList = document.getElementById('menu-list');
-        menuList.innerHTML = _0x4f21.map((s) => `
-            <button onclick="scrollToSection('${s.id}')" class="text-left px-5 py-3.5 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-all duration-300 font-rajdhani text-sm uppercase tracking-widest text-white group flex items-center justify-between cursor-pointer">
+        menuList.innerHTML = _0x4f21.map((s, idx) => `
+            <button onclick="scrollToSection('${s.id}')" class="text-left px-5 py-3.5 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-all duration-300 font-rajdhani text-sm uppercase tracking-widest text-white group flex items-center justify-between">
                 <span>${s.title[currentLang]}</span>
-                <span class="text-gold opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0">&rarr;</span>
+                <span class="text-gold opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0">→</span>
             </button>
         `).join('');
 
@@ -870,6 +814,7 @@
         const sectionsHTML = _0x4f21.map((section, idx) => {
             const isSets = section.id === 'sets';
             const isSpecials = section.id === 'specials';
+            const isLast = idx === _0x4f21.length - 1;
             
             const renderItem = (item, dark = false) => {
                 if(isSets) {
@@ -883,12 +828,12 @@
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="font-rajdhani font-bold text-gold-dark text-lg md:text-xl">${item.price}</span>
-                                <span class="arrow text-gray-300 transform transition-transform duration-500 text-sm">▼</span>
+                                <span class="arrow text-gray-400 transform transition-transform duration-500 ease-out text-sm">▼</span>
                             </div>
                         </div>
                         <div class="set-item-content overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0">
-                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/30 ml-2">
-                                <h4 class="font-cinzel text-gold text-xs tracking-[0.2em] uppercase mb-3 inline-block">
+                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/40 ml-2">
+                                <h4 class="font-cinzel text-gold-dark text-xs tracking-[0.2em] uppercase mb-3 inline-block">
                                     ${UI_TEXT.description_label[currentLang]}
                                 </h4>
                                 <p class="font-rajdhani text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium">
@@ -899,7 +844,7 @@
                     </div>`;
                 } else {
                     return `
-                    <div class="py-6 border-b ${dark ? 'border-white/10 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50/70'} last:border-0 group transition-all duration-300 px-4 -mx-4 rounded-xl item-row scroll-reveal">
+                    <div class="py-6 border-b ${dark ? 'border-white/10 hover:bg-white/5' : 'border-gray-100 hover:bg-gray-50/50'} last:border-0 group transition-all duration-300 px-4 -mx-4 rounded-xl item-row scroll-reveal">
                         <div class="flex justify-between items-baseline gap-4 mb-2">
                             <h3 class="font-cinzel text-xl ${dark ? 'text-white group-hover:text-gold' : 'text-ink group-hover:text-gold-dark'} font-extrabold transition-colors tracking-wide">
                                 ${item.name[currentLang]}
@@ -942,14 +887,14 @@
             if(section.isSplit) {
                 contentHTML = `
                 <div class="space-y-20">
-                    <div class="scroll-reveal">
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest uppercase">${UI_TEXT.uramaki_title[currentLang]}</h3>
+                    <div>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest scroll-reveal">${UI_TEXT.uramaki_title[currentLang]}</h3>
                         <div class="flex flex-col">
                             ${section.items.map(item => renderItem(item, false)).join('')}
                         </div>
                     </div>
-                    <div class="scroll-reveal">
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest uppercase">${UI_TEXT.tempura_title[currentLang]}</h3>
+                    <div>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest scroll-reveal">${UI_TEXT.tempura_title[currentLang]}</h3>
                         <div class="flex flex-col">
                             ${section.itemsRight ? section.itemsRight.map(item => renderItem(item, false)).join('') : ''}
                         </div>
@@ -963,14 +908,8 @@
             <section id="${section.id}" class="mb-0 w-full bg-white relative">
                 <div class="w-full h-[60svh] md:h-[80svh] relative flex items-center justify-center overflow-hidden bg-ink">
                     <div class="absolute inset-0 z-20"></div>
-                    <div class="absolute inset-0 overflow-hidden">
-                      <img 
-                        src="${section.img}" 
-                        alt="${section.title[currentLang]}" 
-                        class="w-full h-full object-cover parallax-bg" 
-                      />
-                    </div>
-                    <div class="absolute inset-0 bg-black/45 pointer-events-none"></div>
+                    ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
+                    <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
                     
                     <div class="relative z-30 text-center text-white px-4 scroll-reveal">
                         <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">${idx < 9 ? '0' : ''}${idx + 1}</span>
@@ -1004,7 +943,31 @@
         `;
       
         main.innerHTML = sectionsHTML + infoHTML;
+
+        // Initialize scroll reveal observer
         setupScrollObserver();
+    }
+
+    function setupScrollObserver() {
+        if (!('IntersectionObserver' in window)) {
+            document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('is-visible'));
+            return;
+        }
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.08,
+            rootMargin: '0px 0px -30px 0px'
+        });
+
+        document.querySelectorAll('.scroll-reveal:not(.is-visible)').forEach(el => {
+            observer.observe(el);
+        });
     }
     })();
   </script>
