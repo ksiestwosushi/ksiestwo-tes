@@ -4,19 +4,16 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0, viewport-fit=cover" />
   <meta name="theme-color" content="#0F0F0F" />
-  <title>Księstwo Sushi & Ramen | Zakopane Krupówki</title>
-  <meta name="description" content="Księstwo Sushi & Ramen w Zakopanem. Wyjątkowe sushi i ramen przy Krupówki 38A. Zarezerwuj stolik: +48 502 525 544.">
-  <meta property="og:title" content="Księstwo Sushi & Ramen | Zakopane Krupówki">
-  <meta property="og:description" content="Księstwo Sushi & Ramen w Zakopanem. Wyjątkowe sushi i ramen przy Krupówki 38A. Zarezerwuj stolik: +48 502 525 544.">
-  <meta property="og:type" content="restaurant.restaurant">
-  <meta property="og:locale" content="pl_PL">
-  <meta property="og:locale:alternate" content="en_US">
-  <meta name="google-site-verification" content="S3duSoOqtLxMjhomglWoU930JxrHvpnMstdjVtal0l0" />
+  <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
+  <meta property="og:title" content="Księstwo Sushi & Ramen — ROYAL">
+  <meta property="og:description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
+  <title>Księstwo Sushi & Ramen — ROYAL</title>
+  
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="icon" type="image/jpeg" href="./images/ksiestwo38.jpg">
+
   <!-- TAILWIND CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -49,18 +46,18 @@
               '100%': { opacity: '1' },
             },
             slideUp: {
-              '0%': { transform: 'translateY(20px)', opacity: '0' },
-              '100%': { transform: 'translateY(0)', opacity: '1' },
+              '0%': { transform: 'translate3d(0, 20px, 0)', opacity: '0' },
+              '100%': { transform: 'translate3d(0, 0, 0)', opacity: '1' },
             },
             growLine: {
-              '0%': { width: '0' },
-              '100%': { width: '100px' },
+              '0%': { transform: 'scaleX(0)' },
+              '100%': { transform: 'scaleX(1)' },
             },
             scrollDown: {
-              '0%': { transform: 'translateY(-100%)', opacity: '0' },
+              '0%': { transform: 'translate3d(0, -100%, 0)', opacity: '0' },
               '30%': { opacity: '1' },
               '70%': { opacity: '1' },
-              '100%': { transform: 'translateY(100%)', opacity: '0' },
+              '100%': { transform: 'translate3d(0, 100%, 0)', opacity: '0' },
             }
           }
         }
@@ -68,36 +65,28 @@
     }
   </script>
   <style>
-    /* CORE STYLES & PROTECTION */
+    /* CORE STYLES & HARDWARE OPTIMIZATIONS */
     *, *::before, *::after {
-      -webkit-tap-highlight-color: transparent !important;
-      -webkit-touch-callout: none !important;
-    }
-
-    ::selection {
-      background: transparent !important;
-      color: inherit !important;
-    }
-    ::-moz-selection {
-      background: transparent !important;
-      color: inherit !important;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       background-color: #0F0F0F;
       color: #0F0F0F;
       overflow-x: hidden;
-      -webkit-user-select: none !important;
-      -moz-user-select: none !important;
-      -ms-user-select: none !important;
-      user-select: none !important;
-      -webkit-touch-callout: none !important;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
     }
     
     html {
       -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
     }
     
     img {
@@ -122,72 +111,132 @@
       background-position: center;
       background-repeat: no-repeat;
       background-size: cover;
+      transform: translateZ(0);
+      will-change: transform;
     }
     
     @media screen and (max-width: 1024px), (pointer: coarse), (hover: none) {
-        .parallax-bg {
-            background-attachment: scroll !important;
-        }
+      .parallax-bg {
+        background-attachment: scroll !important;
+        will-change: auto;
+      }
     }
 
-    /* MENU ANIMATION FIXED FOR WEBVIEWS */
-    .menu-panel {
-      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), 
-                  height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                  border-radius 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-                  box-shadow 0.4s ease;
-      transform-origin: top right;
-      will-change: width, height, border-radius;
-      box-shadow: 0 10px 40px -10px rgba(0,0,0,0.85);
-      overflow: hidden;
-      -webkit-backdrop-filter: blur(20px);
-      backdrop-filter: blur(20px);
-    }
-
-    /* BACKGROUND SUSHI SETS PHOTO WITH BLUR & VIGNETTE AS SHARED BACKGROUND */
-    .hero-sets-backdrop {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.45;
-      filter: blur(10px) brightness(0.65) saturate(1.2);
-      transform: scale(1.12) translateZ(0);
-      will-change: transform, opacity;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s ease-out;
-    }
-
-    /* SMOOTH SCROLL REVEAL ANIMATIONS */
-    .scroll-reveal {
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1),
-                  transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
-      will-change: opacity, transform;
-    }
-
-    .scroll-reveal.is-visible {
+    /* GPU ACCELERATED MENU SYSTEM (NO RESIZE/REFLOW JANK) */
+    .menu-trigger {
+      transform: scale(1);
       opacity: 1;
-      transform: translateY(0);
+      pointer-events: auto;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* SMOOTH TRANSITIONS FOR LANGUAGE TOGGLE */
-    .page-fade-container {
-      transition: opacity 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-                  filter 0.35s cubic-bezier(0.25, 1, 0.5, 1),
-                  transform 0.35s cubic-bezier(0.25, 1, 0.5, 1);
-      will-change: opacity, filter, transform;
-    }
-
-    .page-fade-out {
+    .menu-trigger.is-hidden {
+      transform: scale(0.6);
       opacity: 0;
-      filter: blur(6px);
-      transform: translateY(8px);
       pointer-events: none;
     }
 
-    /* SMOOTH HOVER FOR MENU ITEMS */
-    .item-row {
-      transition: background-color 0.25s ease;
+    .menu-panel {
+      display: none !important;
+      width: min(calc(100vw - 2.5rem), 380px);
+      height: min(85vh, 620px);
+      max-height: calc(100svh - 2.5rem);
+      transform-origin: top right;
+      transform: translate3d(0, 0, 0) scale(0.25);
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      will-change: transform, opacity;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      -webkit-perspective: 1000px;
+      perspective: 1000px;
+      box-shadow: 0 25px 60px -15px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.08);
+      -webkit-backdrop-filter: blur(20px);
+      backdrop-filter: blur(20px);
+      transition: transform 0.38s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.38s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .menu-panel.is-open {
+      display: flex !important;
+    }
+
+    .menu-panel.is-visible {
+      transform: translate3d(0, 0, 0) scale(1);
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .menu-overlay {
+      display: none !important;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+      will-change: opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+      transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+                  visibility 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .menu-overlay.is-active {
+      display: block !important;
+    }
+
+    .menu-overlay.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
+
+    .menu-nav-btn {
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Subpixel smoothing in Safari & Chrome */
+    .menu-panel * {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ACCORDION GPU OPTIMIZATION */
+    .set-item-content {
+      will-change: max-height, opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* MODAL GPU OPTIMIZATION */
+    #info-modal {
+      will-change: opacity;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    #info-modal-content {
+      will-change: transform;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Disable body scroll when menu is active */
+    body.scroll-locked {
+      overflow: hidden !important;
+      touch-action: none !important;
+      -webkit-overflow-scrolling: auto !important;
     }
 
     .icon-filter-gold {
@@ -209,7 +258,7 @@
       <h1 class="font-cinzel text-6xl md:text-9xl text-white font-bold tracking-[0.2em] mb-6 animate-slide-up">
         KS
       </h1>
-      <div class="h-[2px] bg-gold mb-6 animate-grow-line"></div>
+      <div class="h-[2px] bg-gold mb-6 animate-grow-line origin-center w-24"></div>
       <div class="text-gold uppercase tracking-[0.5em] font-rajdhani text-sm animate-fade-in" style="animation-delay: 0.4s; opacity: 0; animation-fill-mode: forwards;">
         CINEMATIC DINING
       </div>
@@ -222,74 +271,110 @@
        <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-xl mx-auto mb-16 animate-fade-in">KS</div>
        
        <div class="flex gap-8 justify-center w-full">
-         <button onclick="setLanguage('pl')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer">
+         <button onclick="setLanguage('pl')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer active:scale-95 will-change-transform">
            <span class="font-rajdhani text-white text-xl tracking-[0.2em] group-hover:text-gold transition-colors">PL</span>
          </button>
 
-         <button onclick="setLanguage('en')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer">
+         <button onclick="setLanguage('en')" class="w-40 h-14 border border-white/20 hover:border-gold hover:bg-gold/10 transition-all duration-500 flex items-center justify-center group cursor-pointer active:scale-95 will-change-transform">
            <span class="font-rajdhani text-white text-xl tracking-[0.2em] group-hover:text-gold transition-colors">EN</span>
          </button>
        </div>
     </div>
   </div>
 
-  <!-- MAIN APPLICATION -->
-  <div id="app" class="min-h-[100svh] bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
+  <!-- FLOATING MENU UI (PLACED AT ROOT BODY LEVEL TO PREVENT FIXED COORDINATE DESYNC) -->
+  <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm menu-overlay" onclick="toggleMenu(false)"></div>
+
+  <button id="menu-trigger" aria-label="Open Menu" class="fixed right-6 top-6 z-50 w-[56px] h-[56px] md:w-[60px] md:h-[60px] rounded-full bg-ink/90 border border-white/15 flex items-center justify-center cursor-pointer shadow-2xl menu-trigger group hover:border-gold/50 active:scale-95 focus:outline-none opacity-0 pointer-events-none transition-opacity duration-500">
+    <div class="flex flex-col gap-1.5 items-end justify-center group-hover:scale-110 transition-transform duration-300 ease-out">
+      <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+      <span class="w-4 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+      <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
+    </div>
+  </button>
+
+  <div id="menu-panel" class="fixed right-6 top-6 z-50 menu-panel bg-ink/95 border border-white/10 flex flex-col rounded-3xl p-6 overflow-hidden">
+    <button id="close-menu" aria-label="Close Menu" class="absolute top-5 right-6 text-white/70 hover:text-gold text-3xl z-50 transition-colors cursor-pointer leading-none font-light p-2 focus:outline-none">&times;</button>
     
-    <!-- MENU OVERLAY -->
-    <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/70 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" onclick="toggleMenu(false)"></div>
+    <div class="flex items-center gap-4 border-b border-white/10 pb-5 mb-4 pr-10">
+       <div class="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-sm shrink-0">KS</div>
+       <span class="font-cinzel text-white text-xl tracking-[0.2em] font-medium truncate">KSIĘSTWO</span>
+    </div>
 
-    <!-- FIXED NAVIGATION RIGHT ALIGNED -->
-    <div class="fixed right-6 top-6 z-50 flex justify-end pointer-events-none">
-      <div id="menu-panel" class="relative menu-panel bg-ink/95 border border-white/10 flex flex-col items-center pointer-events-auto transform origin-top-right overflow-hidden shadow-2xl" style="width: 60px; height: 60px; border-radius: 30px;">
-        
-        <!-- Collapsed Trigger -->
-        <div id="menu-trigger" class="absolute top-0 right-0 w-[60px] h-[60px] flex items-center justify-center cursor-pointer z-50 group transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]">
-          <!-- Hamburger Icon -->
-          <div class="flex flex-col gap-1.5 items-end justify-center group-hover:scale-110 transition-transform duration-500 ease-out">
-            <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
-            <span class="w-4 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
-            <span class="w-6 h-0.5 bg-white group-hover:bg-gold transition-colors duration-300"></span>
-          </div>
-        </div>
+    <div class="flex-1 overflow-y-auto overscroll-contain no-scrollbar flex flex-col gap-2 py-1" style="-webkit-overflow-scrolling: touch;">
+       <div id="menu-list" class="flex flex-col gap-2"></div>
+    </div>
 
-        <!-- Expanded Content -->
-        <div id="menu-content" class="w-full h-full pt-[80px] pb-6 px-6 opacity-0 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] flex flex-col pointer-events-none">
-          <button id="close-menu" class="absolute top-6 right-6 text-white hover:text-gold text-4xl z-50 transition-colors cursor-pointer leading-none font-light">&times;</button>
-          
-          <div class="flex items-center gap-4 border-b border-white/10 pb-6 mb-4 mt-2">
-             <div class="w-10 h-10 rounded-full bg-gold text-ink flex items-center justify-center font-cinzel font-bold text-sm">KS</div>
-             <span class="font-cinzel text-white text-xl tracking-[0.2em] font-medium">KSIĘSTWO</span>
-          </div>
-          <!-- OVERSCROLL-NONE IS CRITICAL HERE -->
-          <div class="flex-1 overflow-y-auto overscroll-none no-scrollbar flex flex-col gap-2">
-             <div id="menu-list" class="flex flex-col gap-2"></div>
-          </div>
-          <div class="mt-auto pt-6 flex justify-between items-center border-t border-white/10">
-             <div class="flex bg-white/5 rounded-full p-1 gap-1">
-                <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">PL</button>
-                <button onclick="switchLang('en')" class="lang-btn-en px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">EN</button>
-             </div>
-             <button onclick="openInfoModal()" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer text-lg font-cinzel">i</button>
-          </div>
-        </div>
+    <!-- QUICK CONTACT ACCESS (PHONE & INSTAGRAM) -->
+    <div class="mt-auto pt-4 pb-3 border-t border-white/10 flex flex-col gap-2.5 shrink-0">
+      <div id="menu-quick-contact-title" class="text-[11px] font-rajdhani text-white/50 tracking-[0.25em] uppercase font-semibold text-center">
+        SZYBKI KONTAKT
+      </div>
+      <div class="grid grid-cols-2 gap-2">
+        <!-- Phone Quick Access -->
+        <a href="tel:+48502525544" 
+           class="flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl bg-white/[0.04] hover:bg-gold/15 border border-white/10 hover:border-gold/40 text-white/90 hover:text-gold transition-all duration-300 group cursor-pointer shadow-sm active:scale-95"
+           aria-label="Call +48 502 525 544"
+           title="+48 502 525 544">
+          <svg class="w-4 h-4 text-gold shrink-0 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+          </svg>
+          <span class="font-rajdhani text-xs tracking-wider font-semibold truncate">+48 502 525 544</span>
+        </a>
+
+        <!-- Instagram Quick Access -->
+        <a href="https://instagram.com/ksiestwosushi" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl bg-white/[0.04] hover:bg-gold/15 border border-white/10 hover:border-gold/40 text-white/90 hover:text-gold transition-all duration-300 group cursor-pointer shadow-sm active:scale-95"
+           aria-label="Instagram @ksiestwosushi"
+           title="@ksiestwosushi">
+          <svg class="w-4 h-4 text-gold shrink-0 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+          </svg>
+          <span class="font-rajdhani text-xs tracking-wider font-semibold truncate">@ksiestwosushi</span>
+        </a>
+
+        <!-- Map / Address Quick Access -->
+        <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA"
+           target="_blank"
+           rel="noopener noreferrer"
+           class="col-span-2 flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl bg-white/[0.04] hover:bg-gold/15 border border-white/10 hover:border-gold/40 text-white/90 hover:text-gold transition-all duration-300 group cursor-pointer shadow-sm active:scale-95"
+           aria-label="Map: Krupówki 38A, Zakopane"
+           title="Krupówki 38A, Zakopane">
+          <svg class="w-4 h-4 text-gold shrink-0 transition-transform duration-300 group-hover:scale-110" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <span class="font-rajdhani text-xs tracking-wider font-semibold truncate">Krupówki 38A, Zakopane</span>
+        </a>
       </div>
     </div>
 
-    <!-- SHARED FIXED BACKGROUND: PHOTO OF SETS (zestawy.jpg) IN CINEMATIC BLUR -->
-    <div id="fixed-bg" class="fixed top-0 left-0 w-full h-screen z-0 bg-ink pointer-events-none overflow-hidden" style="transform: translateZ(0);">
-        <img
-          id="hero-img"
-          src="./images/zestawy.jpg"
-          class="hero-sets-backdrop"
-          alt="Księstwo Sushi & Ramen Backdrop"
-        />
-        <div class="absolute inset-0 bg-gradient-to-b from-ink/75 via-ink/45 to-ink z-10"></div>
-        <div class="absolute inset-0 z-20" style="background: radial-gradient(circle at center, rgba(15,15,15,0.15) 20%, rgba(15,15,15,0.85) 100%);"></div>
+    <!-- LANGUAGE & INFO ROW -->
+    <div class="pt-3 flex justify-between items-center border-t border-white/10 shrink-0">
+       <div class="flex bg-white/5 rounded-full p-1 gap-1">
+          <button onclick="switchLang('pl')" class="lang-btn-pl px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">PL</button>
+          <button onclick="switchLang('en')" class="lang-btn-en px-4 py-2 rounded-full text-xs font-bold transition-all uppercase tracking-widest text-white/60 cursor-pointer">EN</button>
+       </div>
+       <button onclick="openInfoModal()" aria-label="Allergy Info" class="w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-gold hover:bg-gold hover:text-ink transition-colors cursor-pointer text-lg font-cinzel">i</button>
+    </div>
+  </div>
+
+  <!-- MAIN APPLICATION -->
+  <div id="app" class="min-h-[100svh] bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
+    <!-- SHARED FIXED BACKGROUND WITH DYNAMIC SUBTLE PARALLAX -->
+    <div id="fixed-bg" class="fixed inset-0 w-full h-[100lvh] z-0 bg-ink pointer-events-none transform-gpu overflow-hidden" style="transform: translateZ(0);">
+        <div id="fixed-bg-img" class="absolute -top-[15%] -left-[5%] w-[110%] h-[130%] bg-center bg-cover bg-no-repeat opacity-30 mix-blend-luminosity filter brightness-90 contrast-125 transition-transform ease-out duration-100 will-change-transform" style="background-image: url('./images/zestawy.jpg'); transform: translate3d(0, 0, 0);"></div>
+        <!-- Atmospheric Vignette & Soft Gradient Mesh -->
+        <div class="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/60 to-ink z-10 pointer-events-none"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(15,15,15,0.7)_100%)] z-[15] pointer-events-none"></div>
     </div>
 
-    <!-- SCROLLABLE CONTENT WITH SMOOTH TRANSITION -->
-    <div id="page-content-wrapper" class="page-fade-container relative z-10 w-full flex flex-col">
+    <!-- SCROLLABLE CONTENT -->
+    <div class="relative z-10 w-full flex flex-col">
       
       <!-- HERO TEXT -->
       <div class="h-[100svh] w-full relative flex items-center justify-center overflow-hidden">
@@ -325,8 +410,11 @@
                 <div class="flex flex-col md:items-center items-start">
                   <h5 id="footer-loc" class="text-white font-cinzel tracking-widest mb-6">LOCATION</h5>
                   <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA" target="_blank" rel="noopener noreferrer" class="group flex items-start gap-4 hover:text-gold transition-colors leading-relaxed cursor-pointer">
-                     <div class="w-6 h-6 mt-1 flex-shrink-0">
-                        <img src="./images/google_maps.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Map" onerror="this.style.display='none'">
+                     <div class="w-6 h-6 mt-1 flex-shrink-0 flex items-center justify-center text-white/70 group-hover:text-gold transition-colors">
+                        <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                          <circle cx="12" cy="10" r="3"/>
+                        </svg>
                      </div>
                      <div class="text-left">
                        <p>Krupówki 38A, Zakopane</p>
@@ -337,14 +425,20 @@
                 <div class="flex flex-col md:items-center items-start">
                   <h5 id="footer-contact" class="text-white font-cinzel tracking-widest mb-6">CONTACT</h5>
                   <a href="tel:+48502525544" class="group flex items-center gap-4 hover:text-gold transition-colors mb-4 cursor-pointer">
-                      <div class="w-6 h-6 flex-shrink-0">
-                          <img src="./images/phone.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Phone" onerror="this.style.display='none'">
+                      <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center text-white/70 group-hover:text-gold transition-colors">
+                          <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+                          </svg>
                       </div>
                       <span>+48 502 525 544</span>
                   </a>
                   <a href="https://instagram.com/ksiestwosushi" target="_blank" rel="noopener noreferrer" class="group flex items-center gap-4 hover:text-gold transition-colors cursor-pointer">
-                      <div class="w-6 h-6 flex-shrink-0">
-                          <img src="./images/instagram.png" class="w-full h-full object-contain icon-filter-white group-hover:icon-filter-gold transition-all" alt="Instagram" onerror="this.style.display='none'">
+                      <div class="w-6 h-6 flex-shrink-0 flex items-center justify-center text-white/70 group-hover:text-gold transition-colors">
+                          <svg class="w-5 h-5 group-hover:scale-110 transition-transform" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                          </svg>
                       </div>
                       <span>@ksiestwosushi</span>
                   </a>
@@ -360,12 +454,12 @@
   </div>
 
   <!-- ALLERGY INFO MODAL -->
-  <div id="info-modal" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hidden opacity-0" style="padding-top: env(safe-area-inset-top);">
-    <div class="bg-paper max-w-xl w-full p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]" id="info-modal-content">
-      <button onclick="closeInfoModal()" class="absolute top-6 right-6 text-3xl text-gray-300 hover:text-gold transition-colors leading-none cursor-pointer">&times;</button>
-      <h2 id="modal-title" class="font-cinzel text-3xl text-ink mb-8 text-center tracking-widest">Allergy Information</h2>
-      <div id="modal-text" class="font-rajdhani text-gray-600 leading-8 text-lg mb-8 text-justify font-light"></div>
-     <div id="modal-service" class="hidden p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
+  <div id="info-modal" onclick="closeInfoModal()" class="fixed inset-0 z-[100] bg-black/80 backdrop-blur-sm flex justify-center items-center p-6 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] hidden opacity-0 cursor-pointer" style="padding-top: env(safe-area-inset-top);">
+    <div onclick="event.stopPropagation()" class="bg-paper max-w-xl w-full p-8 md:p-12 relative shadow-2xl border border-gold/20 transform scale-95 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] rounded-2xl cursor-default" id="info-modal-content">
+      <button onclick="closeInfoModal()" aria-label="Close allergy info" class="absolute top-4 right-5 md:top-6 md:right-6 text-3xl text-gray-400 hover:text-gold transition-colors leading-none cursor-pointer p-2">&times;</button>
+      <h2 id="modal-title" class="font-cinzel text-2xl md:text-3xl text-ink mb-6 md:mb-8 text-center tracking-widest">Allergy Information</h2>
+      <div id="modal-text" class="font-rajdhani text-gray-600 leading-7 md:leading-8 text-base md:text-lg mb-6 md:mb-8 text-justify font-light"></div>
+      <div id="modal-service" class="hidden p-4 bg-alabaster text-center text-xs text-gold-dark font-bold uppercase tracking-[0.2em] border border-gold/10"></div>
     </div>
   </div>
 
@@ -382,6 +476,7 @@
       tempura_title: {en: "TEMPURA URAMAKI (8 pcs)", pl: "URAMAKI W TEMPURZE (8 szt.)"},
       location_label: {en: "LOCATION", pl: "LOKALIZACJA"},
       contact_label: {en: "CONTACT", pl: "KONTAKT"},
+      quick_contact: {en: "QUICK CONTACT", pl: "SZYBKI KONTAKT"},
       poland: {en: "Poland", pl: "Polska"}
     };
 
@@ -399,13 +494,33 @@
         desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
         items:[
           {
-            name:{en:'Korean spicy noodle',pl:'Koreańskie pikantne noodle'},
-            price:'50 zł',
-            desc:{en:'Chewy potato noodles coated in sweet and spicy sauce.',pl:'Sprężyste kluski ziemniaczane oblepione słodko-ostrym sosem.'}
+            name:{en:'Agadashi Tofu (1 portion)',pl:'Agadashi Tofu (1 porcja)'},
+            price:'35 zł',
+            desc:{en:'Fried tofu in a soya and ginger sauce with kotsobushi flakes.',pl:'Smażone tofu w sosie sojowo-imbirowym z płatkami kotsobushi.'}
           },
           {
-            name:{en:'Kimchi Jeon',pl:'Kimchi Jeon'},
-            price:'40 zł',
+            name:{en:'Ebi Potato (1 portion)',pl:'Ebi Potato (1 porcja)'},
+            price:'33 zł',
+            desc:{en:'Fried prawns wrapped in potato.',pl:'Smażone krewetki owijane ziemniakami.'}
+          },
+          {
+            name:{en:'Mandu-Guk (400 ml)',pl:'Mandu-Guk (400 ml)'},
+            price:'47 zł',
+            desc:{en:'A fragrant broth with vegetables and beef dumplings.',pl:'Aromatyczny bulion z warzywami i pierożkami z wołowiną.'}
+          },
+          {
+            name:{en:'Black Tiger (400 ml)',pl:'Black Tiger (400 ml)'},
+            price:'49 zł',
+            desc:{en:'Spicy pepper soup with prawns.',pl:'Ostra zupa paprykowa z krewetkami.'}
+          },
+          {
+            name:{en:'Tteokbokki (1 portion)',pl:'Tteokbokki (1 porcja)'},
+            price:'49 zł',
+            desc:{en:'Chewy rice noodles, coated in a spicy sauce.',pl:'Sprężyste kluski ryżowe, oblepione ostrym sosem.'}
+          },
+          {
+            name:{en:'Kimchi Jeon (1 portion)',pl:'Kimchi Jeon (1 porcja)'},
+            price:'39 zł',
             desc:{en:'Crispy pan-fried pancake made with fermented kimchi.',pl:'Smażony placek z kiszonych warzyw kimchi.'}
           }
         ]
@@ -418,84 +533,28 @@
         items:[
           {
             name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'},
-            price:'130 zł',
+            price:'125 zł',
             desc:{en:'4x Gold California (surimi wrapped in salmon)\n4x Awokado Kani (surimi wrapped in avocado)\n4x Ohio Irigoma (butterfish with black sesame)\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\n4x Awokado Kani (surimi owijane awokado)\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\n4x Ebi Tempura (krewetki w tempurze)'}
           },
           {
+            name:{en:'AKIRA TEMPURA SET (20 pcs)',pl:'AKIRA TEMPURA SET (20 szt.)'},
+            price:'135 zł',
+            desc:{en:'8x Tempura Sake (tempura salmon)\n6x Tempura Ohio (tempura butterfish)\n6x Tempura Kampyo (tempura calabash)',pl:'8x Tempura Sake (łosoś w tempurze)\n6x Tempura Ohio (ryba maślana w tempurze)\n6x Tempura Kampyo (tykwa w tempurze)'}
+          },
+          {
             name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'},
-            price:'150 zł',
+            price:'140 zł',
             desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\n4x Mango Sake (salmon wrapped in mango)\n4x Ebi Tempura (shrimp tempura)\n4x Awokado Kani (surimi wrapped in avocado)\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\n4x Mango Sake (łosoś owijany mango)\n4x Ebi Tempura (krewetki w tempurze)\n4x Awokado Kani (surimi owijane awokado)\n6x Ohio Yaki (pieczona ryba maślana)'}
           },
           {
             name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'},
-            price:'280 zł',
+            price:'270 zł',
             desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Goma Sake Yaki (baked salmon with wakame)\n4x Ebi Tempura (tempura shrimps)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Ohio Ten (tempura butterfish)\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n4x Ebi Tempura (krewetki w tempurze)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Ohio Ten (ryba maślana w tempurze)\n6x Maguro Spicy (pikantny tuńczyk)'}
           },
           {
             name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'},
-            price:'380 zł',
-            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (tempura butterfish)\n8x Goma Sake Yaki (baked salmon with wakame)\n8x Kegon (salmon wrapped in grilled eel)\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Tempura Ohio (ryba maślana w tempurze)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n8x Kegon (łosoś owijany grillowanym węgorzem)\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z ryby maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}
-          }
-        ]
-      },
-      {
-        id:'starters',
-        title:{en:'Starters',pl:'Przystawki'},
-        img:PHOTOS_PATH+'sake-tataki.jpg',
-        desc:{en:'A selection of light and fresh starters.',pl:'Wybór lekkich i świeżych przystawek.'},
-        items:[
-          {
-            name:{en:'Kimchi',pl:'Kimchi'},
-            price:'27 zł',
-            desc:{en:'Spicy Korean salad made with fermented Napa cabbage.',pl:'Ostra, koreańska sałatka z kiszonej kapusty pekińskiej.'}
-          },
-          {
-            name:{en:'Kappa Sarada',pl:'Kappa Sarada'},
-            price:'27 zł',
-            desc:{en:'Spicy cucumber salad.',pl:'Pikantna sałatka ze świeżych ogórków.'}
-          },
-          {
-            name:{en:'Goma Wakame',pl:'Goma Wakame'},
-            price:'27 zł',
-            desc:{en:'Wakame seaweed salad with sesame.',pl:'Sałatka z wodorostów wakame z sezamem.'}
-          },
-          {
-            name:{en:'Ebi Ten (3 pcs)',pl:'Ebi Ten (3 szt.)'},
-            price:'36 zł',
-            desc:{en:'Crispy shrimp fried in tempura batter.',pl:'Krewetki smażone w chrupiącym cieście tempura.'}
-          },
-          {
-            name:{en:'Sake Tataki',pl:'Sake Tataki'},
-            price:'60 zł',
-            desc:{en:'Fresh salmon tartare.',pl:'Tatar ze świeżego łososia.'}
-          }
-        ]
-      },
-      {
-        id:'soups',
-        title:{en:'Soups',pl:'Zupy'},
-        img:PHOTOS_PATH+'ramen-zupa.jpg',
-        desc:{en:'Traditional Japanese soups, including rich Ramen bowls with various fillings.',pl:'Tradycyjne japońskie zupy, w tym bogate miski Ramenu z różnymi dodatkami.'},
-        items:[
-          {
-            name:{en:'Tom Yum (400 ml)',pl:'Tom Yum (400 ml)'},
-            price:'50 zł',
-            desc:{en:'Spicy coconut and lemongrass soup with shrimps and soy noodles.',pl:'Pikantna zupa kokosowo-cytrynowa z krewetkami i makaronem sojowym.'}
-          },
-          {
-            name:{en:'Kimchi Jjigae (400 ml)',pl:'Kimchi Jjigae (400 ml)'},
-            price:'45 zł',
-            desc:{en:'Traditional kimchi soup with tofu.',pl:'Aromatyczna zupa z kiszonej kapusty kimchi z tofu.'}
-          },
-          {
-            name:{en:'Ramen Chicken (800 ml)',pl:'Ramen drobiowy (800 ml)'},
-            price:'60 zł',
-            desc:{en:'Flavorful broth, ramen noodles, vegetables, chicken.',pl:'Aromatyczny bulion, makaron ramen, warzywa, kurczak.'}
-          },
-          {
-            name:{en:'Ramen Beef (800 ml)',pl:'Ramen wołowy (800 ml)'},
-            price:'65 zł',
-            desc:{en:'Flavorful broth, ramen noodles, vegetables, beef.',pl:'Aromatyczny bulion, makaron ramen, warzywa, wołowina.'}
+            price:'370 zł',
+            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (tempura butterfish)\n8x Goma Sake Yaki (baked salmon with wakame)\n8x Kegon (salmon wrapped in grilled eel)\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Tempura Ohio (ryba maślana w tempurze)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n8x Kegon (łosoś owijany grillowanym węgorzem)\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}
           }
         ]
       },
@@ -505,11 +564,11 @@
         img:PHOTOS_PATH+'nigiri1.jpg',
         desc:{en:'Hand-pressed rice topped with a slice of fresh fish.',pl:'Ręcznie formowany ryż z idealnie pokrojonym slajsem świeżej ryby.'},
         items:[
-          {name:{en:'Sake',pl:'Sake'},price:'30 zł',desc:{en:'salmon',pl:'łosoś'}},
-          {name:{en:'Ohio',pl:'Ohio'},price:'28 zł',desc:{en:'butterfish',pl:'ryba maślana'}},
-          {name:{en:'Maguro',pl:'Maguro'},price:'35 zł',desc:{en:'tuna',pl:'tuńczyk'}},
-          {name:{en:'Unagi',pl:'Unagi'},price:'35 zł',desc:{en:'eel',pl:'węgorz'}},
-          {name:{en:'Ebi',pl:'Ebi'},price:'35 zł',desc:{en:'shrimp',pl:'krewetka'}}
+          {name:{en:'Sake',pl:'Sake'},price:'28 zł',desc:{en:'salmon',pl:'łosoś'}},
+          {name:{en:'Ohio',pl:'Ohio'},price:'26 zł',desc:{en:'butterfish',pl:'maślana'}},
+          {name:{en:'Maguro',pl:'Maguro'},price:'33 zł',desc:{en:'tuna',pl:'tuńczyk'}},
+          {name:{en:'Unagi',pl:'Unagi'},price:'33 zł',desc:{en:'eel',pl:'węgorz'}},
+          {name:{en:'Ebi',pl:'Ebi'},price:'33 zł',desc:{en:'shrimp',pl:'krewetka'}}
         ]
       },
       {
@@ -518,8 +577,8 @@
         img:PHOTOS_PATH+'hosomaki.jpg',
         desc:{en:'Classic, minimalist rolls with a single ingredient, celebrating the purity of flavor.',pl:'Subtelne i minimalistyczne. Cienkie rolki z ryżem wewnątrz, skrywające jeden, wyrazisty składnik.'},
         items:[
-          {name:{en:'Vegetable',pl:'Warzywne'},price:'35 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, awokado, oshinko'}},
-          {name:{en:'Fish',pl:'Rybne'},price:'40 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, ryba maślana'}}
+          {name:{en:'Vegetable',pl:'Warzywne'},price:'32 zł',desc:{en:'to choose from: cucumber, avocado, oshinko',pl:'do wyboru: ogórek, awokado, oshinko'}},
+          {name:{en:'Fish',pl:'Rybne'},price:'37 zł',desc:{en:'to choose from: salmon, tuna, butterfish',pl:'do wyboru: łosoś, tuńczyk, maślana'}}
         ]
       },
       {
@@ -528,12 +587,10 @@
         img:PHOTOS_PATH+'futomaki.jpg',
         desc:{en:'Thick rolls with nori outside.',pl:'Grube rolki z nori na zewnątrz.'},
         items:[
-          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'50 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
-          {name:{en:'Maguro Negi Togarashi',pl:'Maguro Negi Togarashi'},price:'53 zł',desc:{en:'tuna with spicy leek',pl:'tuńczyk z porem na ostro'}},
-          {name:{en:'Ohio Spice Mango',pl:'Ohio Spice Mango'},price:'50 zł',desc:{en:'spicy butterfish with mango',pl:'pikantna ryba maślana z mango'}},
-          {name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'50 zł',desc:{en:'shrimp tempura',pl:'krewetki w tempurze'}},
-          {name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},
-          {name:{en:'Veggi',pl:'Veggi'},price:'50 zł',desc:{en:'vegetables',pl:'warzywa'}}
+          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'46 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
+          {name:{en:'Ebi Tempura',pl:'Ebi Tempura'},price:'47 zł',desc:{en:'tempura shrimps',pl:'krewetki w tempurze'}},
+          {name:{en:'Unagi Kabayaki',pl:'Unagi Kabayaki'},price:'50 zł',desc:{en:'grilled eel with kabayaki sauce',pl:'grillowany węgorz w sosie kabayaki'}},
+          {name:{en:'Veggi',pl:'Veggi'},price:'46 zł',desc:{en:'vegetables',pl:'warzywa'}}
         ]
       },
       {
@@ -543,24 +600,24 @@
         desc:{en:'Our selection of Uramaki (inside-out rolls) and crispy Tempura Uramaki.',pl:'Nasz wybór Uramaki (rolek ryżem na zewnątrz) oraz chrupiących Uramaki w Tempurze.'},
         isSplit:true,
         items:[
-          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'55 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
-          {name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'58 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},
-          {name:{en:'Mango Sake',pl:'Mango Sake'},price:'58 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},
-          {name:{en:'Maguro Orange Pepper',pl:'Maguro Orange Pepper'},price:'60 zł',desc:{en:'tuna with chopped leek and orange pepper',pl:'tuńczyk z siekanym porem i orange pepper'}},
-          {name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'55 zł',desc:{en:'shrimps tempura in soy paper',pl:'krewetki w tempurze zawijane w papier sojowy'}},
-          {name:{en:'Gold California',pl:'Gold California'},price:'55 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},
-          {name:{en:'Rainbow',pl:'Rainbow'},price:'60 zł',desc:{en:'surimi wrapped in variety of raw fish',pl:'surimi owijane wachlarzem ryb'}},
-          {name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'60 zł',desc:{en:'shrimps tempura wrapped in seared tuna',pl:'krewetki w tempurze owijane opalanym tuńczykiem'}},
-          {name:{en:'Kegon',pl:'Kegon'},price:'60 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany grillowanym węgorzem'}},
-          {name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'60 zł',desc:{en:'salmon wrapped in spicy seared salmon',pl:'łosoś owijany opalanym pikantnym łososiem'}},
-          {name:{en:'Tobiko Ohio Ten',pl:'Tobiko Ohio Ten'},price:'62 zł',desc:{en:'butterfish tempura covered in flying fish roe',pl:'ryba maślana w tempurze obtoczona kawiorem z latającej ryby'}},
-          {name:{en:'Sake Tataki Ebi Ten',pl:'Sake Tataki Ebi Ten'},price:'60 zł',desc:{en:'shrimps tempura topped with salmon tartare',pl:'krewetki w tempurze obłożone tatarem z łososia'}}
+          {name:{en:'Sake Philadelphia',pl:'Sake Philadelphia'},price:'49 zł',desc:{en:'salmon with philadelphia cheese',pl:'łosoś z serkiem philadelphia'}},
+          {name:{en:'Awokado Sake',pl:'Awokado Sake'},price:'54 zł',desc:{en:'salmon wrapped in avocado',pl:'łosoś owijany awokado'}},
+          {name:{en:'Mango Sake',pl:'Mango Sake'},price:'54 zł',desc:{en:'salmon wrapped in mango',pl:'łosoś owijany mango'}},
+          {name:{en:'California',pl:'California'},price:'49 zł',desc:{en:'salmon with avocado and mayonnaise',pl:'łosoś z awokado i majonezem'}},
+          {name:{en:'Ebi Ten Mamemori',pl:'Ebi Ten Mamemori'},price:'53 zł',desc:{en:'shrimps tempura in soypaper',pl:'krewetki w tempurze zawijane w papier sojowy'}},
+          {name:{en:'Gold California',pl:'Gold California'},price:'53 zł',desc:{en:'surimi wrapped in salmon',pl:'surimi owijane łososiem'}},
+          {name:{en:'Rainbow',pl:'Rainbow'},price:'57 zł',desc:{en:'surimi wrapped in variety of raw fish',pl:'surimi owijane wachlarzem ryb'}},
+          {name:{en:'Maguro Spicy Ebi Ten',pl:'Maguro Spicy Ebi Ten'},price:'57 zł',desc:{en:'shrimps tempura wrapped in fried tuna',pl:'krewetki w tempurze owijane opalanym tuńczykiem'}},
+          {name:{en:'Kegon',pl:'Kegon'},price:'56 zł',desc:{en:'salmon wrapped in grilled eel',pl:'łosoś owijany grillowanym węgorzem'}},
+          {name:{en:'Sake Aburi',pl:'Sake Aburi'},price:'57 zł',desc:{en:'salmon wrapped in spicy fried salmon',pl:'łosoś owijany opalonym pikantnym łososiem'}},
+          {name:{en:'Chicken Carrage Mamemori',pl:'Chicken Carrage Mamemori'},price:'59 zł',desc:{en:'spicy, crispy chicken wrapped in soy paper',pl:'pikantny, chrupiący kurczak w papierku sojowym'}},
+          {name:{en:'Sake Tataki Ebi Ten',pl:'Sake Tataki Ebi Ten'},price:'59 zł',desc:{en:'shrimps tempura with salmon tartare',pl:'krewetki w tempurze obłożone tatarem z łososia'}}
         ],
         itemsRight:[
-          {name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'55 zł',desc:{en:'salmon',pl:'łosoś'}},
-          {name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'55 zł',desc:{en:'tuna',pl:'tuńczyk'}},
-          {name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'55 zł',desc:{en:'shrimps',pl:'parzone krewetki'}},
-          {name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'55 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}
+          {name:{en:'Tempura Sake',pl:'Tempura Sake'},price:'52 zł',desc:{en:'salmon',pl:'łosoś'}},
+          {name:{en:'Tempura Ebi',pl:'Tempura Ebi'},price:'52 zł',desc:{en:'shrimps',pl:'parzone krewetki'}},
+          {name:{en:'Tempura Maguro',pl:'Tempura Maguro'},price:'52 zł',desc:{en:'tuna',pl:'tuńczyk'}},
+          {name:{en:'Tempura Unagi Kabayaki',pl:'Tempura Unagi Kabayaki'},price:'52 zł',desc:{en:'grilled eel',pl:'grillowany węgorz'}}
         ]
       },
       {
@@ -580,22 +637,16 @@
         img:PHOTOS_PATH+'sashimi.jpg',
         desc:{en:'Thinly sliced raw fish and seafood, served without rice.',pl:'Cienko krojone slajsy surowej ryby i owoców morza, podawane bez ryżu.'},
         items:[
-          {name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'slices of fish: salmon, tuna, butterfish',pl:'slajsy surowej ryby: łosoś, tuńczyk, ryba maślana'}}
+          {name:{en:'Mizu',pl:'Mizu'},price:'125 zł',desc:{en:'slices of fish - salmon, tuna, butterfish',pl:'slajsy surowej ryby - łosoś, tuńczyk, maślana'}}
         ]
       }
     ];
 
     let currentLang = 'pl';
     let isMenuExpanded = false;
-    let savedScrollPosition = 0;
+    let menuCloseTimer = null;
 
     function initApp() {
-      const bg = document.getElementById('fixed-bg');
-      if (bg) {
-          // Freeze height to prevent jumping when mobile browser UI shows/hides
-          bg.style.height = (window.innerHeight + 100) + 'px';
-      }
-
       setTimeout(() => {
         const intro = document.getElementById('intro');
         if (intro) {
@@ -613,36 +664,63 @@
 
       const trigger = document.getElementById('menu-trigger');
       const closeBtn = document.getElementById('close-menu');
-      const overlay = document.getElementById('menu-overlay');
 
-      setMenuState(false);
+      setMenuState(false, true);
 
       if (trigger) {
         trigger.addEventListener('click', (e) => {
           e.preventDefault();
           e.stopPropagation();
-          if(!isMenuExpanded) toggleMenu(true);
+          toggleMenu(true);
         });
       }
 
       if (closeBtn) {
         closeBtn.addEventListener('click', (e) => {
+          e.preventDefault();
           e.stopPropagation();
           toggleMenu(false);
         });
       }
 
+      // Smooth background parallax gliding with scroll
+      let ticking = false;
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          window.requestAnimationFrame(() => {
+            const bgImg = document.getElementById('fixed-bg-img');
+            if (bgImg) {
+              const scrolled = window.pageYOffset || document.documentElement.scrollTop;
+              // Gentle smooth parallax displacement down
+              const yPos = scrolled * 0.15;
+              bgImg.style.transform = `translate3d(0, ${yPos}px, 0)`;
+            }
+            ticking = false;
+          });
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Accessibility: Close menu / modal on Escape
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          if (isMenuExpanded) toggleMenu(false);
+          const modal = document.getElementById('info-modal');
+          if (modal && !modal.classList.contains('hidden')) closeInfoModal();
+        }
+      });
+
       window.scrollToSection = function(id) {
-          if(isMenuExpanded) toggleMenu(false);
+          if (isMenuExpanded) toggleMenu(false);
           
-          setTimeout(() => {
+          requestAnimationFrame(() => {
               const el = document.getElementById(id);
-              if(el) {
+              if (el) {
                   const yOffset = -80; 
-                  const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-                  window.scrollTo({top: y, behavior: 'smooth'});
+                  const y = el.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop) + yOffset;
+                  window.scrollTo({ top: y, behavior: 'smooth' });
               }
-          }, 100);
+          });
       };
 
       window.setLanguage = function(lang) {
@@ -653,33 +731,20 @@
             langSel.style.display = 'none';
             const app = document.getElementById('app');
             app.classList.remove('hidden');
-            requestAnimationFrame(() => app.classList.remove('opacity-0'));
+            requestAnimationFrame(() => {
+              app.classList.remove('opacity-0');
+              const trigger = document.getElementById('menu-trigger');
+              if (trigger) {
+                trigger.classList.remove('opacity-0', 'pointer-events-none');
+              }
+            });
             renderApp();
           }, 700);
       };
 
-      // SMOOTH PARALLAX ON SCROLL FOR BLURRED BACKGROUND
-      window.addEventListener('scroll', function() {
-          const scrolled = window.pageYOffset || document.documentElement.scrollTop;
-          const heroImg = document.getElementById('hero-img');
-          if (heroImg) {
-              heroImg.style.transform = `scale(1.12) translateY(${scrolled * 0.1}px) translateZ(0)`;
-          }
-      }, { passive: true });
-
       window.switchLang = function(lang) {
-          if (currentLang === lang) return;
           currentLang = lang;
-          const wrapper = document.getElementById('page-content-wrapper');
-          if (wrapper) {
-              wrapper.classList.add('page-fade-out');
-              setTimeout(() => {
-                  renderApp();
-                  wrapper.classList.remove('page-fade-out');
-              }, 300);
-          } else {
-              renderApp();
-          }
+          renderApp();
       };
 
       window.openInfoModal = function() {
@@ -727,7 +792,8 @@
             content.style.maxHeight = content.scrollHeight + "px";
             content.classList.remove('opacity-0');
             content.classList.add('opacity-100', 'pb-8');
-            arrow.classList.add('rotate-180');
+            arrow.classList.add('rotate-180', 'text-gold');
+            title.classList.add('text-gold-dark');
         }
       };
     }
@@ -739,65 +805,59 @@
     }
 
     window.toggleMenu = function(expand) {
-        isMenuExpanded = expand;
-        setMenuState(expand);
+        isMenuExpanded = typeof expand === 'boolean' ? expand : !isMenuExpanded;
+        setMenuState(isMenuExpanded);
     };
 
-    function setMenuState(expanded) {
+    function setMenuState(expanded, immediate = false) {
         const panel = document.getElementById('menu-panel');
         const trigger = document.getElementById('menu-trigger');
-        const content = document.getElementById('menu-content');
         const overlay = document.getElementById('menu-overlay');
 
-        if(expanded) {
-            if (overlay) {
-              overlay.style.opacity = '1';
-              overlay.style.pointerEvents = 'auto';
-            }
+        if (menuCloseTimer) {
+            clearTimeout(menuCloseTimer);
+            menuCloseTimer = null;
+        }
 
-            document.body.style.overflow = 'hidden';
+        if (expanded) {
+            // Lock body scroll to prevent page scrolling while menu is open
+            document.body.classList.add('scroll-locked');
 
-            const safeHeight = Math.min(window.innerHeight * 0.85, 600);
-            const safeWidth = Math.min(window.innerWidth * 0.9, 380);
+            // 1. Remove display: none (apply display: flex / block)
+            if (overlay) overlay.classList.add('is-active');
+            if (panel) panel.classList.add('is-open');
+            if (trigger) trigger.classList.add('is-hidden');
 
-            if (panel) {
-              panel.style.width = safeWidth + 'px';
-              panel.style.height = safeHeight + 'px';
-              panel.style.borderRadius = '24px'; 
-            }
-            
-            if (trigger) {
-              trigger.style.opacity = '0';
-              trigger.style.pointerEvents = 'none';
-            }
-            
-            if (content) {
-              content.style.opacity = '1';
-              content.style.pointerEvents = 'auto';
-            }
+            // Force reflow tick so initial scale(0.25) & opacity: 0 are registered
+            if (panel) void panel.offsetHeight;
+            if (overlay) void overlay.offsetHeight;
+
+            // 2. Trigger GPU-accelerated transition to scale(1) & opacity: 1
+            if (panel) panel.classList.add('is-visible');
+            if (overlay) overlay.classList.add('is-visible');
         } else {
-            if (overlay) {
-              overlay.style.opacity = '0';
-              overlay.style.pointerEvents = 'none';
+            // Unlock body scroll immediately so scrolling works naturally
+            document.body.classList.remove('scroll-locked');
+
+            // 1. Trigger transition back to scale(0.25) & opacity: 0
+            if (panel) panel.classList.remove('is-visible');
+            if (overlay) overlay.classList.remove('is-visible');
+            if (trigger) trigger.classList.remove('is-hidden');
+
+            if (immediate) {
+                if (panel) panel.classList.remove('is-open');
+                if (overlay) overlay.classList.remove('is-active');
+                return;
             }
 
-            document.body.style.overflow = '';
-
-            if (panel) {
-              panel.style.width = '60px';
-              panel.style.height = '60px';
-              panel.style.borderRadius = '30px'; 
-            }
-            
-            if (trigger) {
-              trigger.style.opacity = '1';
-              trigger.style.pointerEvents = 'auto';
-            }
-            
-            if (content) {
-              content.style.opacity = '0';
-              content.style.pointerEvents = 'none';
-            }
+            // 2. Return display: none strictly AFTER the 380ms CSS animation completes
+            menuCloseTimer = setTimeout(() => {
+                if (!isMenuExpanded) {
+                    if (panel) panel.classList.remove('is-open');
+                    if (overlay) overlay.classList.remove('is-active');
+                }
+                menuCloseTimer = null;
+            }, 380);
         }
     }
 
@@ -806,6 +866,8 @@
         document.getElementById('footer-loc').textContent = UI_TEXT.location_label[currentLang];
         document.getElementById('footer-contact').textContent = UI_TEXT.contact_label[currentLang];
         document.getElementById('footer-country').textContent = UI_TEXT.poland[currentLang];
+        const quickContactEl = document.getElementById('menu-quick-contact-title');
+        if (quickContactEl) quickContactEl.textContent = UI_TEXT.quick_contact[currentLang];
 
         const plBtns = document.querySelectorAll('.lang-btn-pl');
         const enBtns = document.querySelectorAll('.lang-btn-en');
@@ -818,10 +880,10 @@
         }
 
         const menuList = document.getElementById('menu-list');
-        menuList.innerHTML = _0x4f21.map((s, idx) => `
-            <button onclick="scrollToSection('${s.id}')" class="text-left px-5 py-3.5 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-all duration-300 font-rajdhani text-sm uppercase tracking-widest text-white group flex items-center justify-between">
-                <span>${s.title[currentLang]}</span>
-                <span class="text-gold opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-2 group-hover:translate-x-0">→</span>
+        menuList.innerHTML = _0x4f21.map((s) => `
+            <button onclick="scrollToSection('${s.id}')" class="menu-nav-btn text-left px-5 py-3.5 rounded-xl bg-white/5 hover:bg-gold/20 hover:text-gold transition-colors duration-200 font-rajdhani text-sm uppercase tracking-widest text-white group flex items-center justify-between cursor-pointer active:scale-[0.98]">
+                <span class="truncate pr-2">${s.title[currentLang]}</span>
+                <span class="text-gold opacity-0 group-hover:opacity-100 transition-all transform translate-x-2 group-hover:translate-x-0 duration-200 shrink-0">→</span>
             </button>
         `).join('');
 
@@ -834,21 +896,21 @@
             const renderItem = (item, dark = false) => {
                 if(isSets) {
                     return `
-                    <div class="border-b border-gray-200 last:border-0 scroll-reveal">
-                        <div onclick="toggleItem(this)" class="flex items-center justify-between py-6 cursor-pointer select-none">
+                    <div class="border-b border-gray-200 last:border-0">
+                        <div onclick="toggleItem(this)" class="flex items-center justify-between py-6 cursor-pointer">
                             <div class="flex flex-col">
-                                <span class="item-title font-cinzel font-extrabold text-xl md:text-2xl text-ink">
+                                <span class="item-title font-cinzel font-extrabold text-xl md:text-2xl transition-colors duration-300 text-ink">
                                     ${item.name[currentLang]}
                                 </span>
                             </div>
                             <div class="flex items-center gap-4">
                                 <span class="font-rajdhani font-bold text-gold-dark text-lg md:text-xl">${item.price}</span>
-                                <span class="arrow text-gray-400 transform transition-transform duration-500 ease-out text-sm">▼</span>
+                                <span class="arrow text-gray-300 transform transition-transform duration-500">▼</span>
                             </div>
                         </div>
                         <div class="set-item-content overflow-hidden transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] max-h-0 opacity-0">
-                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/40 ml-2">
-                                <h4 class="font-cinzel text-gold-dark text-xs tracking-[0.2em] uppercase mb-3 inline-block">
+                            <div class="flex flex-col items-start pt-2 px-4 border-l-2 border-gold/30 ml-2">
+                                <h4 class="font-cinzel text-gold text-xs tracking-[0.2em] uppercase mb-3 inline-block">
                                     ${UI_TEXT.description_label[currentLang]}
                                 </h4>
                                 <p class="font-rajdhani text-gray-600 text-lg md:text-xl leading-relaxed whitespace-pre-line font-medium">
@@ -859,7 +921,7 @@
                     </div>`;
                 } else {
                     return `
-                    <div class="py-6 border-b ${dark ? 'border-white/10' : 'border-gray-100'} last:border-0 px-4 -mx-4 rounded-xl scroll-reveal select-none">
+                    <div class="py-6 border-b ${dark ? 'border-white/10' : 'border-gray-100'} last:border-0 px-4 -mx-4 rounded-xl">
                         <div class="flex justify-between items-baseline gap-4 mb-2">
                             <h3 class="font-cinzel text-xl ${dark ? 'text-white' : 'text-ink'} font-extrabold tracking-wide">
                                 ${item.name[currentLang]}
@@ -878,10 +940,10 @@
             if (isSpecials) {
                 return `
                 <section id="${section.id}" class="w-full relative z-30 pt-10 pb-32 px-6">
-                    <div class="max-w-4xl mx-auto text-center mb-16 scroll-reveal">
+                    <div class="max-w-4xl mx-auto text-center mb-16">
                         <div class="flex items-center justify-center gap-4 mb-6">
                             <div class="h-[1px] w-12 bg-gold/50"></div>
-                            <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em]">01</span>
+                            <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em]">${idx < 9 ? '0' : ''}${idx + 1}</span>
                             <div class="h-[1px] w-12 bg-gold/50"></div>
                         </div>
                         <h2 class="font-cinzel text-4xl md:text-6xl text-white font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
@@ -903,13 +965,13 @@
                 contentHTML = `
                 <div class="space-y-20">
                     <div>
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest scroll-reveal">${UI_TEXT.uramaki_title[currentLang]}</h3>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.uramaki_title[currentLang]}</h3>
                         <div class="flex flex-col">
                             ${section.items.map(item => renderItem(item, false)).join('')}
                         </div>
                     </div>
                     <div>
-                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest scroll-reveal">${UI_TEXT.tempura_title[currentLang]}</h3>
+                        <h3 class="text-center font-cinzel text-2xl text-gold mb-12 tracking-widest">${UI_TEXT.tempura_title[currentLang]}</h3>
                         <div class="flex flex-col">
                             ${section.itemsRight ? section.itemsRight.map(item => renderItem(item, false)).join('') : ''}
                         </div>
@@ -926,7 +988,7 @@
                     ${section.img ? `<div class="absolute inset-0 parallax-bg" style="background-image: url('${section.img}')"></div>` : `<div class="absolute inset-0 bg-gradient-to-b from-ink via-[#1a1a1a] to-ink"></div>`}
                     <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
                     
-                    <div class="relative z-30 text-center text-white px-4 scroll-reveal">
+                    <div class="relative z-30 text-center text-white px-4">
                         <span class="block font-cinzel text-gold text-lg md:text-xl tracking-[0.4em] mb-4">${idx < 9 ? '0' : ''}${idx + 1}</span>
                         <h2 class="font-cinzel text-5xl md:text-8xl font-bold tracking-widest uppercase mb-6 drop-shadow-lg">
                             ${section.title[currentLang]}
@@ -945,7 +1007,7 @@
         }).join('');
 
         const infoHTML = `
-          <div class="bg-alabaster border-t border-gray-200 py-16 px-6 relative z-30 scroll-reveal">
+          <div class="bg-alabaster border-t border-gray-200 py-16 px-6 relative z-30">
               <div class="max-w-3xl mx-auto text-center">
                   <h4 class="font-cinzel text-gold-dark text-lg mb-4 tracking-widest uppercase">
                       ${ALLERGIES.title[currentLang]}
@@ -958,31 +1020,6 @@
         `;
       
         main.innerHTML = sectionsHTML + infoHTML;
-
-        // Initialize scroll reveal observer
-        setupScrollObserver();
-    }
-
-    function setupScrollObserver() {
-        if (!('IntersectionObserver' in window)) {
-            document.querySelectorAll('.scroll-reveal').forEach(el => el.classList.add('is-visible'));
-            return;
-        }
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('is-visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, {
-            threshold: 0.08,
-            rootMargin: '0px 0px -30px 0px'
-        });
-
-        document.querySelectorAll('.scroll-reveal:not(.is-visible)').forEach(el => {
-            observer.observe(el);
-        });
     }
     })();
   </script>
