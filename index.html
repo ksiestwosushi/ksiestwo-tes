@@ -7,7 +7,7 @@
   <meta name="description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
   <meta property="og:title" content="Księstwo Sushi & Ramen — ROYAL">
   <meta property="og:description" content="Księstwo Sushi & Ramen - Cinematic Dining Experience">
-  <title>Księstwo Sushi & Ramen — ROYAL</title>
+  <title>Księstwo Sushi & Ramen</title>
   
   <!-- FONTS -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -282,7 +282,7 @@
     </div>
   </div>
 
-  <!-- FLOATING MENU UI (PLACED AT ROOT BODY LEVEL TO PREVENT FIXED COORDINATE DESYNC) -->
+  <!-- FLOATING MENU UI -->
   <div id="menu-overlay" class="fixed inset-0 z-40 bg-black/75 backdrop-blur-sm menu-overlay" onclick="toggleMenu(false)"></div>
 
   <button id="menu-trigger" aria-label="Open Menu" class="fixed right-6 top-6 z-50 w-[56px] h-[56px] md:w-[60px] md:h-[60px] rounded-full bg-ink/90 border border-white/15 flex items-center justify-center cursor-pointer shadow-2xl menu-trigger group hover:border-gold/50 active:scale-95 focus:outline-none opacity-0 pointer-events-none transition-opacity duration-500">
@@ -305,13 +305,12 @@
        <div id="menu-list" class="flex flex-col gap-2"></div>
     </div>
 
-    <!-- QUICK CONTACT ACCESS (PHONE & INSTAGRAM) -->
+    <!-- QUICK CONTACT ACCESS -->
     <div class="mt-auto pt-4 pb-3 border-t border-white/10 flex flex-col gap-2.5 shrink-0">
       <div id="menu-quick-contact-title" class="text-[11px] font-rajdhani text-white/50 tracking-[0.25em] uppercase font-semibold text-center">
         SZYBKI KONTAKT
       </div>
       <div class="grid grid-cols-2 gap-2">
-        <!-- Phone Quick Access -->
         <a href="tel:+48502525544" 
            class="flex items-center justify-center gap-2 py-2.5 px-2 rounded-xl bg-white/[0.04] hover:bg-gold/15 border border-white/10 hover:border-gold/40 text-white/90 hover:text-gold transition-all duration-300 group cursor-pointer shadow-sm active:scale-95"
            aria-label="Call +48 502 525 544"
@@ -322,7 +321,6 @@
           <span class="font-rajdhani text-xs tracking-wider font-semibold truncate">+48 502 525 544</span>
         </a>
 
-        <!-- Instagram Quick Access -->
         <a href="https://instagram.com/ksiestwosushi" 
            target="_blank" 
            rel="noopener noreferrer" 
@@ -337,7 +335,6 @@
           <span class="font-rajdhani text-xs tracking-wider font-semibold truncate">@ksiestwosushi</span>
         </a>
 
-        <!-- Map / Address Quick Access -->
         <a href="https://maps.app.goo.gl/T5n17WJtzwm2L7VTA"
            target="_blank"
            rel="noopener noreferrer"
@@ -365,18 +362,13 @@
 
   <!-- MAIN APPLICATION -->
   <div id="app" class="min-h-[100svh] bg-ink transition-opacity duration-1000 opacity-0 relative hidden">
-    <!-- SHARED FIXED BACKGROUND WITH DYNAMIC SUBTLE PARALLAX -->
     <div id="fixed-bg" class="fixed inset-0 w-full h-[100lvh] z-0 bg-ink pointer-events-none transform-gpu overflow-hidden" style="transform: translateZ(0);">
         <div id="fixed-bg-img" class="absolute -top-[15%] -left-[5%] w-[110%] h-[130%] bg-center bg-cover bg-no-repeat opacity-30 mix-blend-luminosity filter brightness-90 contrast-125 transition-transform ease-out duration-100 will-change-transform" style="background-image: url('./images/zestawy.jpg'); transform: translate3d(0, 0, 0);"></div>
-        <!-- Atmospheric Vignette & Soft Gradient Mesh -->
         <div class="absolute inset-0 bg-gradient-to-b from-ink/80 via-ink/60 to-ink z-10 pointer-events-none"></div>
         <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,rgba(15,15,15,0.7)_100%)] z-[15] pointer-events-none"></div>
     </div>
 
-    <!-- SCROLLABLE CONTENT -->
     <div class="relative z-10 w-full flex flex-col">
-      
-      <!-- HERO TEXT -->
       <div class="h-[100svh] w-full relative flex items-center justify-center overflow-hidden">
           <div class="relative z-30 text-center px-6 mt-10">
               <h1 class="font-cinzel text-4xl md:text-7xl text-white font-bold tracking-[0.15em] mb-6 drop-shadow-2xl">
@@ -385,9 +377,7 @@
                   SUSHI & RAMEN
                 </span>
               </h1>
-              <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line">
-                <!-- Text injected by JS -->
-              </p>
+              <p id="hero-subtitle" class="font-rajdhani text-gray-300 tracking-widest uppercase text-sm md:text-base max-w-lg mx-auto leading-loose pt-6 whitespace-pre-line"></p>
           </div>
           <div class="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 cursor-pointer group opacity-70 hover:opacity-100 transition-all duration-500" onclick="scrollToSection('specials')">
               <div class="w-[24px] h-[40px] border border-white/20 rounded-[6px] relative overflow-hidden group-hover:border-gold/50 transition-colors duration-500">
@@ -396,12 +386,8 @@
           </div>
       </div>
 
-      <!-- MAIN CONTENT AREA -->
-      <main id="main-content" class="w-full relative z-20">
-        <!-- Sections injected by JS -->
-      </main>
+      <main id="main-content" class="w-full relative z-20"></main>
 
-      <!-- FOOTER -->
       <footer class="bg-ink text-white pt-32 pb-16 px-6 relative z-30" style="padding-bottom: max(4rem, env(safe-area-inset-bottom));">
         <div class="max-w-4xl mx-auto text-center">
             <div class="w-16 h-16 border border-gold text-gold flex items-center justify-center font-cinzel text-2xl mx-auto mb-10">KS</div>
@@ -493,36 +479,12 @@
         img:'',
         desc:{en:'Unique dishes highly recommended by our Chef.',pl:'Wyjątkowe dania polecane przez naszego Szefa Kuchni.'},
         items:[
-          {
-            name:{en:'Agadashi Tofu (1 portion)',pl:'Agadashi Tofu (1 porcja)'},
-            price:'35 zł',
-            desc:{en:'Fried tofu in a soya and ginger sauce with kotsobushi flakes.',pl:'Smażone tofu w sosie sojowo-imbirowym z płatkami kotsobushi.'}
-          },
-          {
-            name:{en:'Ebi Potato (1 portion)',pl:'Ebi Potato (1 porcja)'},
-            price:'33 zł',
-            desc:{en:'Fried prawns wrapped in potato.',pl:'Smażone krewetki owijane ziemniakami.'}
-          },
-          {
-            name:{en:'Mandu-Guk (400 ml)',pl:'Mandu-Guk (400 ml)'},
-            price:'47 zł',
-            desc:{en:'A fragrant broth with vegetables and beef dumplings.',pl:'Aromatyczny bulion z warzywami i pierożkami z wołowiną.'}
-          },
-          {
-            name:{en:'Black Tiger (400 ml)',pl:'Black Tiger (400 ml)'},
-            price:'49 zł',
-            desc:{en:'Spicy pepper soup with prawns.',pl:'Ostra zupa paprykowa z krewetkami.'}
-          },
-          {
-            name:{en:'Tteokbokki (1 portion)',pl:'Tteokbokki (1 porcja)'},
-            price:'49 zł',
-            desc:{en:'Chewy rice noodles, coated in a spicy sauce.',pl:'Sprężyste kluski ryżowe, oblepione ostrym sosem.'}
-          },
-          {
-            name:{en:'Kimchi Jeon (1 portion)',pl:'Kimchi Jeon (1 porcja)'},
-            price:'39 zł',
-            desc:{en:'Crispy pan-fried pancake made with fermented kimchi.',pl:'Smażony placek z kiszonych warzyw kimchi.'}
-          }
+          {name:{en:'Agadashi Tofu (1 portion)',pl:'Agadashi Tofu (1 porcja)'}, price:'35 zł', desc:{en:'Fried tofu in a soya and ginger sauce with kotsobushi flakes.',pl:'Smażone tofu w sosie sojowo-imbirowym z płatkami kotsobushi.'}},
+          {name:{en:'Ebi Potato (1 portion)',pl:'Ebi Potato (1 porcja)'}, price:'33 zł', desc:{en:'Fried prawns wrapped in potato.',pl:'Smażone krewetki owijane ziemniakami.'}},
+          {name:{en:'Mandu-Guk (400 ml)',pl:'Mandu-Guk (400 ml)'}, price:'47 zł', desc:{en:'A fragrant broth with vegetables and beef dumplings.',pl:'Aromatyczny bulion z warzywami i pierożkami z wołowiną.'}},
+          {name:{en:'Black Tiger (400 ml)',pl:'Black Tiger (400 ml)'}, price:'49 zł', desc:{en:'Spicy pepper soup with prawns.',pl:'Ostra zupa paprykowa z krewetkami.'}},
+          {name:{en:'Tteokbokki (1 portion)',pl:'Tteokbokki (1 porcja)'}, price:'49 zł', desc:{en:'Chewy rice noodles, coated in a spicy sauce.',pl:'Sprężyste kluski ryżowe, oblepione ostrym sosem.'}},
+          {name:{en:'Kimchi Jeon (1 portion)',pl:'Kimchi Jeon (1 porcja)'}, price:'39 zł', desc:{en:'Crispy pan-fried pancake made with fermented kimchi.',pl:'Smażony placek z kiszonych warzyw kimchi.'}}
         ]
       },
       {
@@ -531,31 +493,11 @@
         img:PHOTOS_PATH+'zestawy.jpg',
         desc:{en:'Curated combinations of our finest rolls, perfect for experiencing a variety of flavors.',pl:'Starannie dobrane kompozycje naszych najlepszych rolek, idealne do poznania różnorodności smaków.'},
         items:[
-          {
-            name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'},
-            price:'125 zł',
-            desc:{en:'4x Gold California (surimi wrapped in salmon)\n4x Awokado Kani (surimi wrapped in avocado)\n4x Ohio Irigoma (butterfish with black sesame)\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\n4x Awokado Kani (surimi owijane awokado)\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\n4x Ebi Tempura (krewetki w tempurze)'}
-          },
-          {
-            name:{en:'AKIRA TEMPURA SET (20 pcs)',pl:'AKIRA TEMPURA SET (20 szt.)'},
-            price:'135 zł',
-            desc:{en:'8x Tempura Sake (tempura salmon)\n6x Tempura Ohio (tempura butterfish)\n6x Tempura Kampyo (tempura calabash)',pl:'8x Tempura Sake (łosoś w tempurze)\n6x Tempura Ohio (ryba maślana w tempurze)\n6x Tempura Kampyo (tykwa w tempurze)'}
-          },
-          {
-            name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'},
-            price:'140 zł',
-            desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\n4x Mango Sake (salmon wrapped in mango)\n4x Ebi Tempura (shrimp tempura)\n4x Awokado Kani (surimi wrapped in avocado)\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\n4x Mango Sake (łosoś owijany mango)\n4x Ebi Tempura (krewetki w tempurze)\n4x Awokado Kani (surimi owijane awokado)\n6x Ohio Yaki (pieczona ryba maślana)'}
-          },
-          {
-            name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'},
-            price:'270 zł',
-            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Goma Sake Yaki (baked salmon with wakame)\n4x Ebi Tempura (tempura shrimps)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Ohio Ten (tempura butterfish)\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n4x Ebi Tempura (krewetki w tempurze)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Ohio Ten (ryba maślana w tempurze)\n6x Maguro Spicy (pikantny tuńczyk)'}
-          },
-          {
-            name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'},
-            price:'370 zł',
-            desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (tempura butterfish)\n8x Goma Sake Yaki (baked salmon with wakame)\n8x Kegon (salmon wrapped in grilled eel)\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Tempura Ohio (ryba maślana w tempurze)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n8x Kegon (łosoś owijany grillowanym węgorzem)\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}
-          }
+          {name:{en:'OTO (16 pcs)',pl:'OTO (16 szt.)'}, price:'125 zł', desc:{en:'4x Gold California (surimi wrapped in salmon)\n4x Awokado Kani (surimi wrapped in avocado)\n4x Ohio Irigoma (butterfish with black sesame)\n4x Ebi Tempura (shrimp tempura)',pl:'4x Gold California (surimi owijane łososiem)\n4x Awokado Kani (surimi owijane awokado)\n4x Ohio Irigoma (ryba maślana w czarnym sezamie)\n4x Ebi Tempura (krewetki w tempurze)'}},
+          {name:{en:'AKIRA TEMPURA SET (20 pcs)',pl:'AKIRA TEMPURA (20 szt.)'}, price:'135 zł', desc:{en:'8x Tempura Sake (tempura salmon)\n6x Tempura Ohio (tempura butterfish)\n6x Tempura Kampyo (tempura calabash)',pl:'8x Tempura Sake (łosoś w tempurze)\n6x Tempura Ohio (ryba maślana w tempurze)\n6x Tempura Kampyo (tykwa w tempurze)'}},
+          {name:{en:'AKA (22 pcs)',pl:'AKA (22 szt.)'}, price:'140 zł', desc:{en:'4x Rainbow (surimi wrapped in variety of raw fish)\n4x Mango Sake (salmon wrapped in mango)\n4x Ebi Tempura (shrimp tempura)\n4x Awokado Kani (surimi wrapped in avocado)\n6x Ohio Yaki (grilled butterfish)',pl:'4x Rainbow (surimi owijane wachlarzem ryb)\n4x Mango Sake (łosoś owijany mango)\n4x Ebi Tempura (krewetki w tempurze)\n4x Awokado Kani (surimi owijane awokado)\n6x Ohio Yaki (pieczona ryba maślana)'}},
+          {name:{en:'AKASHI (38 pcs)',pl:'AKASHI (38 szt.)'}, price:'270 zł', desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Goma Sake Yaki (baked salmon with wakame)\n4x Ebi Tempura (tempura shrimps)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Ohio Ten (tempura butterfish)\n6x Maguro Spicy (spicy tuna)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n4x Ebi Tempura (krewetki w tempurze)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Ohio Ten (ryba maślana w tempurze)\n6x Maguro Spicy (pikantny tuńczyk)'}},
+          {name:{en:'KUROISO (52 pcs)',pl:'KUROISO (52 szt.)'}, price:'370 zł', desc:{en:'8x Rainbow (surimi wrapped in variety of raw fish)\n8x Tempura Ohio (tempura butterfish)\n8x Goma Sake Yaki (baked salmon with wakame)\n8x Kegon (salmon wrapped in grilled eel)\n8x Ebi Ten Ohio Tataki (tempura shrimps with butterfish tartare)\n6x Sake Philadelphia (salmon with philadelphia cheese)\n6x Suzuki Yaki (spicy zander)',pl:'8x Rainbow (surimi owijane wachlarzem ryb)\n8x Tempura Ohio (ryba maślana w tempurze)\n8x Goma Sake Yaki (pieczony łosoś okładany wakame)\n8x Kegon (łosoś owijany grillowanym węgorzem)\n8x Ebi Ten Ohio Tataki (krewetki w tempurze obłożone tatarem z maślanej)\n6x Sake Philadelphia (łosoś z serkiem philadelphia)\n6x Suzuki Yaki (pikantny sandacz)'}}
         ]
       },
       {
@@ -683,7 +625,6 @@
         });
       }
 
-      // Smooth background parallax gliding with scroll
       let ticking = false;
       window.addEventListener('scroll', () => {
         if (!ticking) {
@@ -691,7 +632,6 @@
             const bgImg = document.getElementById('fixed-bg-img');
             if (bgImg) {
               const scrolled = window.pageYOffset || document.documentElement.scrollTop;
-              // Gentle smooth parallax displacement down
               const yPos = scrolled * 0.15;
               bgImg.style.transform = `translate3d(0, ${yPos}px, 0)`;
             }
@@ -701,7 +641,6 @@
         }
       }, { passive: true });
 
-      // Accessibility: Close menu / modal on Escape
       document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
           if (isMenuExpanded) toggleMenu(false);
@@ -774,21 +713,24 @@
         const title = el.querySelector('.item-title');
         const isOpening = !content.style.maxHeight;
 
+        const allHeaders = document.querySelectorAll('.set-item-header');
+        allHeaders.forEach(h => {
+          h.setAttribute('aria-expanded', 'false');
+          const hArrow = h.querySelector('.arrow');
+          const hTitle = h.querySelector('.item-title');
+          if (hArrow) hArrow.classList.remove('rotate-180', 'text-gold');
+          if (hTitle) hTitle.classList.remove('text-gold-dark');
+        });
+
         const allContents = document.querySelectorAll('.set-item-content');
         allContents.forEach(c => {
              c.style.maxHeight = null;
              c.classList.remove('opacity-100', 'pb-8');
              c.classList.add('opacity-0');
-             const header = c.previousElementSibling;
-             if(header) {
-                 const hArrow = header.querySelector('.arrow');
-                 const hTitle = header.querySelector('.item-title');
-                 if(hArrow) hArrow.classList.remove('rotate-180', 'text-gold');
-                 if(hTitle) hTitle.classList.remove('text-gold-dark');
-             }
         });
 
         if (isOpening) {
+            el.setAttribute('aria-expanded', 'true');
             content.style.maxHeight = content.scrollHeight + "px";
             content.classList.remove('opacity-0');
             content.classList.add('opacity-100', 'pb-8');
@@ -820,26 +762,18 @@
         }
 
         if (expanded) {
-            // Lock body scroll to prevent page scrolling while menu is open
             document.body.classList.add('scroll-locked');
-
-            // 1. Remove display: none (apply display: flex / block)
             if (overlay) overlay.classList.add('is-active');
             if (panel) panel.classList.add('is-open');
             if (trigger) trigger.classList.add('is-hidden');
 
-            // Force reflow tick so initial scale(0.25) & opacity: 0 are registered
             if (panel) void panel.offsetHeight;
             if (overlay) void overlay.offsetHeight;
 
-            // 2. Trigger GPU-accelerated transition to scale(1) & opacity: 1
             if (panel) panel.classList.add('is-visible');
             if (overlay) overlay.classList.add('is-visible');
         } else {
-            // Unlock body scroll immediately so scrolling works naturally
             document.body.classList.remove('scroll-locked');
-
-            // 1. Trigger transition back to scale(0.25) & opacity: 0
             if (panel) panel.classList.remove('is-visible');
             if (overlay) overlay.classList.remove('is-visible');
             if (trigger) trigger.classList.remove('is-hidden');
@@ -850,7 +784,6 @@
                 return;
             }
 
-            // 2. Return display: none strictly AFTER the 380ms CSS animation completes
             menuCloseTimer = setTimeout(() => {
                 if (!isMenuExpanded) {
                     if (panel) panel.classList.remove('is-open');
@@ -891,13 +824,12 @@
         const sectionsHTML = _0x4f21.map((section, idx) => {
             const isSets = section.id === 'sets';
             const isSpecials = section.id === 'specials';
-            const isLast = idx === _0x4f21.length - 1;
             
             const renderItem = (item, dark = false) => {
                 if(isSets) {
                     return `
                     <div class="border-b border-gray-200 last:border-0">
-                        <div onclick="toggleItem(this)" class="flex items-center justify-between py-6 cursor-pointer">
+                        <div role="button" aria-expanded="false" tabindex="0" onclick="toggleItem(this)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleItem(this);}" class="set-item-header flex items-center justify-between py-6 cursor-pointer focus:outline-none">
                             <div class="flex flex-col">
                                 <span class="item-title font-cinzel font-extrabold text-xl md:text-2xl transition-colors duration-300 text-ink">
                                     ${item.name[currentLang]}
